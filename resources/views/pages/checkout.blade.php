@@ -349,9 +349,8 @@
                         <button class="btn btn-primary w-100 mt-2" onclick = "fun()">Place order</button>
                         {{-- <a class="btn btn-primary m-3" href="{{ route('processTransaction') }}">Pay $100</a> --}}
 
-                        <form action="{{ route('paymentVnpay') }}" method="POST">
+                        <form id="paymentVnpay" action="{{ route('paymentVnpay') }}" method="POST" style="display: none;">
                             @csrf
-                            <button style="submit">thanh toan vnpay</button>
                         </form>
 
                     </div>
@@ -403,20 +402,20 @@
                 }
                 if (pay[i].checked && pay[i].value == 'vnpay') {
                     payValue = true;
-                    alert('thanh toan vnpay');
-                    // Swal.fire({
-                    //     title: "Bạn đồng ý chuyển đến trang thanh toán?",
-                    //     text: "Rất vui khi bạn thanh toán!",
-                    //     icon: "warning",
-                    //     showCancelButton: true,
-                    //     confirmButtonColor: "#3085d6",
-                    //     cancelButtonColor: "#d33",
-                    //     confirmButtonText: "Yes, it!"
-                    // }).then((result) => {
-                    //     if (result.isConfirmed) {
-                    //         window.location.replace("{{ route('processTransaction') }}");
-                    //     }
-                    // });
+                    //alert('thanh toan vnpay');
+                    Swal.fire({
+                        title: "Bạn đồng ý chuyển đến trang thanh toán?",
+                        text: "Rất vui khi bạn thanh toán!",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "Yes, it!"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $("#paymentVnpay").submit();
+                        }
+                    });
                 }
 
             }
