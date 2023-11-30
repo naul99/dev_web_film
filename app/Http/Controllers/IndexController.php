@@ -687,6 +687,69 @@ class IndexController extends Controller
         $country = Country::where('status', 1)->orderBy('id', 'DESC')->get();
         $list_package = Movie_Package::where('status', 1)->orderBy('price')->get();
 
+        // check status payment vnpay
+        if (isset($_GET['vnp_SecureHash'])) {
+            $vnp_HashSecret = env('VNP_HASHSECRET', '');
+            $vnp_SecureHash = $_GET['vnp_SecureHash'];
+            $inputData = array();
+            foreach ($_GET as $key => $value) {
+                if (substr($key, 0, 4) == "vnp_") {
+                    $inputData[$key] = $value;
+                }
+            }
+
+            unset($inputData['vnp_SecureHash']);
+            ksort($inputData);
+            $i = 0;
+            $hashData = "";
+            foreach ($inputData as $key => $value) {
+                if ($i == 1) {
+                    $hashData = $hashData . '&' . urlencode($key) . "=" . urlencode($value);
+                } else {
+                    $hashData = $hashData . urlencode($key) . "=" . urlencode($value);
+                    $i = 1;
+                }
+            }
+
+            $secureHash = hash_hmac('sha512', $hashData, $vnp_HashSecret);
+            if ($secureHash == $vnp_SecureHash) {
+                if ($_GET['vnp_ResponseCode'] == '00') {
+                    $customer_id = Session::get('customer_id');
+                    $package_id = Session::get('package_id');
+                    $date = Session::get('package_time');
+                    $price = Session::get('package_price');
+
+                    $order = new Order;
+                    $order->customer_id = $customer_id;
+                    $order->package_id = $package_id;
+                    $order->price = $price;
+                    $order->payment = 'vnpay';
+                    $order->number_date = $date;
+                    $order->expiry = '0';
+                    $order->date_start = Carbon::now('Asia/Ho_Chi_Minh');
+                    $order->date_end = Carbon::now('Asia/Ho_Chi_Minh')->addDays($date);
+                    $order->save();
+
+                    //modify status register package movie
+                    $customer = Customer::where('id', $customer_id)->first();
+                    $customer->status_registration = '1';
+                    $customer->save();
+
+                    Session::forget('package_id');
+                    Session::forget('package_time');
+                    Session::forget('package_price');
+                    return redirect()->route('register-package')->with('success', 'Thanh toán thành công. Cảm ơn bạn đã sử dụng dịch vụ.');
+                } else {
+                    return redirect()->route('register-package')->with('error', $response['message'] ?? 'You have canceled the transaction..');
+                }
+            } else {
+                return redirect()->route('register-package')->with('error', $response['message'] ?? 'Something went wrong.');
+            }
+        }
+
+
+
+
         return view('pages.register_package', compact('category', 'genre', 'country', 'list_package'));
     }
     public function checkout(Request $request)

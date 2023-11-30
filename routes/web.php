@@ -53,10 +53,13 @@ Route::get('/auth/google/callback', [AuthSocialLoginController::class, 'googleca
 Route::get('/auth/facebook/redirect',[AuthSocialLoginController::class,'facebookredirect'])->name('social-facebook-login');
 Route::get('/auth/facebook/callback',[AuthSocialLoginController::class,'facebookcallback']);
 
-
+//paypal
 Route::get('/process-transaction', [PayPalPaymentController::class,'processTransaction'])->name('processTransaction');
 Route::get('/success-transaction', [PayPalPaymentController::class,'successTransaction'])->name('successTransaction');
 Route::get('/cancel-transaction', [PayPalPaymentController::class,'cancelTransaction'])->name('cancelTransaction');
+
+//vnpay
+Route::post('/payment-vnpay', [PayPalPaymentController::class,'paymentVnpay'])->name('paymentVnpay');
 
 Route::get('/sociallogout', [AuthSocialLoginController::class, 'sociallogout'])->name('sociallogout');
 

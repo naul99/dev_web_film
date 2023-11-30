@@ -342,11 +342,17 @@
                         @php
                             $vnd_to_usd = (($price * 10) / 100 + $price) / 24270;
                             $total_paypal = round($vnd_to_usd, 2);
+                            $total_vnpay = ($price * 10) / 100 + $price;
                             \Session::put('total_paypal', $total_paypal);
+                            \Session::put('total_vnpay', $total_vnpay);
                         @endphp
                         <button class="btn btn-primary w-100 mt-2" onclick = "fun()">Place order</button>
                         {{-- <a class="btn btn-primary m-3" href="{{ route('processTransaction') }}">Pay $100</a> --}}
 
+                        <form action="{{ route('paymentVnpay') }}" method="POST">
+                            @csrf
+                            <button style="submit">thanh toan vnpay</button>
+                        </form>
 
                     </div>
                 </div>
@@ -447,7 +453,7 @@
 
 
             //         // $.ajax({
-            //         //     url: "{{ route('payment') }}",
+            //         //     url: "",
             //         //     method: "POST",
             //         //     data: {
             //         //         customer_id: customer_id,
