@@ -327,29 +327,31 @@
                                 class="text-dark">{{ number_format(($price * 10) / 100 + $price, 0, '', ',') }}.Vnđ</strong>
                         </div>
                         <div class="form-check mb-1 small">
-                            <input class="form-check-input" type="checkbox" value="" id="tnc">
+                            <input name="agree" class="form-check-input" type="checkbox" value="" id="tnc" required>
                             <label class="form-check-label" for="tnc">
                                 I agree to the <a href="#">terms and conditions</a>
                             </label>
                         </div>
-                        <div class="form-check mb-3 small">
-                            <input class="form-check-input" type="checkbox" value="" id="subscribe">
-                            <label class="form-check-label" for="subscribe">
-                                Get emails about product updates and events. If you change your mind, you can
-                                unsubscribe at any time. <a href="#">Privacy Policy</a>
-                            </label>
-                        </div>
+
                         @php
                             $vnd_to_usd = (($price * 10) / 100 + $price) / 24270;
                             $total_paypal = round($vnd_to_usd, 2);
                             $total_vnpay = ($price * 10) / 100 + $price;
+                            $total_momo = ($price * 10) / 100 + $price;
                             \Session::put('total_paypal', $total_paypal);
                             \Session::put('total_vnpay', $total_vnpay);
+                            \Session::put('total_momo', $total_momo);
                         @endphp
                         <button class="btn btn-primary w-100 mt-2" onclick = "fun()">Place order</button>
                         {{-- <a class="btn btn-primary m-3" href="{{ route('processTransaction') }}">Pay $100</a> --}}
 
-                        <form id="paymentVnpay" action="{{ route('paymentVnpay') }}" method="POST" style="display: none;">
+                        <form id="paymentVnpay" action="{{ route('paymentVnpay') }}" method="POST"
+                            style="display: none;">
+                            @csrf
+                        </form>
+
+                        <form id="paymentMomo" name="payUrl" action="{{ route('paymentMomo') }}" method="POST"
+                            style="display: none;">
                             @csrf
                         </form>
 
@@ -363,6 +365,7 @@
 
     <script>
         function fun() {
+
             var pay = document.getElementsByName('pay');
             var payValue = false;
             for (i = 0; i < pay.length; i++) {
@@ -385,20 +388,20 @@
                 }
                 if (pay[i].checked && pay[i].value == 'momo') {
                     payValue = true;
-                    alert('thanh toan momo')
-                    // Swal.fire({
-                    //     title: "Bạn đồng ý chuyển đến trang thanh toán?",
-                    //     text: "Rất vui khi bạn thanh toán!",
-                    //     icon: "warning",
-                    //     showCancelButton: true,
-                    //     confirmButtonColor: "#3085d6",
-                    //     cancelButtonColor: "#d33",
-                    //     confirmButtonText: "Yes, it!"
-                    // }).then((result) => {
-                    //     if (result.isConfirmed) {
-                    //         window.location.replace("{{ route('processTransaction') }}");
-                    //     }
-                    // });
+
+                    Swal.fire({
+                        title: "Bạn đồng ý chuyển đến trang thanh toán?",
+                        text: "Rất vui khi bạn thanh toán!",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "Yes, it!"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $("#paymentMomo").submit();
+                        }
+                    });
                 }
                 if (pay[i].checked && pay[i].value == 'vnpay') {
                     payValue = true;
@@ -427,62 +430,6 @@
                 });
                 return false;
             }
-            // Swal.fire({
-            //     title: "Bạn đồng ý chuyển đến trang thanh toán?",
-            //     text: "Rất vui khi bạn thanh toán!",
-            //     icon: "warning",
-            //     showCancelButton: true,
-            //     confirmButtonColor: "#3085d6",
-            //     cancelButtonColor: "#d33",
-            //     confirmButtonText: "Yes, it!"
-            // }).then((result) => {
-            //     if (result.isConfirmed) {
-
-            //         window.location.replace("{{ route('processTransaction') }}");
-            //         // var pay = document.getElementsByName('pay');
-            //         // for (i = 0; i < pay.length; i++) {
-            //         //     if (pay[i].checked)
-            //         //         var payments = pay[i].value;
-            //         // }
-            //         // var customer_id = {{ $customer_id }};
-            //         // var package_id = {{ $package_id }};
-            //         // var price = {{ $price }};
-            //         // var date_start = {{ $date }};
-
-
-
-            //         // $.ajax({
-            //         //     url: "",
-            //         //     method: "POST",
-            //         //     data: {
-            //         //         customer_id: customer_id,
-            //         //         package_id: package_id,
-            //         //         price: price,
-            //         //         payment: payments,
-            //         //         date_start: date_start,
-            //         //     },
-            //         //     headers: {
-            //         //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            //         //     },
-            //         //     success: function(data) {
-
-            //         //         Swal.fire({
-            //         //             title: "Success!",
-            //         //             text: "Thanh toán thành công.",
-            //         //             icon: "success"
-            //         //         });
-            //         //         window.location.replace("{{ route('homepage') }}");
-            //         //     },
-            //         //     error: function() {
-            //         //         Swal.fire({
-            //         //             title: "False!",
-            //         //             text: "Thanh toán thất bại.",
-            //         //             icon: "error"
-            //         //         });
-            //         //     }
-            //         // });
-            //     }
-            // });
         }
     </script>
 </body>

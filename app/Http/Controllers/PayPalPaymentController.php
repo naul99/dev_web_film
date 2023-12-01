@@ -105,20 +105,20 @@ class PayPalPaymentController extends Controller
     public function paymentVnpay(Request $request)
     {
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-        $vnp_Returnurl = env('APP_URL')."/register-package";
+        $vnp_Returnurl = env('APP_URL') . "/register-package";
         $vnp_TmnCode = env('VNP_TMNCODE', ''); //Mã website tại VNPAY
         $vnp_HashSecret = env('VNP_HASHSECRET', ''); //Chuỗi bí mật
 
-        $order=Order::orderBy('id','DESC')->first();
-       
-        $vnp_TxnRef = $order->id +1; //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
-        $vnp_OrderInfo = 'Thanh toán cho dịch vụ gói xem phim';
+        $order = Order::orderBy('id', 'DESC')->first();
+
+        $vnp_TxnRef = $order->id + 1; //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
+        $vnp_OrderInfo = 'Thanh toan cho dịch vụ goi xem phim.';
         $vnp_OrderType = 'billpayment';
         $vnp_Amount = Session::get('total_vnpay') * 100;
         $vnp_Locale = 'vn';
         $vnp_BankCode = '';
         $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
-        
+
         $inputData = array(
             "vnp_Version" => "2.1.0",
             "vnp_TmnCode" => $vnp_TmnCode,
@@ -132,7 +132,7 @@ class PayPalPaymentController extends Controller
             "vnp_OrderType" => $vnp_OrderType,
             "vnp_ReturnUrl" => $vnp_Returnurl,
             "vnp_TxnRef" => $vnp_TxnRef,
-          
+
         );
 
         if (isset($vnp_BankCode) && $vnp_BankCode != "") {
@@ -171,9 +171,132 @@ class PayPalPaymentController extends Controller
         } else {
             header('Location: ' . $vnp_Url);
             die();
-           // echo json_encode($returnData);
+            // echo json_encode($returnData);
         }
+    }
 
-      
+    public function execPostRequest($url, $data)
+    {
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt(
+            $ch,
+            CURLOPT_HTTPHEADER,
+            array(
+                'Content-Type: application/json',
+                'Content-Length: ' . strlen($data)
+            )
+        );
+        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+        //execute post
+        $result = curl_exec($ch);
+        //close connection
+        curl_close($ch);
+        return $result;
+    }
+    public function paymentMomo(Request $request)
+    {
+        $endpoint = "https://test-payment.momo.vn/gw_payment/transactionProcessor";
+
+
+        $partnerCode = env('PARTNERCODE', '');
+        $accessKey = env('ACCESSKEY', '');
+        $secretKey = env('SECRETKEY', '');
+        $total=Session::get('total_momo');
+        $orderInfo = "Thanh toán gói xem phim.";
+        $amount = "$total";
+        $orderId = time() . "";
+        $returnUrl = env('APP_URL') . "/register-package";
+        $notifyurl = env('APP_URL') . "/register-package";
+        // Lưu ý: link notifyUrl không phải là dạng localhost
+        $bankCode = "SML";
+        $partnerCode = $partnerCode;
+        $accessKey = $accessKey;
+        $serectkey =  $secretKey;
+        $orderid = time() . "";
+        $orderInfo =  $orderInfo;
+        $amount = $amount;
+        $bankCode =  $bankCode;
+        $returnUrl = $returnUrl;
+        $requestId = time() . "";
+        $requestType = "payWithMoMoATM"; //payment with atm
+        $extraData = "";
+        // echo $serectkey;die;
+        $rawHash = "partnerCode=" . $partnerCode . "&accessKey=" . $accessKey . "&requestId=" . $requestId . "&bankCode=" . $bankCode . "&amount=" . $amount . "&orderId=" . $orderid . "&orderInfo=" . $orderInfo . "&returnUrl=" . $returnUrl . "&notifyUrl=" . $notifyurl . "&extraData=" . $extraData . "&requestType=" . $requestType;
+        $signature = hash_hmac("sha256", $rawHash, $serectkey);
+
+        $data =  array(
+            'partnerCode' => $partnerCode,
+            'accessKey' => $accessKey,
+            'requestId' => $requestId,
+            'amount' => $amount,
+            'orderId' => $orderid,
+            'orderInfo' => $orderInfo,
+            'returnUrl' => $returnUrl,
+            'bankCode' => $bankCode,
+            'notifyUrl' => $notifyurl,
+            'extraData' => $extraData,
+            'requestType' => $requestType,
+            'signature' => $signature
+        );
+        $result = $this->execPostRequest($endpoint, json_encode($data));
+        $jsonResult = json_decode($result, true);  // decode json
+        error_log(print_r($jsonResult, true));
+        header('Location: ' . $jsonResult['payUrl']);
+        die();
+        
+        // $endpoint = "https://test-payment.momo.vn/gw_payment/transactionProcessor";
+
+        // $partnerCode = env('PARTNERCODE', '');
+        // $accessKey = env('ACCESSKEY', '');
+        // $secretKey = env('SECRETKEY', '');
+        // $total=Session::get('total_momo');
+        // $orderInfo = "Thanh toán gói xem phim.";
+        // $amount = "$total";
+        // $orderId = time() . "";
+        // $returnUrl = env('APP_URL') . "/register-package";
+        // $notifyurl = env('APP_URL') . "/register-package";
+        // // Lưu ý: link notifyUrl không phải là dạng localhost
+        // $extraData = "merchantName=MoMo Partner";
+
+
+        // $partnerCode = $partnerCode;
+        // $accessKey = $accessKey;
+        // $serectkey =  $secretKey;
+        // $orderId = time() . "";
+        // $orderInfo =  $orderInfo;
+        // $amount = $amount;
+        // $notifyurl = $notifyurl;
+        // $returnUrl = $returnUrl;
+        // $extraData = $extraData;
+
+        // $requestId = time() . "";
+        // $requestType = "captureMoMoWallet";
+        // // $extraData = ($_POST["extraData"] ? $_POST["extraData"] : "");
+        // //before sign HMAC SHA256 signature
+        // $rawHash = "partnerCode=" . $partnerCode . "&accessKey=" . $accessKey . "&requestId=" . $requestId . "&amount=" . $amount . "&orderId=" . $orderId . "&orderInfo=" . $orderInfo . "&returnUrl=" . $returnUrl . "&notifyUrl=" . $notifyurl . "&extraData=" . $extraData;
+        // $signature = hash_hmac("sha256", $rawHash, $serectkey);
+        // $data = array(
+        //     'partnerCode' => $partnerCode,
+        //     'accessKey' => $accessKey,
+        //     'requestId' => $requestId,
+        //     'amount' => $amount,
+        //     'orderId' => $orderId,
+        //     'orderInfo' => $orderInfo,
+        //     'returnUrl' => $returnUrl,
+        //     'notifyUrl' => $notifyurl,
+        //     'extraData' => $extraData,
+        //     'requestType' => $requestType,
+        //     'signature' => $signature
+        // );
+        // $result = $this->execPostRequest($endpoint, json_encode($data));
+        // $jsonResult = json_decode($result, true);  // decode json
+        // //Just a example, please check more in there
+
+        // header('Location: ' . $jsonResult['payUrl']);
+        // die();
     }
 }

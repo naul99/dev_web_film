@@ -60,6 +60,8 @@ Route::get('/cancel-transaction', [PayPalPaymentController::class,'cancelTransac
 
 //vnpay
 Route::post('/payment-vnpay', [PayPalPaymentController::class,'paymentVnpay'])->name('paymentVnpay');
+//momo
+Route::post('/payment-momo', [PayPalPaymentController::class,'paymentMomo'])->name('paymentMomo');
 
 Route::get('/sociallogout', [AuthSocialLoginController::class, 'sociallogout'])->name('sociallogout');
 
@@ -89,6 +91,9 @@ Route::post('/add-rating', [IndexController::class, 'add_rating'])->name('add-ra
 Route::get('/all-movies', [IndexController::class, 'all_movies'])->name('all-movies');
 Route::get('/register-package', [IndexController::class, 'register_package'])->name('register-package');
 Route::post('/checkout-package', [IndexController::class, 'checkout'])->name('checkout');
+Route::get('/checkout-package', function() {
+    return redirect()->route('register-package');
+});
 Route::get('/my-history-order', [IndexController::class, 'history_order'])->name('history-order');
 //Auth::routes();
 

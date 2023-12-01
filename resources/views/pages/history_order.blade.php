@@ -118,6 +118,7 @@
                                                 class="form-check-input" id="contacusercheck" /><label
                                                 class="form-check-label" for="contacusercheck"></label></div>
                                     </th>
+                                    <th scope="col">#Mã đơn hàng</th>
                                     <th scope="col">Tên khách hàng</th>
                                     <th scope="col">Email</th>
                                     <th scope="col">Tên gói</th>
@@ -138,7 +139,7 @@
                                                     class="form-check-input" id="contacusercheck1" /><label
                                                     class="form-check-label" for="contacusercheck1"></label></div>
                                         </th>
-
+                                        <td>{{ $order->id }}</td>
                                         <td>{{ $order->user->name }}</td>
                                         <td>{{ $order->user->email }}</td>
                                         <td>{{ $order->package->title }}</td>
