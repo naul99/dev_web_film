@@ -746,17 +746,18 @@ class IndexController extends Controller
                 return redirect()->route('register-package')->with('error', $response['message'] ?? 'Đã có lỗi xảy ra trong quá trình thanh toán. Vui lòng kiểm tra lại.');
             }
         }
-        // check status payment vnpay
+        // check status payment momo
+        header('Content-type: text/html; charset=utf-8');
+        $secretKey = 'at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa'; //Put your secret key in there
 
-        if (!empty($_GET["signature"])) {
-            $secretKey = env('SECRETKEY', ''); //Put your secret key in there
+        if (!empty($_GET['partnerCode'])) {
             $partnerCode = $_GET["partnerCode"];
             $accessKey = $_GET["accessKey"];
             $orderId = $_GET["orderId"];
-            $localMessage = utf8_encode($_GET["localMessage"]);
+            $localMessage = ($_GET["localMessage"]);
             $message = $_GET["message"];
             $transId = $_GET["transId"];
-            $orderInfo = utf8_encode($_GET["orderInfo"]);
+            $orderInfo = ($_GET["orderInfo"]);
             $amount = $_GET["amount"];
             $errorCode = $_GET["errorCode"];
             $responseTime = $_GET["responseTime"];
@@ -766,39 +767,52 @@ class IndexController extends Controller
             $orderType = $_GET["orderType"];
             $extraData = $_GET["extraData"];
             $m2signature = $_GET["signature"]; //MoMo signature
-            //dd($errorCode);
 
             //Checksum
-            if ($errorCode == '0') {
-                $customer_id = Session::get('customer_id');
-                $package_id = Session::get('package_id');
-                $date = Session::get('package_time');
-                $price = Session::get('package_price');
+            $rawHash = "partnerCode=" . $partnerCode . "&accessKey=" . $accessKey . "&requestId=" . $requestId . "&amount=" . $amount . "&orderId=" . $orderId . "&orderInfo=" . $orderInfo .
+                "&orderType=" . $orderType . "&transId=" . $transId . "&message=" . $message . "&localMessage=" . $localMessage . "&responseTime=" . $responseTime . "&errorCode=" . $errorCode .
+                "&payType=" . $payType . "&extraData=" . $extraData;
 
-                $order = new Order;
-                $order->customer_id = $customer_id;
-                $order->package_id = $package_id;
-                $order->price = $price;
-                $order->payment = 'momo';
-                $order->number_date = $date;
-                $order->expiry = '0';
-                $order->date_start = Carbon::now('Asia/Ho_Chi_Minh');
-                $order->date_end = Carbon::now('Asia/Ho_Chi_Minh')->addDays($date);
-                $order->save();
+            $partnerSignature = hash_hmac("sha256", $rawHash, $secretKey);
 
-                //modify status register package movie
-                $customer = Customer::where('id', $customer_id)->first();
-                $customer->status_registration = '1';
-                $customer->save();
+            if ($m2signature == $partnerSignature) {
+                if ($errorCode == '0') {
+                    $customer_id = Session::get('customer_id');
+                    $package_id = Session::get('package_id');
+                    $date = Session::get('package_time');
+                    $price = Session::get('package_price');
 
-                Session::forget('package_id');
-                Session::forget('package_time');
-                Session::forget('package_price');
-                return redirect()->route('register-package')->with('success', 'Thanh toán thành công. Cảm ơn bạn đã sử dụng dịch vụ.');
+                    $order = new Order;
+                    $order->customer_id = $customer_id;
+                    $order->package_id = $package_id;
+                    $order->price = $price;
+                    $order->payment = 'vnpay';
+                    $order->number_date = $date;
+                    $order->expiry = '0';
+                    $order->date_start = Carbon::now('Asia/Ho_Chi_Minh');
+                    $order->date_end = Carbon::now('Asia/Ho_Chi_Minh')->addDays($date);
+                    $order->save();
+
+                    //modify status register package movie
+                    $customer = Customer::where('id', $customer_id)->first();
+                    $customer->status_registration = '1';
+                    $customer->save();
+
+                    Session::forget('package_id');
+                    Session::forget('package_time');
+                    Session::forget('package_price');
+                    return redirect()->route('register-package')->with('success', 'Thanh toán thành công. Cảm ơn bạn đã sử dụng dịch vụ.');
+                } else {
+                    return redirect()->route('register-package')->with('error', $response['message'] ?? 'Đăng ký gói không thành công. Do bạn đã hủy giao dịch.');
+                }
             } else {
-                return redirect()->route('register-package')->with('error', $response['message'] ?? 'Đăng ký gói không thành công. Do bạn đã hủy giao dịch.');
+                return redirect()->route('register-package')->with('error', $response['message'] ?? 'Đã có lỗi xảy ra trong quá trình thanh toán. Vui lòng kiểm tra lại.');
             }
         }
+
+
+
+
 
 
         return view('pages.register_package', compact('category', 'genre', 'country', 'list_package'));
