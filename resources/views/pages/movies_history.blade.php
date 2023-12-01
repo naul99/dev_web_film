@@ -65,6 +65,7 @@
                                                 @endif
                                             @endif
                                         </span>
+                                        
                                         <div class="icon_overlay"></div>
                                         <div class="halim-post-title-box">
                                             <div class="halim-post-title ">

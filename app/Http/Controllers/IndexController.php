@@ -13,7 +13,6 @@ use App\Models\Episode;
 use App\Models\Movie_Genre;
 use App\Models\Movie_History;
 use App\Models\Movie_Views;
-use App\Models\Reply;
 use App\Models\Rating;
 use App\Models\Cast;
 use App\Models\Directors;
@@ -68,7 +67,7 @@ class IndexController extends Controller
 
             // $movie = Movie::whereIn('id', $many_cast)->where('status', 1)->withCount(['episode' => function ($query) {
             //     $query->select(DB::raw('count(distinct(episode))'));
-            // }])->orderBy('ngaycapnhat', 'DESC')->paginate(12);
+            // }])->orderBy('updated_at', 'DESC')->paginate(12);
 
             return view('pages.timkiem', compact('category', 'genre', 'country', 'search', 'movie'));
         } else {
@@ -77,7 +76,7 @@ class IndexController extends Controller
     }
     public function home()
     {
-
+        
         $category = Category::orderBy('id', 'ASC')->where('status', 1)->get();
         $genre = Genre::where('status', 1)->orderBy('id', 'DESC')->get();
         $country = Country::where('status', 1)->orderBy('id', 'DESC')->get();
@@ -90,7 +89,7 @@ class IndexController extends Controller
         //$hot = Movie::with()->get();
         $hot = Movie::withCount(['episode' => function ($query) {
             $query->select(DB::raw('count(distinct(episode))'));
-        }])->where('hot', 1)->where('status', 1)->orderBy('ngaycapnhat', 'DESC')->get();
+        }])->where('hot', 1)->where('status', 1)->orderBy('updated_at', 'DESC')->get();
 
         $day = Carbon::today('Asia/Ho_Chi_Minh')->subDays(0)->startOfDay();
         $startOfMonth = Carbon::now()->startOfMonth();
@@ -116,7 +115,7 @@ class IndexController extends Controller
 
         $movie_new = Movie::join('movie_views', 'movies.id', '=', 'movie_views.movie_id')
             ->join('movie_image', 'movie_views.movie_id', '=', 'movie_image.movie_id')
-            ->where('status', 1)->orderBy('ngaytao', 'DESC')->paginate(10)->unique();
+            ->where('status', 1)->orderBy('created_at', 'DESC')->paginate(10)->unique();
 
         // movie animation
         //id genre animation = 13
@@ -129,10 +128,10 @@ class IndexController extends Controller
         }
         $movie_animation = Movie::whereIn('id', $many_genre)->where('status', 1)->withCount(['episode' => function ($query) {
             $query->select(DB::raw('count(distinct(episode))'));
-        }])->orderBy('ngaycapnhat', 'DESC')->get();
+        }])->orderBy('updated_at', 'DESC')->get();
         // dd($movie_animation);
         //dd($topview);
-
+        
         return view('pages.home', compact('category', 'genre', 'country', 'category_home', 'hot', 'topview', 'movie_new', 'topview_day', 'topview_week', 'topview_month', 'movie_animation', 'gen_slug'));
     }
     public function category($slug)
@@ -146,7 +145,7 @@ class IndexController extends Controller
         }
         $movie = Movie::where('category_id', $cate_slug->id)->where('status', 1)->withCount(['episode' => function ($query) {
             $query->select(DB::raw('count(distinct(episode))'));
-        }])->orderBy('ngaycapnhat', 'DESC')->paginate(32);
+        }])->orderBy('updated_at', 'DESC')->paginate(32);
 
         //dd($movie);
         return view('pages.category', compact('category', 'genre', 'country', 'cate_slug', 'movie'));
@@ -159,12 +158,12 @@ class IndexController extends Controller
         if ($year == 'more') {
             $movie = Movie::where('status', 1)->where('year', '<', 2000)->withCount(['episode' => function ($query) {
                 $query->select(DB::raw('count(distinct(episode))'));
-            }])->orderBy('ngaycapnhat', 'DESC')->paginate(32);
+            }])->orderBy('updated_at', 'DESC')->paginate(32);
         } else {
 
             $movie = Movie::where('status', 1)->where('year', $year)->withCount(['episode' => function ($query) {
                 $query->select(DB::raw('count(distinct(episode))'));
-            }])->orderBy('ngaycapnhat', 'DESC')->paginate(32);
+            }])->orderBy('updated_at', 'DESC')->paginate(32);
         }
 
         //dd($movie);
@@ -179,7 +178,7 @@ class IndexController extends Controller
         $tag = $tag;
         $movie = Movie::join('movie_tags', 'movies.id', '=', 'movie_tags.movie_id')->where('tags', 'LIKE', '%' . $tag . '%')->where('status', 1)->withCount(['episode' => function ($query) {
             $query->select(DB::raw('count(distinct(episode))'));
-        }])->orderBy('ngaycapnhat', 'DESC')->paginate(32);
+        }])->orderBy('updated_at', 'DESC')->paginate(32);
         //dd($movie);
         return view('pages.tag', compact('category', 'genre', 'country', 'tag', 'movie'));
     }
@@ -199,7 +198,7 @@ class IndexController extends Controller
         }
         $movie = Movie::whereIn('id', $many_genre)->where('status', 1)->withCount(['episode' => function ($query) {
             $query->select(DB::raw('count(distinct(episode))'));
-        }])->orderBy('ngaycapnhat', 'DESC')->paginate(32);
+        }])->orderBy('updated_at', 'DESC')->paginate(32);
         //dd($many_genre);
         return view('pages.genre', compact('category', 'genre', 'country', 'gen_slug', 'movie'));
     }
@@ -214,7 +213,7 @@ class IndexController extends Controller
         }
         $movie = Movie::where('country_id', $count_slug->id)->where('status', 1)->withCount(['episode' => function ($query) {
             $query->select(DB::raw('count(distinct(episode))'));
-        }])->orderBy('ngaycapnhat', 'DESC')->paginate(8);
+        }])->orderBy('updated_at', 'DESC')->paginate(8);
         return view('pages.country', compact('category', 'genre', 'country', 'count_slug', 'movie'));
     }
     public function all_movies()
@@ -225,7 +224,7 @@ class IndexController extends Controller
 
         $movie = Movie::where('status', 1)->withCount(['episode' => function ($query) {
             $query->select(DB::raw('count(distinct(episode))'));
-        }])->orderBy('ngaycapnhat', 'DESC')->paginate(8);
+        }])->orderBy('updated_at', 'DESC')->paginate(8);
         //dd($many_genre);
         return view('pages.allmovies', compact('category', 'genre', 'country', 'movie'));
     }
@@ -245,7 +244,7 @@ class IndexController extends Controller
         }
         $movie = Movie::whereIn('id', $many_directors)->where('status', 1)->withCount(['episode' => function ($query) {
             $query->select(DB::raw('count(distinct(episode))'));
-        }])->orderBy('ngaycapnhat', 'DESC')->paginate(32);
+        }])->orderBy('updated_at', 'DESC')->paginate(32);
         //dd($many_genre);
         return view('pages.directors', compact('category', 'genre', 'country', 'directors_slug', 'movie'));
     }
@@ -266,7 +265,7 @@ class IndexController extends Controller
         }
         $movie = Movie::whereIn('id', $many_cast)->where('status', 1)->withCount(['episode' => function ($query) {
             $query->select(DB::raw('count(distinct(episode))'));
-        }])->orderBy('ngaycapnhat', 'DESC')->paginate(32);
+        }])->orderBy('updated_at', 'DESC')->paginate(32);
         //dd($many_genre);
         return view('pages.cast', compact('category', 'genre', 'country', 'cast_slug', 'movie'));
     }
@@ -586,8 +585,8 @@ class IndexController extends Controller
             if ($sort == 'count_views') {
                 // $movie_array = $movie_array->join('movie_views', 'movies.id', '=', 'movie_views.movie_id')->orderBy($sort, 'DESC');
             }
-            if ($sort == 'ngaytao') {
-                $movie_array = $movie_array->orderBy('ngaytao', 'DESC');
+            if ($sort == 'created_at') {
+                $movie_array = $movie_array->orderBy('created_at', 'DESC');
             }
             if ($sort == 'title') {
                 $movie_array = $movie_array->orderBy('title', 'ASC');

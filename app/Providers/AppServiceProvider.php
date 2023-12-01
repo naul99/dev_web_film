@@ -11,7 +11,8 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Gate;
-
+use Illuminate\Support\Facades\Session;
+use App\Models\Customer;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -43,9 +44,7 @@ class AppServiceProvider extends ServiceProvider
         Paginator::useBootstrap();
         $info = Info::find(1);
         View::share([
-
             'info' => $info,
-
         ]);
     }
 }

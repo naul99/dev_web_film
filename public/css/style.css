@@ -1505,6 +1505,14 @@ tr.title {
     text-align: center
 }
 
+.grid-item .paid {
+    padding: 3px 6px;
+    position: absolute;
+    font-size: 11px;
+    color: #fff;
+    text-align: center
+}
+
 .grid-item .time {
     top: 2px;
     right: 2px;
@@ -1519,6 +1527,16 @@ tr.title {
     color: #fff;
     padding: 2px 5px;
     z-index: 9
+}
+
+.grid-item .paid {
+    right: 0;
+    top: 0;
+    background: #fff;
+    color: red;
+    padding: 3px 6px;
+    z-index: 9;
+    margin-top: 23px;
 }
 
 .grid-item .duration {
@@ -5579,6 +5597,11 @@ span.ajax-update-eps:hover {
 
 .halim-corner-rounded .halim_box .grid-item .episode,
 .halim-corner-rounded .owl-carousel .grid-item .episode {
+    border-radius: 2px
+}
+
+.halim-corner-rounded .halim_box .grid-item .paid,
+.halim-corner-rounded .owl-carousel .grid-item .paid {
     border-radius: 2px
 }
 

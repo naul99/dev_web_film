@@ -31,7 +31,9 @@
                                     @else
                                         FHD
                                     @endif
-                                </span><span class="episode"><i class="fa fa-play" aria-hidden="true"></i>
+                                </span>
+                                
+                                <span class="episode"><i class="fa fa-play" aria-hidden="true"></i>
                                     @if ($h->thuocphim == '1')
                                         @if ($h->episode_count == $h->sotap)
                                             Hoàn tất |
@@ -63,16 +65,21 @@
                                     @endif
 
                                 </span>
+                                @if ($h->paid_movie == 1)
+                                <span class="paid"><i class="fa-solid fa-lock fa-xl"></i></span>
+                                @endif
+                                
                                 <div class="icon_overlay"></div>
                                 <div class="halim-post-title-box">
                                     <div class="halim-post-title ">
                                         <p class="entry-title">{{ $h->title }}</p>
                                         <p class="original_title">{{ $h->name_english }} @if ($h->season != 0)
-                                            Season {{ $h->season }}
-                                        @endif
-                                        @if ($h->year != null)
-                                        ({{ $h->year }})
-                                        @endif</p>
+                                                Season {{ $h->season }}
+                                            @endif
+                                            @if ($h->year != null)
+                                                ({{ $h->year }})
+                                            @endif
+                                        </p>
                                     </div>
                                 </div>
                             </a>
@@ -158,7 +165,7 @@
                         </a>
                     </div>
                     <div id="halim-advanced-widget-2-ajax-box" class="halim_box">
-                        @foreach ($cate_home->movie->sortBydesc('ngaycapnhat')->take(8) as $key => $mov)
+                        @foreach ($cate_home->movie->sortBydesc('updated_at')->take(8) as $key => $mov)
                             <article class="lazy col-md-3 col-sm-3 col-xs-6 thumb grid-item post-37606">
                                 <div class="halim-item">
                                     <a class="halim-thumb" href="{{ route('movie', $mov->slug) }}">
@@ -208,16 +215,20 @@
                                             @endif
 
                                         </span>
+                                        @if ($mov->paid_movie == 1 )
+                                        <span class="paid"><i class="fa-solid fa-lock fa-xl"></i></span>
+                                        @endif
                                         <div class="icon_overlay"></div>
                                         <div class="halim-post-title-box">
                                             <div class="halim-post-title ">
                                                 <p class="entry-title">{{ $mov->title }}</p>
                                                 <p class="original_title">{{ $mov->name_english }} @if ($mov->season != 0)
-                                                    Season {{ $mov->season }}
-                                                @endif
-                                                @if ($mov->year != null)
-                                                ({{ $mov->year }})
-                                                @endif</p>
+                                                        Season {{ $mov->season }}
+                                                    @endif
+                                                    @if ($mov->year != null)
+                                                        ({{ $mov->year }})
+                                                    @endif
+                                                </p>
                                             </div>
                                         </div>
                                     </a>
@@ -228,83 +239,87 @@
                 </section>
                 <div class="clearfix"></div>
             @endforeach
-            
-             <section id="halim-advanced-widget-2">
-                    <div class="section-heading">
-                        <a href="{{ route('genre',$gen_slug->slug) }}">
-                            <span class="h-text">{{ $gen_slug->title }} Mới Cập Nhật</span>
-                        </a>
-                    </div>
-                    <div id="halim-advanced-widget-2-ajax-box" class="halim_box">
-                        @foreach ($movie_animation->take(8) as $key => $mov)
-                            <article class="lazy col-md-3 col-sm-3 col-xs-6 thumb grid-item post-37606">
-                                <div class="halim-item">
-                                    <a class="halim-thumb" href="{{ route('movie', $mov->slug) }}">
-                                        <figure>
-                                            <img class="lazy img-responsive"
-                                                data-original="{{ asset('uploads/movie/' . $mov->movie_image->image) }}"
-                                                alt="{{ $mov->title }}" title="{{ $mov->title }}">
-                                        </figure>
-                                        <span class="status">
-                                            @if ($mov->quality == 1)
-                                                Bluray
-                                            @elseif ($mov->quality == 2)
-                                                HD
-                                            @else
-                                                FHD
-                                            @endif
-                                        </span>
-                                        <span class="episode"><i class="fa fa-play" aria-hidden="true"></i>
-                                            @if ($mov->thuocphim == '1')
-                                                @if ($mov->episode_count == $mov->sotap)
-                                                    Hoàn tất |
-                                                @else
-                                                    {{ $mov->episode_count }}/{{ $mov->sotap }}|
-                                                @endif
-                                            @endif
 
-                                            @if ($mov->language == 1)
-                                                VietSub
-                                                @if ($mov->season != 0)
-                                                    -S{{ $mov->season }}
-                                                @endif
-                                            @elseif ($mov->language == 2)
-                                                Tiếng Gốc
-                                                @if ($mov->season != 0)
-                                                    -S{{ $mov->season }}
-                                                @endif
-                                            @elseif ($mov->language == 3)
-                                                Lồng Tiếng
-                                                @if ($mov->season != 0)
-                                                    -S{{ $mov->season }}
-                                                @endif
+            <section id="halim-advanced-widget-2">
+                <div class="section-heading">
+                    <a href="{{ route('genre', $gen_slug->slug) }}">
+                        <span class="h-text">{{ $gen_slug->title }} Mới Cập Nhật</span>
+                    </a>
+                </div>
+                <div id="halim-advanced-widget-2-ajax-box" class="halim_box">
+                    @foreach ($movie_animation->take(8) as $key => $mov)
+                        <article class="lazy col-md-3 col-sm-3 col-xs-6 thumb grid-item post-37606">
+                            <div class="halim-item">
+                                <a class="halim-thumb" href="{{ route('movie', $mov->slug) }}">
+                                    <figure>
+                                        <img class="lazy img-responsive"
+                                            data-original="{{ asset('uploads/movie/' . $mov->movie_image->image) }}"
+                                            alt="{{ $mov->title }}" title="{{ $mov->title }}">
+                                    </figure>
+                                    <span class="status">
+                                        @if ($mov->quality == 1)
+                                            Bluray
+                                        @elseif ($mov->quality == 2)
+                                            HD
+                                        @else
+                                            FHD
+                                        @endif
+                                    </span>
+                                    <span class="episode"><i class="fa fa-play" aria-hidden="true"></i>
+                                        @if ($mov->thuocphim == '1')
+                                            @if ($mov->episode_count == $mov->sotap)
+                                                Hoàn tất |
                                             @else
-                                                Thuyết Minh
-                                                @if ($mov->season != 0)
-                                                    -S{{ $mov->season }}
-                                                @endif
+                                                {{ $mov->episode_count }}/{{ $mov->sotap }}|
                                             @endif
+                                        @endif
 
-                                        </span>
-                                        <div class="icon_overlay"></div>
-                                        <div class="halim-post-title-box">
-                                            <div class="halim-post-title ">
-                                                <p class="entry-title">{{ $mov->title }}</p>
-                                                <p class="original_title">{{ $mov->name_english }} @if ($mov->season != 0)
+                                        @if ($mov->language == 1)
+                                            VietSub
+                                            @if ($mov->season != 0)
+                                                -S{{ $mov->season }}
+                                            @endif
+                                        @elseif ($mov->language == 2)
+                                            Tiếng Gốc
+                                            @if ($mov->season != 0)
+                                                -S{{ $mov->season }}
+                                            @endif
+                                        @elseif ($mov->language == 3)
+                                            Lồng Tiếng
+                                            @if ($mov->season != 0)
+                                                -S{{ $mov->season }}
+                                            @endif
+                                        @else
+                                            Thuyết Minh
+                                            @if ($mov->season != 0)
+                                                -S{{ $mov->season }}
+                                            @endif
+                                        @endif
+
+                                    </span>
+                                    @if ($mov->paid_movie == 1)
+                                    <span class="paid"><i class="fa-solid fa-lock fa-xl"></i></span>
+                                    @endif
+                                    <div class="icon_overlay"></div>
+                                    <div class="halim-post-title-box">
+                                        <div class="halim-post-title ">
+                                            <p class="entry-title">{{ $mov->title }}</p>
+                                            <p class="original_title">{{ $mov->name_english }} @if ($mov->season != 0)
                                                     Season {{ $mov->season }}
                                                 @endif
                                                 @if ($mov->year != null)
-                                                ({{ $mov->year }})
-                                                @endif</p>
-                                            </div>
+                                                    ({{ $mov->year }})
+                                                @endif
+                                            </p>
                                         </div>
-                                    </a>
-                                </div>
-                            </article>
-                        @endforeach
-                    </div>
-                </section>
-                <div class="clearfix"></div>
+                                    </div>
+                                </a>
+                            </div>
+                        </article>
+                    @endforeach
+                </div>
+            </section>
+            <div class="clearfix"></div>
 
         </main>
 

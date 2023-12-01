@@ -393,6 +393,9 @@
                                                 @endif
                                             @endif
                                         </span>
+                                        @if ($mov->paid_movie == 1)
+                                        <span class="paid"><i class="fa-solid fa-lock fa-xl"></i></span>
+                                        @endif
                                         <div class="icon_overlay"></div>
                                         <div class="halim-post-title-box">
                                             <div class="halim-post-title ">

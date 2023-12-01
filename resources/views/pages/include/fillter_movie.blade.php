@@ -19,7 +19,7 @@
 
                     <select class="form-control stylish_filter" name="order" id="exampleFormControlSelec">
                         <option value="">--Sort--</option>
-                        <option value="ngaytao">Ngay dang</option>
+                        <option value="created_at">Ngay dang</option>
                         <option value="title">Ten phim A-Z</option>
                         <option value="count_views">Luot xem</option>
                     </select>

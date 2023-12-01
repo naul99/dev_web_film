@@ -129,7 +129,7 @@
 
                                     <form action="{{ route('tim-kiem') }}" method="GET">
                                         <input id="timkiem" type="text" name="search" class="form-control"
-                                            placeholder="Search movies... or press (/)" autocomplete="off" oninput="validateInput(this)" required>
+                                            placeholder="Nhập tên phim hoặc tên diễn viên... or press (/)" autocomplete="off" oninput="validateInput(this)" required>
                                     </form>
                                     <i class="animate-spin hl-spin4 hidden"></i>
 
