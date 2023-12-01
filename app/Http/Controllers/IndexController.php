@@ -747,7 +747,7 @@ class IndexController extends Controller
         }
         // check status payment momo
         header('Content-type: text/html; charset=utf-8');
-        $secretKey = 'at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa'; //Put your secret key in there
+        $secretKey = env('SECRETKEY', ''); //Put your secret key in there
 
         if (!empty($_GET['partnerCode'])) {
             $partnerCode = $_GET["partnerCode"];
@@ -785,7 +785,7 @@ class IndexController extends Controller
                     $order->customer_id = $customer_id;
                     $order->package_id = $package_id;
                     $order->price = $price;
-                    $order->payment = 'vnpay';
+                    $order->payment = 'momo';
                     $order->number_date = $date;
                     $order->expiry = '0';
                     $order->date_start = Carbon::now('Asia/Ho_Chi_Minh');
