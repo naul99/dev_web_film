@@ -28,7 +28,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
-
+use Illuminate\Support\Facades\Mail;
 
 class IndexController extends Controller
 {
@@ -780,7 +780,7 @@ class IndexController extends Controller
                     $package_id = Session::get('package_id');
                     $date = Session::get('package_time');
                     $price = Session::get('package_price');
-
+                    $name_package= Session::get('package_name');
                     $order = new Order;
                     $order->customer_id = $customer_id;
                     $order->package_id = $package_id;
@@ -797,9 +797,24 @@ class IndexController extends Controller
                     $customer->status_registration = '1';
                     $customer->save();
 
+                    //sent email order
+                    $to_name = "no-reply";
+                    $to_email = $customer->email; //send to this email
+                    $price_format=  number_format($price, 0, '', ',');
+                    $total_format=  number_format($amount, 0, '', ',');
+                    $data = array("name" => "FULLHDPHIM", "price" => $price_format,"name_package"=>$name_package,
+                    "total"=> $total_format,"payment"=>"momo","date"=>$date,"orderId"=>$orderId);
+
+                    Mail::send('pages.sent_email',$data,function($message)use($to_name,$to_email){
+                        $message->to($to_email)->subject('Hóa Đơn Thanh Toán Gói Phim');
+                        $message->from($to_email,$to_name);//sent from this email
+                    });
+                    //end sent email
+                    
                     Session::forget('package_id');
                     Session::forget('package_time');
                     Session::forget('package_price');
+                    Session::forget('package_name');
                     return redirect()->route('register-package')->with('success', 'Thanh toán thành công. Cảm ơn bạn đã sử dụng dịch vụ.');
                 } else {
                     return redirect()->route('register-package')->with('error', $response['message'] ?? 'Đăng ký gói không thành công. Do bạn đã hủy giao dịch.');
@@ -825,6 +840,7 @@ class IndexController extends Controller
             Session::put('package_id', $validate->id);
             Session::put('package_time', $validate->time);
             Session::put('package_price', $validate->price);
+            Session::put('package_name', $validate->title);
             $user = Customer::where('id', Session::get('customer_id'))->first();
             if ($user->status_registration != 1) {
                 return view('pages.checkout', compact('user', 'data', 'validate'));

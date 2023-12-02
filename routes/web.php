@@ -28,6 +28,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TrackingController;
 use App\Http\Controllers\ManageCommentController;
 use App\Http\Controllers\PayPalPaymentController;
+use App\Http\Controllers\SentEmailController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use PhpParser\Node\Expr\Assign;
@@ -64,7 +65,8 @@ Route::post('/payment-vnpay', [PayPalPaymentController::class,'paymentVnpay'])->
 Route::post('/payment-momo', [PayPalPaymentController::class,'paymentMomo'])->name('paymentMomo');
 
 Route::get('/sociallogout', [AuthSocialLoginController::class, 'sociallogout'])->name('sociallogout');
-
+//test sent email
+Route::get('/sent-email', [SentEmailController::class, 'sentemail'])->name('sentemail');
 
 
 
