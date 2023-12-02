@@ -96,7 +96,7 @@
                                             style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 36px; font-weight: 800; line-height: 48px;"
                                             class="mobile-center">
                                             <h1 style="font-size: 36px; font-weight: 800; margin: 0; color: #ffffff;">
-                                               <a style="color: #ffffff;" href="{{ route('homepage') }}" target="_blank">{{ $name }}</a> </h1>
+                                               <a style="color: #ffffff" href="{{ route('homepage') }}" target="_blank">{{ $name }}</a> </h1>
                                         </td>
                                     </tr>
                                 </table>

@@ -19,6 +19,7 @@ class SentEmailController extends Controller
         //     $message->to($to_email)->subject('Hóa Đơn Thanh Toán Gói Phim');
         //     $message->from($to_email,$to_name);//sent from this email
         // });
-        //return view('pages.sent_email');
+        dd('thanh cong');
+        // return view('pages.sent_email');
     }
 }
