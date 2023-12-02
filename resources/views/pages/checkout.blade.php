@@ -336,8 +336,9 @@
                         @php
                             $vnd_to_usd = (($price * 10) / 100 + $price) / 24270;
                             $total_paypal = round($vnd_to_usd, 2);
-                            $total_vnpay = ($price * 10) / 100 + $price;
-                            $total_momo = ($price * 10) / 100 + $price;
+                            $total_vnpay = number_format(($price * 10) / 100 + $price, 0, '', '');
+                            $total_momo = number_format(($price * 10) / 100 + $price, 0, '', '');
+                            
                             \Session::put('total_paypal', $total_paypal);
                             \Session::put('total_vnpay', $total_vnpay);
                             \Session::put('total_momo', $total_momo);

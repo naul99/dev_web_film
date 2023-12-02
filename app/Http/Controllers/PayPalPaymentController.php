@@ -271,7 +271,7 @@ class PayPalPaymentController extends Controller
         // $secretKey = env('SECRETKEY', '');
         // $total=Session::get('total_momo');
         // $orderInfo = "Thanh toán gói xem phim.";
-        // $amount = "$total";
+        // $amount = "10000";
         // $orderId = time() . "";
         // $returnUrl = env('APP_URL') . "/register-package";
         // $notifyurl = env('APP_URL') . "/register-package";
@@ -308,6 +308,7 @@ class PayPalPaymentController extends Controller
         //     'requestType' => $requestType,
         //     'signature' => $signature
         // );
+        // //dd($data);
         // $result = $this->execPostRequest($endpoint, json_encode($data));
         // $jsonResult = json_decode($result, true);  // decode json
         // //Just a example, please check more in there

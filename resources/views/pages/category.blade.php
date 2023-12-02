@@ -22,20 +22,20 @@
                 <div class="section-bar clearfix">
                     <h1 class="section-title"><span>{{ $cate_slug->title }}</span></h1>
                 </div>
-                
+
                 <div class="halim_box">
                     @foreach ($movie as $key => $mov)
                         <article class="col-md-3 col-sm-3 col-xs-6 thumb grid-item post-37606">
                             <div class="halim-item">
                                 <a class="halim-thumb" href="{{ route('movie', $mov->slug) }}">
                                     <figure>
-                                        
+
                                         <img class="lazy img-responsive"
-                                        data-original="{{ asset('uploads/movie/' . $mov->movie_image->image) }}" alt="#"
-                                        title="{{ $mov->title }}">
-                                       
-                                        
-                                        </figure>
+                                            data-original="{{ asset('uploads/movie/' . $mov->movie_image->image) }}"
+                                            alt="#" title="{{ $mov->title }}">
+
+
+                                    </figure>
                                     <span class="status">
                                         @if ($mov->quality == 1)
                                             Bluray
@@ -70,17 +70,26 @@
                                             @endif
                                         @endif
                                     </span>
-                                    @if ($mov->paid_movie == 1)
-                                    <span class="paid"><i class="fa-solid fa-lock fa-xl"></i></span>
+                                    @if (Auth::guard('customer')->check())
+                                        @if (Auth::guard('customer')->user()->status_registration == 0)
+                                            @if ($mov->paid_movie == 1)
+                                                <span class="paid"><i class="fa-solid fa-lock fa-xl"></i></span>
+                                            @endif
+                                        @endif
+                                    @else
+                                        @if ($mov->paid_movie == 1)
+                                            <span class="paid"><i class="fa-solid fa-lock fa-xl"></i></span>
+                                        @endif
                                     @endif
                                     <div class="icon_overlay"></div>
                                     <div class="halim-post-title-box">
                                         <div class="halim-post-title ">
                                             <p class="entry-title">{{ $mov->title }}</p>
                                             <p class="original_title">{{ $mov->name_english }} @if ($mov->season != 0)
-                                                Season {{ $mov->season }}
-                                            @endif
-                                             ({{ $mov->year }})</p>
+                                                    Season {{ $mov->season }}
+                                                @endif
+                                                ({{ $mov->year }})
+                                            </p>
                                         </div>
                                     </div>
                                 </a>

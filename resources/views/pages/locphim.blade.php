@@ -72,8 +72,16 @@
                                                 @endif
                                             @endif
                                         </span>
-                                        @if ($mov->paid_movie == 1)
-                                        <span class="paid"><i class="fa-solid fa-lock fa-xl"></i></span>
+                                        @if (Auth::guard('customer')->check())
+                                            @if (Auth::guard('customer')->user()->status_registration == 0)
+                                                @if ($mov->paid_movie == 1)
+                                                    <span class="paid"><i class="fa-solid fa-lock fa-xl"></i></span>
+                                                @endif
+                                            @endif
+                                        @else
+                                            @if ($mov->paid_movie == 1)
+                                                <span class="paid"><i class="fa-solid fa-lock fa-xl"></i></span>
+                                            @endif
                                         @endif
                                         <div class="icon_overlay"></div>
                                         <div class="halim-post-title-box">

@@ -30,12 +30,12 @@
                                     <a class="halim-thumb" href="{{ route('movie', $mov->slug) }}"
                                         title="{{ $mov->title }}">
                                         <figure>
-                                          
+
                                             <img class="lazy img-responsive"
-                                            data-original="{{ asset('uploads/movie/' . $mov->movie_image->image) }}" alt="#"
-                                            title="{{ $mov->title }}">
-                                           
-                                            </figure>
+                                                data-original="{{ asset('uploads/movie/' . $mov->movie_image->image) }}"
+                                                alt="#" title="{{ $mov->title }}">
+
+                                        </figure>
                                         <span class="status">
                                             @if ($mov->quality == 1)
                                                 Bluray
@@ -70,19 +70,28 @@
                                                 @endif
                                             @endif
                                         </span>
-                                        @if ($mov->paid_movie == 1)
-                                        <span class="paid"><i class="fa-solid fa-lock fa-xl"></i></span>
+                                        @if (Auth::guard('customer')->check())
+                                            @if (Auth::guard('customer')->user()->status_registration == 0)
+                                                @if ($mov->paid_movie == 1)
+                                                    <span class="paid"><i class="fa-solid fa-lock fa-xl"></i></span>
+                                                @endif
+                                            @endif
+                                        @else
+                                            @if ($mov->paid_movie == 1)
+                                                <span class="paid"><i class="fa-solid fa-lock fa-xl"></i></span>
+                                            @endif
                                         @endif
                                         <div class="icon_overlay"></div>
                                         <div class="halim-post-title-box">
                                             <div class="halim-post-title ">
                                                 <p class="entry-title">{{ $mov->title }}</p>
                                                 <p class="original_title">{{ $mov->name_english }} @if ($mov->season != 0)
-                                                    Season {{ $mov->season }}
-                                                @endif
-                                                @if ($mov->year != null)
-                                                ({{ $mov->year }})
-                                                @endif</p>
+                                                        Season {{ $mov->season }}
+                                                    @endif
+                                                    @if ($mov->year != null)
+                                                        ({{ $mov->year }})
+                                                    @endif
+                                                </p>
                                             </div>
                                         </div>
                                     </a>
@@ -98,7 +107,7 @@
                 </div>
                 <div class="clearfix"></div>
                 <div class="text-right">
-                     {{ $movie->appends($_GET)->links('vendor.pagination.custom') }}
+                    {{ $movie->appends($_GET)->links('vendor.pagination.custom') }}
                 </div>
             </section>
         </main>

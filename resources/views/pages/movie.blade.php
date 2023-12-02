@@ -352,7 +352,8 @@
                     </div>
 
                     <div class="section-bar clearfix">
-                        <h2 class="section-title"><span style="color:#ffed4d">Comments({{ count($comments->movie_comments) }}) </span></h2>
+                        <h2 class="section-title"><span
+                                style="color:#ffed4d">Comments({{ count($comments->movie_comments) }}) </span></h2>
                     </div>
                     <div class="entry-content clearfix">
                         <div class="video-item halim-entry-box">
@@ -538,7 +539,8 @@
                                                 @if (Auth::guard('customer')->check())
                                                     <button type="submit"
                                                         class="btn btn-success btn-circle text-uppercase pull-right check-login"
-                                                        value="Sent"><i class="fa-solid fa-paper-plane fa-xl"></i> Sent</button>
+                                                        value="Sent"><i class="fa-solid fa-paper-plane fa-xl"></i>
+                                                        Sent</button>
                                                 @else
                                                     <a class="btn btn-success btn-circle text-uppercase pull-right check-login"
                                                         data-toggle="modal" data-target="#exampleModal1">
@@ -602,7 +604,9 @@
                                                                         class="text-muted text-sm">
                                                                         <button type="button"
                                                                             value="{{ $comment->id }}"
-                                                                            class="deleteComment" style="color: #000"><i class="fa-solid fa-delete-left fa-lg" style="color: #ff0000;"></i></button>
+                                                                            class="deleteComment" style="color: #000"><i
+                                                                                class="fa-solid fa-delete-left fa-lg"
+                                                                                style="color: #ff0000;"></i></button>
                                                                     </p>
                                                                 @endif
 
@@ -610,7 +614,8 @@
                                                                 <a style="font-size: 18px;color:#000"
                                                                     class="text-semibold media-heading box-inline">
                                                                     Name: {{ $comment->user->name }}</a>
-                                                                <p style="font-size: 16px">Comment: {{ $comment->comment }} </p>
+                                                                <p style="font-size: 16px">Comment:
+                                                                    {{ $comment->comment }} </p>
                                                             </div>
 
                                                             <div class="pad-ver" style="padding-top:1%;">
@@ -626,7 +631,8 @@
                                                                 <a href="javascript::void(0);"
                                                                     class="btn-reply btn btn-info btn-circle text-uppercase"
                                                                     onclick="reply(this)"
-                                                                    data-Commentid="{{ $comment->id }}"><i class="fa-solid fa-share fa-xl"></i>Reply</a>
+                                                                    data-Commentid="{{ $comment->id }}"><i
+                                                                        class="fa-solid fa-share fa-xl"></i>Reply</a>
                                                                 <button
                                                                     @if (count($comment->replies) < 1) style="display: none;" @endif
                                                                     onclick="more(this)" target="{{ $count++ }}"
@@ -687,10 +693,13 @@
                                                                                             <button type="button"
                                                                                                 value="{{ $reply->id }}"
                                                                                                 class="deleteComment"
-                                                                                                style="color: #000"><i class="fa-solid fa-delete-left fa-lg" style="color: #ff0000;"></i></button>
+                                                                                                style="color: #000"><i
+                                                                                                    class="fa-solid fa-delete-left fa-lg"
+                                                                                                    style="color: #ff0000;"></i></button>
                                                                                         </p>
                                                                                     @endif
-                                                                                    <a style="color: #000" href="javascript::void(0);"
+                                                                                    <a style="color: #000"
+                                                                                        href="javascript::void(0);"
                                                                                         class=" text-semibold media-heading box-inline">Name:
                                                                                         {{ $reply->user->name }}</a>
                                                                                     <p
@@ -768,15 +777,19 @@
                                                                                                                     type="button"
                                                                                                                     value="{{ $rep->id }}"
                                                                                                                     class="deleteComment"
-                                                                                                                    style="color: #000"><i class="fa-solid fa-delete-left fa-lg" style="color: #ff0000;"></i></button>
+                                                                                                                    style="color: #000"><i
+                                                                                                                        class="fa-solid fa-delete-left fa-lg"
+                                                                                                                        style="color: #ff0000;"></i></button>
                                                                                                             </p>
                                                                                                         @endif
-                                                                                                        <a style="color: #000" href="javascript::void(0);"
+                                                                                                        <a style="color: #000"
+                                                                                                            href="javascript::void(0);"
                                                                                                             class=" text-semibold media-heading box-inline">Name:
                                                                                                             {{ $rep->user->name }}</a>
                                                                                                         <p
                                                                                                             style="font-size: 14px;">
-                                                                                                            Reply: {{ $rep->comment }}
+                                                                                                            Reply:
+                                                                                                            {{ $rep->comment }}
                                                                                                         </p>
                                                                                                     </div>
 
@@ -919,8 +932,16 @@
                                                 @endif
                                             @endif
                                         </span>
-                                        @if ($mov->paid_movie == 1)
-                                        <span class="paid"><i class="fa-solid fa-lock fa-xl"></i></span>
+                                        @if (Auth::guard('customer')->check())
+                                            @if (Auth::guard('customer')->user()->status_registration == 0)
+                                                @if ($mov->paid_movie == 1)
+                                                    <span class="paid"><i class="fa-solid fa-lock fa-xl"></i></span>
+                                                @endif
+                                            @endif
+                                        @else
+                                            @if ($mov->paid_movie == 1)
+                                                <span class="paid"><i class="fa-solid fa-lock fa-xl"></i></span>
+                                            @endif
                                         @endif
                                         <div class="icon_overlay"></div>
                                         <div class="halim-post-title-box">

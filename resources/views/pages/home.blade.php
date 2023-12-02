@@ -32,7 +32,7 @@
                                         FHD
                                     @endif
                                 </span>
-                                
+
                                 <span class="episode"><i class="fa fa-play" aria-hidden="true"></i>
                                     @if ($h->thuocphim == '1')
                                         @if ($h->episode_count == $h->sotap)
@@ -65,10 +65,18 @@
                                     @endif
 
                                 </span>
-                                @if ($h->paid_movie == 1)
-                                <span class="paid"><i class="fa-solid fa-lock fa-xl"></i></span>
+                                @if (Auth::guard('customer')->check())
+                                    @if (Auth::guard('customer')->user()->status_registration == 0)
+                                        @if ($h->paid_movie == 1)
+                                            <span class="paid"><i class="fa-solid fa-lock fa-xl"></i></span>
+                                        @endif
+                                    @endif
+                                @else
+                                    @if ($h->paid_movie == 1)
+                                        <span class="paid"><i class="fa-solid fa-lock fa-xl"></i></span>
+                                    @endif
                                 @endif
-                                
+
                                 <div class="icon_overlay"></div>
                                 <div class="halim-post-title-box">
                                     <div class="halim-post-title ">
@@ -215,9 +223,18 @@
                                             @endif
 
                                         </span>
-                                        @if ($mov->paid_movie == 1 )
-                                        <span class="paid"><i class="fa-solid fa-lock fa-xl"></i></span>
+                                        @if (Auth::guard('customer')->check())
+                                            @if (Auth::guard('customer')->user()->status_registration == 0)
+                                                @if ($mov->paid_movie == 1)
+                                                    <span class="paid"><i class="fa-solid fa-lock fa-xl"></i></span>
+                                                @endif
+                                            @endif
+                                        @else
+                                            @if ($mov->paid_movie == 1)
+                                                <span class="paid"><i class="fa-solid fa-lock fa-xl"></i></span>
+                                            @endif
                                         @endif
+
                                         <div class="icon_overlay"></div>
                                         <div class="halim-post-title-box">
                                             <div class="halim-post-title ">
@@ -297,8 +314,16 @@
                                         @endif
 
                                     </span>
-                                    @if ($mov->paid_movie == 1)
-                                    <span class="paid"><i class="fa-solid fa-lock fa-xl"></i></span>
+                                    @if (Auth::guard('customer')->check())
+                                        @if (Auth::guard('customer')->user()->status_registration == 0)
+                                            @if ($mov->paid_movie == 1)
+                                                <span class="paid"><i class="fa-solid fa-lock fa-xl"></i></span>
+                                            @endif
+                                        @endif
+                                    @else
+                                        @if ($mov->paid_movie == 1)
+                                            <span class="paid"><i class="fa-solid fa-lock fa-xl"></i></span>
+                                        @endif
                                     @endif
                                     <div class="icon_overlay"></div>
                                     <div class="halim-post-title-box">
