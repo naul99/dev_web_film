@@ -112,7 +112,7 @@ class PayPalPaymentController extends Controller
         $order = Order::orderBy('id', 'DESC')->first();
 
         $vnp_TxnRef = $order->id + 1; //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
-        $vnp_OrderInfo = 'Thanh toan cho dịch vụ goi xem phim.';
+        $vnp_OrderInfo = 'Thanh toan cho dich vu goi xem phim.';
         $vnp_OrderType = 'billpayment';
         $vnp_Amount = Session::get('total_vnpay') * 100;
         $vnp_Locale = 'vn';
