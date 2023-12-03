@@ -9,6 +9,7 @@ use App\Models\Customer;
 use App\Models\Movie_Package;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Mail;
 
 class PayPalPaymentController extends Controller
 {
@@ -67,6 +68,8 @@ class PayPalPaymentController extends Controller
             $package_id = Session::get('package_id');
             $date = Session::get('package_time');
             $price = Session::get('package_price');
+            $amount = Session::get('total_paypal');
+            $name_package = Session::get('package_name');
 
             $order = new Order;
             $order->customer_id = $customer_id;
@@ -84,9 +87,32 @@ class PayPalPaymentController extends Controller
             $customer->status_registration = '1';
             $customer->save();
 
+            $vnd_to_usd = (($price * 10) / 100 + $price) / 24270;
+            $total_format = round($vnd_to_usd, 2);
+
+            $price_format = round($price / 24270, 2);
+            $email = $customer->email;
+            $orderId = $order->id;
+            
+            //start sent email
+            $to_name = "no-reply";
+            $to_email = $email; //send to this email
+
+            $data = array(
+                "name" => "FULLHDPHIM", "price" => $price_format, "name_package" => $name_package,
+                "total" => $total_format, "payment" => "paypal", "date" => $date, "orderId" => $orderId
+            );
+
+            Mail::send('pages.sent_email', $data, function ($message) use ($to_name, $to_email) {
+                $message->to($to_email)->subject('Hóa Đơn Thanh Toán Gói Phim');
+                $message->from($to_email, $to_name); //sent from this email
+            });
+            //end sent email
             Session::forget('package_id');
             Session::forget('package_time');
             Session::forget('package_price');
+            Session::forget('package_name');
+
             return redirect()->route('register-package')->with('success', 'Thanh toán thành công. Cảm ơn bạn đã sử dụng dịch vụ.');
         } else {
             return redirect()->route('register-package')->with('error', $response['message'] ?? 'Something went wrong.');
@@ -199,7 +225,7 @@ class PayPalPaymentController extends Controller
     }
     public function paymentMomo()
     {
-        $total=Session::get('total_momo');
+        $total = Session::get('total_momo');
         $endpoint = "https://test-payment.momo.vn/gw_payment/transactionProcessor";
 
         $partnerCode = env('PARTNERCODE', '');
@@ -236,11 +262,11 @@ class PayPalPaymentController extends Controller
                 'notifyUrl' => $notifyurl,
                 'extraData' => $extraData,
                 'requestType' => $requestType
-                );
+            );
             // echo $serectkey;die;
             $rawHash = "partnerCode=" . $partnerCode . "&accessKey=" . $accessKey . "&requestId=" . $requestId . "&bankCode=" . $bankCode . "&amount=" . $amount . "&orderId=" . $orderid . "&orderInfo=" . $orderInfo . "&returnUrl=" . $returnUrl . "&notifyUrl=" . $notifyurl . "&extraData=" . $extraData . "&requestType=" . $requestType;
             $signature = hash_hmac("sha256", $rawHash, $serectkey);
-    
+
             $data =  array(
                 'partnerCode' => $partnerCode,
                 'accessKey' => $accessKey,
@@ -261,9 +287,9 @@ class PayPalPaymentController extends Controller
             header('Location: ' . $jsonResult['payUrl']);
             die();
         }
-        
+
         //Momo Payment QR
-        
+
         // $endpoint = "https://test-payment.momo.vn/gw_payment/transactionProcessor";
 
         // $partnerCode = env('PARTNERCODE', '');
