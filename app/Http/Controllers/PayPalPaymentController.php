@@ -93,6 +93,7 @@ class PayPalPaymentController extends Controller
             $price_format = round($price / 24270, 2);
             $email = $customer->email;
             $orderId = $order->id;
+            $payment="paypal";
             
             //start sent email
             $to_name = "no-reply";
@@ -100,7 +101,7 @@ class PayPalPaymentController extends Controller
 
             $data = array(
                 "name" => "FULLHDPHIM", "price" => $price_format, "name_package" => $name_package,
-                "total" => $total_format, "payment" => "paypal", "date" => $date, "orderId" => $orderId
+                "total" => $total_format, "date" => $date, "orderId" => $orderId,"payment"=>$payment
             );
 
             Mail::send('pages.sent_email', $data, function ($message) use ($to_name, $to_email) {
