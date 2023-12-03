@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Customer;
+use App\Models\Order;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -18,6 +20,9 @@ class UserController extends Controller
         $this->middleware('permission:create user',['only'=>['create','store']]);
         $this->middleware('permission:edit user',['only'=>['update','edit','assign','updatePermission']]);
         $this->middleware('permission:delete user',['only'=>['destroy']]);
+        $this->middleware('permission:view customer',['only'=>['listcustomer']]);
+        $this->middleware('permission:delete customer',['only'=>['destroy_customer']]);
+        $this->middleware('permission:view order',['only'=>['listOrder']]);
     }
     public function index()
     {
@@ -92,7 +97,7 @@ class UserController extends Controller
         //$user->status=$data['status'];
         $user->save();
         toastr()->success('Update successfully');
-        return redirect()->back();
+        return redirect(route('user.index'));
     }
 
 
@@ -101,6 +106,26 @@ class UserController extends Controller
         $user = User::find($id);
         $user->delete();
         $user_data = User::all()->toArray();
+        toastr()->success('Delete successfully');
+        return redirect()->back();
+    }
+
+    public function listcustomer()
+    {
+        $list=Customer::get();
+        return view('admincp.customer.index',compact('list'));
+    }
+    public function listOrder()
+    {
+        $list_order=Order::with('package:id,title', 'user:id,name,email')->get();
+        return view('admincp.customer.listorder',compact('list_order'));
+    }
+    public function destroy_customer($id)
+    {
+        $customer = Customer::find($id);
+        // $customer->delete();
+        $customer->status=0;
+        $customer->save();
         toastr()->success('Delete successfully');
         return redirect()->back();
     }

@@ -42,9 +42,14 @@ class AuthSocialLoginController extends Controller
             $user = Customer::where('email', $userdata->email)->where('auth_type', 'github')->first();
            
             if (isset($user)) {
-                Auth::guard('customer')->login($user);
-                Session::put('customer_id',$user->id);
-                return redirect()->back()->with('status', 'Your login was successful!');
+                if($user->status == 1){
+                    Auth::guard('customer')->login($user);
+                    Session::put('customer_id',$user->id);
+                    return redirect()->back()->with('status', 'Your login was successful!');
+                }else{
+                    return redirect()->back()->with('status_error', 'Tài khoản đã bị khóa!');
+                }
+                
             } else {
 
                 $uuid = Str::uuid()->toString();

@@ -309,7 +309,7 @@
             $(document).ready(function(event) {
                 swal({
                     title: 'Thất bại!',
-                    text: 'Đăng nhập không thành công, thử đăng nhập bằng phương thức khác!',
+                    text: '{{ session('status_error') }}',
                     icon: 'error',
                     buttons: "Yes!",
                 })

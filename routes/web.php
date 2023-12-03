@@ -141,6 +141,10 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::resource('package', PackageController::class);
     Route::get('comments/comment', [ManageCommentController::class, 'index'])->name('manage-comment');
     Route::get('comments/reply', [ManageCommentController::class, 'reply'])->name('manage-reply');
+    Route::get('customers', [UserController::class, 'listCustomer'])->name('listcustomer');
+    Route::get('customers/order', [UserController::class, 'listOrder'])->name('listorder');
+    Route::delete('destroy-customers/{id}', [UserController::class, 'destroy_customer'])->name('destroycustomer');
+
 
 });
 

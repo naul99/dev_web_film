@@ -189,23 +189,61 @@
                             </ul>
                         </li>
 
-                        <li class="treeview {{ $segment == 'user' ? 'active' : '' }}">
+                        <li
+                            class="treeview @if ($segment == 'user') active
+                        @elseif($segment == 'customers')
+                            active @endif">
                             <a href="#">
                                 <i class="fa fa-genderless"></i>
-                                <span>User</span>
+                                <span>Manage User</span>
                                 <i class="fa fa-angle-left pull-right"></i>
                             </a>
+
                             <ul class="treeview-menu">
-                                <li>
-                                    <a href="{{ route('user.index') }}"><i class="fa fa-angle-right"></i> List
-                                        User</a>
+                                <li class="{{ $segment == 'user' ? 'active' : '' }}">
+                                    <a href="javascription:void(0);">
+                                        <i class="fa fa-genderless"></i>
+                                        <span>User</span>
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </a>
+                                    <ul class="treeview-menu">
+                                        <li>
+                                            <a href="{{ route('user.index') }}"><i class="fa fa-angle-right"></i>
+                                                List
+                                                User</a>
+                                        </li>
+                                        @can('create user')
+                                            <li>
+                                                <a href="{{ route('user.create') }}"><i class="fa fa-angle-right"></i>
+                                                    Create User</a>
+                                            </li>
+                                        @endcan
+
+                                    </ul>
                                 </li>
-                                @can('create user')
-                                    <li>
-                                        <a href="{{ route('user.create') }}"><i class="fa fa-angle-right"></i>
-                                            Create User</a>
-                                    </li>
-                                @endcan
+
+                                <li class="{{ $segment == 'customers' ? 'active' : '' }}">
+                                    <a href="javascription:void(0);">
+                                        <i class="fa fa-genderless"></i>
+                                        <span>Customer</span>
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </a>
+                                    <ul class="treeview-menu">
+                                        <li>
+                                            <a href="{{ route('listcustomer') }}"><i class="fa fa-angle-right"></i>
+                                                List
+                                                Customers</a>
+                                        </li>
+
+                                        <li>
+                                            <a href="{{ route('listorder') }}"><i class="fa fa-angle-right"></i>
+                                                List Orders</a>
+                                        </li>
+
+
+                                    </ul>
+                                </li>
+
 
                             </ul>
                         </li>
