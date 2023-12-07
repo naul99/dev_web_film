@@ -60,7 +60,7 @@ class HomeController extends Controller
         $total_user_home = Customer::count();
 
         $top_browser = Browser::join('tracker_agents','tracker_sessions.agent_id','=','tracker_agents.id')
-        ->select('browser', DB::raw('count(*) as total'))->groupBy('browser')->orderBy('total', 'DESC')->get();
+        ->select('browser', DB::raw('count(*) as total'))->groupBy('browser')->orderBy('total', 'DESC')->take(5)->get();
         
         return view('home', compact('total_movie_home', 'total_category_home', 'total_genre_home', 'total_country_home', 'total_user_home', 'onlineusers', 'pageViews','top_browser'));
     }

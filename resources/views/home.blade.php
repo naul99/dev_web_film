@@ -92,10 +92,11 @@
                 <div class="stats-body">
                     <ul class="list-unstyled">
                         @foreach ($top_browser as $key=> $browser)
-                        <li>{{ $browser->browser }} <span class="pull-right">{{ $browser->total }}</span>
-                            <div class="progress progress-striped active progress-right">
+                        <li>{{ $browser->browser }} <span class="pull-right">Top {{ $key+1 }}-{{ $browser->total }}</span>
+                            {{-- <div class="progress progress-striped active progress-right">
                                 <div class="bar green" style="width:{{ $browser->total }}%;"></div>
-                            </div>
+                            </div> --}}
+                            
                         </li>
                         @endforeach
                     </ul>

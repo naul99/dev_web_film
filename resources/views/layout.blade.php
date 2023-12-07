@@ -51,7 +51,6 @@
         <meta name="title" content="Phim {{ $movie->title }} [Full HD], {{ $movie->name_english }}" />
     @endif
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <link rel="canonical" href="">
     <link rel="next" href="" />
     <meta property="og:locale" content="vi_VN" />
     @if (!isset($movie->slug))
