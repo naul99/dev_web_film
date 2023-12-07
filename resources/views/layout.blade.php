@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" xml:lang="vi">
 
 <head>
     <!-- Google tag (gtag.js) -->
@@ -14,13 +14,13 @@
 
         gtag('config', 'G-C35F1JQ8ZJ');
     </script>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
     <meta charset="utf-8" />
     <meta content="width=device-width,initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
     <meta name="theme-color" content="#234556">
-    <meta http-equiv="Content-Language" content="vi" />
     <meta content="VN" name="geo.region" />
     <meta name="DC.language" scheme="utf-8" content="vi" />
-    <meta name="language" content="Việt Nam">
+    <meta name="language" content="Việt Nam, English">
     <link rel="shortcut icon" href="{{ asset('uploads/logo/Old-Video-Cam-icon.ico') }}" type="image/x-icon" />
     <meta name="revisit-after" content="1 days" />
     <meta name='robots' content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' />
@@ -29,7 +29,7 @@
 
     @if (isset($tapphim) && $movie->thuocphim == 1)
         <title>
-            Tập {{ $tapphim }} - {{ $movie->title }} | FullHDPhim.click
+            Tập {{ $tapphim }} - {{ $movie->title }} | FullHDPhim
         </title>
     @elseif (isset($movie->slug))
         <title>
@@ -38,20 +38,63 @@
     @else
         <title>FullHDPhim | Xem Phim Chất Lượng Tốt Nhất</title>
     @endif
-
-    <meta name="description"
-        content="Phim hay 2023 - Xem phim hay nhất, xem phim online miễn phí, phim hot , phim nhanh" />
+    @if (!isset($movie->slug))
+        <meta name="description"
+            content="Fullhdphim, Phim hay - Xem phim hay nhất, xem phim online miễn phí, phim nhanh, Xem Phim Online, Phim Vietsub, Xem Phim Hay, phim HD , phim hot ,phim mới, phim bom tấn" />
+    @else
+        <meta name="description"
+            content="Xem Phim {{ $movie->title }} - {{ $movie->name_english }} ({{ $movie->year }})" />
+    @endif
+    @if (!isset($movie->slug))
+        <meta name="title" content="FullHDPhim | Xem Phim Chất Lượng Tốt Nhất" />
+    @else
+        <meta name="title" content="Phim {{ $movie->title }} [Full HD], {{ $movie->name_english }}" />
+    @endif
+    <meta name="apple-mobile-web-app-capable" content="yes" />
     <link rel="canonical" href="">
     <link rel="next" href="" />
     <meta property="og:locale" content="vi_VN" />
-    <meta property="og:title" content="Phim hay 2023 - Xem phim hay nhất" />
-    <meta property="og:description"
-        content="Phim hay 2023 - Xem phim hay nhất, phim hay trung quốc, hàn quốc, việt nam, mỹ, hong kong , chiếu rạp" />
-    <meta property="og:url" content="" />
-    <meta property="og:site_name" content="Phim hay 2023- Xem phim hay nhất" />
-    <meta property="og:image" content="" />
+    @if (!isset($movie->slug))
+        <meta property="og:title" content="Phim hay 2023 - Xem phim hay nhất" />
+    @else
+        <meta property="og:title" content="Phim {{ $movie->title }} [Full HD], {{ $movie->name_english }}" />
+    @endif
+    <meta property="og:type" content="website" />
+    @if (!isset($movie->slug))
+        <meta property="og:url" content="{{ route('homepage') }}" />
+    @else
+        <meta property="og:url" content="{{ route('homepage') }}/movie/{{ $movie->slug }}" />
+    @endif
+    @if (!isset($movie->slug))
+        <meta property="og:description"
+            content="Phim hay 2023 - Xem phim hay nhất, phim hay trung quốc, hàn quốc, việt nam, mỹ, hong kong , chiếu rạp" />
+    @else
+        <meta property="og:description"
+            content="Xem Phim {{ $movie->title }} - {{ $movie->name_english }} ({{ $movie->year }})" />
+    @endif
+    <meta property="og:site_name" content="fullhdphim.click" />
+    @if (!isset($movie->slug))
+        <meta property="og:image" content="" />
+    @else
+        <meta property="og:image" content="{{ asset('uploads/movie/' . $movie->movie_image->image) }}" />
+    @endif
     <meta property="og:image:width" content="300" />
-    <meta property="og:image:height" content="55" />
+    <meta property="og:image:height" content="300" />
+    @if (!isset($movie->slug))
+        <meta name="keywords"
+            content="Phim, xem phim, xem phim online, phim online, xem phim hd, phim vietsub, phim thuyet minh, fullhdphim" />
+    @else
+        <meta name="keywords"
+            content="xem phim {{ $movie->title }},xem phim {{ $movie->title }} vietsub,xem phim {{ $movie->title }} online,xem phim {{ $movie->title }} bluray,xem phim {{ $movie->title }} hd,xem phim {{ $movie->title }} full hd,xem phim {{ $movie->title }} 1080p,xem phim {{ $movie->title }} vietsub online,xem phim {{ $movie->title }} free,xem phim {{ $movie->title }} miễn ph&#237;,xem online, phim chất lượng, si&#234;u n&#233;t, bluray,fullhd, xem phim {{ $movie->name_english }}" />
+    @endif
+
+
+    @if (!isset($movie->slug))
+        <link rel="canonical" href="{{ route('homepage') }}" />
+    @else
+        <link rel="canonical" href="{{ route('homepage') }}/movie/{{ $movie->slug }}" />
+    @endif
+
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     @yield('css')
     <link rel='dns-prefetch' href='//s.w.org' />
@@ -94,7 +137,6 @@
             width: 100%;
 
         }
-
     </style>
 
 
@@ -129,7 +171,8 @@
 
                                     <form action="{{ route('tim-kiem') }}" method="GET">
                                         <input id="timkiem" type="text" name="search" class="form-control"
-                                            placeholder="Nhập tên phim hoặc tên diễn viên... or press (/)" autocomplete="off" oninput="validateInput(this)" required>
+                                            placeholder="Nhập tên phim hoặc tên diễn viên... or press (/)"
+                                            autocomplete="off" oninput="validateInput(this)" required>
                                     </form>
                                     <i class="animate-spin hl-spin4 hidden"></i>
 
@@ -315,18 +358,17 @@
                 })
             });
         </script>
-
     @elseif (session('status_registration'))
-    <script>
-        $(document).ready(function(event) {
-            swal({
-                title: 'Info!',
-                text: ' {{ session('status_registration') }}',
-                icon: 'info',
-                buttons: "Yes!",
-            })
-        });
-    </script>
+        <script>
+            $(document).ready(function(event) {
+                swal({
+                    title: 'Info!',
+                    text: ' {{ session('status_registration') }}',
+                    icon: 'info',
+                    buttons: "Yes!",
+                })
+            });
+        </script>
     @endif
     {{-- <script type="text/javascript">
         $('.history-movies').click(function() {
@@ -361,7 +403,7 @@
                 if (search.length > 0 && search.length < 3) {
                     $('#result').append(
                         '<li class="list-group-item" style="cursor:pointer;">Nhập ít nhất 3 ký tự. </li>'
-                        );
+                    );
                 } else if (search != '') {
                     $('#result').css('display', 'inherit');
                     var expression = new RegExp(search, "i");
@@ -432,17 +474,17 @@
         })
     </script>
 
-    <script>
+    {{-- <script>
         function validateInput(inputField) {
             // Xóa ký tự đặc biệt khỏi giá trị của trường input
             inputField.value = inputField.value.replace(/[^\w\sÀ-ÿẠ-ỹ]/gi, '');
         }
-    </script>
+    </script> --}}
 
     <script>
         // Lấy tham chiếu đến phần tử vùng trống
         var myDiv = document.getElementById("myDiv");
-    
+
         // Bắt sự kiện khi chuột được nhấp vào vùng trống
         myDiv.addEventListener("click", function(event) {
             // Kiểm tra xem có phải là vùng trống không
@@ -557,7 +599,7 @@
                 event.preventDefault();
                 document.getElementById("timkiem").focus();
             }
-            
+
         });
     </script>
     <!-- auto click top views add -->

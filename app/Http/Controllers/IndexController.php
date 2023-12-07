@@ -417,6 +417,7 @@ class IndexController extends Controller
     public function title($slug, $tap)
     {
         $movie = Movie::where('slug', $slug)->where('status', 1)->first();
+        dd($movie);
         $tapphim = $tap;
         return view('layout', compact('movie', 'tapphim'));
     }
