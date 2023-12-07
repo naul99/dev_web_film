@@ -170,9 +170,7 @@
         </div>
         <div class="row g-0 align-items-center pb-4">
             <div class="col-sm-6">
-                <div>
-                    <p class="mb-sm-0">Showing 1 to 10 of 57 entries</p>
-                </div>
+                
             </div>
             <div class="col-sm-6">
                 <div class="float-sm-end">
@@ -189,6 +187,7 @@
                             <a href="#" class="page-link"><i class="mdi mdi-chevron-right"></i></a>
                         </li>
                     </ul> --}}
+                    {!! $list_order->links('vendor.pagination.custom1') !!}
                 </div>
             </div>
         </div>

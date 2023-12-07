@@ -407,24 +407,24 @@
                 if (pay[i].checked && pay[i].value == 'vnpay') {
                     payValue = true;
                     //alert('thanh toan vnpay');
-                    // Swal.fire({
-                    //     title: "Bạn đồng ý chuyển đến trang thanh toán?",
-                    //     text: "Rất vui khi bạn thanh toán!",
-                    //     icon: "warning",
-                    //     showCancelButton: true,
-                    //     confirmButtonColor: "#3085d6",
-                    //     cancelButtonColor: "#d33",
-                    //     confirmButtonText: "Yes, it!"
-                    // }).then((result) => {
-                    //     if (result.isConfirmed) {
-                    //         $("#paymentVnpay").submit();
-                    //     }
-                    // });
                     Swal.fire({
-                    title: "Notify!",
-                    text: "He thng thanh toan tren vnpay dang bao tri. Vui long quay lại sao. Hoac chon phuong thuc khac!",
-                    icon: "error"
-                });
+                        title: "Bạn đồng ý chuyển đến trang thanh toán?",
+                        text: "Rất vui khi bạn thanh toán!",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "Yes, it!"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $("#paymentVnpay").submit();
+                        }
+                    });
+                //     Swal.fire({
+                //     title: "Notify!",
+                //     text: "He thng thanh toan tren vnpay dang bao tri. Vui long quay lại sao. Hoac chon phuong thuc khac!",
+                //     icon: "error"
+                // });
                 }
 
             }

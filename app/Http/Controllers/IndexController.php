@@ -885,7 +885,7 @@ class IndexController extends Controller
     public function history_order()
     {
         if (Auth::guard('customer')->check()) {
-            $list_order = Order::with('package:id,title', 'user:id,name,email')->where('customer_id', Session::get('customer_id'))->get();
+            $list_order = Order::with('package:id,title', 'user:id,name,email')->where('customer_id', Session::get('customer_id'))->paginate(8);
             //dd($list_order->toArray());
             return view('pages.history_order', compact('list_order'));
         } else {
