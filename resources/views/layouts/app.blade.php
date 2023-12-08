@@ -23,10 +23,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                       function hideURLbar() { window.scrollTo(0, 1); }
     </script>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
-    <link rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
-    @yield('css')
-
+    {{-- <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css"> --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
     <link rel="stylesheet" href="//cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
     <!-- Bootstrap Core CSS -->
     <link href="{{ asset('backend/css/bootstrap.css') }}" rel="stylesheet" type="text/css" />
@@ -457,14 +456,14 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         <!--//footer-->
     </div>
     @yield('js')
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+    {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script> --}}
     <script type="text/javascript" src="//cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <!-- new added graphs chart js-->
     <script src="{{ asset('backend/js/Chart.bundle.js') }}"></script>
     <script src="{{ asset('backend/js/utils.js') }}"></script>
 
-    @yield('js')
+    
     <script type="text/javascript">
         $('.select-movie').change(function() {
             var id = $(this).val();
@@ -1394,6 +1393,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <script src="{{ asset('backend/js/bootstrap.js') }}"></script>
 
     <!-- //Bootstrap Core JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
 
 </body>
 

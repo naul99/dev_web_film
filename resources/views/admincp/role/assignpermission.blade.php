@@ -53,6 +53,7 @@
         $(document).ready(function() {
 
             $('.selects').selectpicker();
+            
         });
     </script>
 
@@ -71,6 +72,7 @@
                    
                     $('.shown').selectpicker('destroy');
                     $('.shown').selectpicker('refresh');
+                    
                    
                 },
                 error:function(){
