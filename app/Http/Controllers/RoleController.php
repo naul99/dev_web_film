@@ -16,7 +16,7 @@ class RoleController extends Controller
      */
     public function __construct()
     {
-        //$this->middleware('permission:update role');
+        $this->middleware('permission:update role');
 
     }
     public function index()

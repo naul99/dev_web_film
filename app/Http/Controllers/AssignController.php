@@ -11,32 +11,34 @@ class AssignController extends Controller
     public function __construct()
     {
         $this->middleware('permission:assign permission');
-
     }
     public function assignPermissions()
     {
 
         $listRole = Role::all();
-        $listPermission = Permission::all();
 
-        return view('admincp.role.assignpermission', compact('listRole', 'listPermission'));
+        return view('admincp.role.assignpermission', compact('listRole'));
     }
     public function select_role()
     {
         $id = $_GET['id'];
         $role = Role::find($id);
+        $listPermission = Permission::all();
         $hasPermission = $role->permissions->pluck('name');
         $output = '';
-        for ($i = 0; $i < count($hasPermission); $i++) {
-            $output .= '<option>' . $hasPermission[$i] . '</option>';
+        foreach ($listPermission as $permission) {
+            $selected = $hasPermission->contains($permission->name) ? 'selected' : '';
+            $output .= "<option value='{$permission->id}' {$selected}>{$permission->name}</option>";
         }
+        // for ($i = 0; $i < count($hasPermission); $i++) {
+        //     $output .= '<option selected>' . $hasPermission[$i] . '</option>';
+        // }
         echo $output;
     }
     public function assignPermissionsToRole(Request $request)
     {
 
         $data = $request->all();
-        //dd($data);
         $role = Role::find($data['role']);
         if (!isset($data['permissions'])) {
             toastr()->warning('Quyen khong duoc rong!');

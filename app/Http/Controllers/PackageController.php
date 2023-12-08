@@ -8,6 +8,13 @@ use Illuminate\Http\Request;
 
 class PackageController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:viewer list', ['only' => 'index']);
+        $this->middleware('permission:create package', ['only' => ['create', 'store']]);
+        $this->middleware('permission:edit package', ['only' => ['update', 'edit', 'movie_hot']]);
+        $this->middleware('permission:delete package', ['only' => ['destroy']]);
+    }
     /**
      * Display a listing of the resource.
      *

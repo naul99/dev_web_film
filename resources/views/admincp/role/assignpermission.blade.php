@@ -20,29 +20,23 @@
                         <div class="form-group">
                             <label for="">Role</label>
                             <select style="width: 50%" class="form-control select-role" name="role">
+                                <option disabled selected>---Role---</option>
                                 @foreach ($listRole as $key => $ro)
-                                    <option value="{{ $ro->id }}">{{ $ro->name }}</option>
+                                    @if ($ro->name != 'Super Admin')
+                                        <option value="{{ $ro->id }}">{{ $ro->name }}</option>
+                                    @else
+                                        <option disabled value="{{ $ro->id }}">{{ $ro->name }}</option>
+                                    @endif
                                 @endforeach
 
                             </select>
                         </div>
-                        <div class="form-group">
-                            <label><strong>Permission have in the Role</strong></label><br />
-                            <select style="width: 50%" id="show_permission" class="form-control">
-                                <option>---Permission:...---</option>
-
+                        <div class="form-group" style="width: 50%">
+                            <label><strong> Role has permissions</strong></label><br />
+                            <select id="show_permission" multiple data-live-search="true"
+                                class="form-control selects selectpicker shown" name="permissions[]">
+                                <option disabled>---Permission:...---</option>
                             </select>
-                        </div>
-                        <div class="form-group">
-                            <label><strong>Permission:</strong></label><br />
-                            <select class="selects selectpicker" id="" multiple data-live-search="true"
-                                name="permissions[]">
-                                @foreach ($listPermission as $key => $permission)
-                                    <option value="{{ $permission->id }}">{{ $permission->name }}</option>
-                                @endforeach
-
-                            </select>
-
                         </div>
 
                         {!! Form::submit('Update ', ['class' => 'btn btn-success']) !!}
@@ -59,7 +53,6 @@
         $(document).ready(function() {
 
             $('.selects').selectpicker();
-
         });
     </script>
 
@@ -72,9 +65,18 @@
                 data: {
                     id: id
                 },
+                
                 success: function(data) {
                     $('#show_permission').html(data);
+                   
+                    $('.shown').selectpicker('destroy');
+                    $('.shown').selectpicker('refresh');
+                   
+                },
+                error:function(){
+                    alert('loi');
                 }
+                
             });
         })
     </script>
