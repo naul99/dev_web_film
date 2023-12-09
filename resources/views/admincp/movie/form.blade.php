@@ -53,16 +53,22 @@
                             </div>
                         @endif
                         @if (!isset($movie))
-                            {!! Form::open(['route' => 'movie.store', 'method' => 'POST', 'enctype' => 'multipart/form-data','onsubmit'=>'return false;']) !!}
+                            {!! Form::open([
+                                'route' => 'movie.store',
+                                'method' => 'POST',
+                                'enctype' => 'multipart/form-data',
+                                'onsubmit' => 'return false;',
+                            ]) !!}
                         @else
                             {!! Form::open(['route' => ['movie.update', $movie->id], 'method' => 'PUT', 'enctype' => 'multipart/form-data']) !!}
                         @endif
                         <div class="form-group">
                             {!! Form::label('title', 'Title', []) !!}
                             {!! Form::text('title', isset($movie) ? $movie->title : '', [
-                                'class' => 'form-control',
+                                'class' => 'form-control txtTest',
                                 'placeholder' => 'Enter values..',
                                 'id' => 'slug',
+                                'data-id'=>'txtTest',
                                 'onkeyup' => 'ChangeToSlug()',
                                 'autofocus',
                                 'required',
@@ -200,15 +206,6 @@
                                     'oninput' => 'this.setCustomValidity("")',
                                     'required',
                                 ]) !!}
-                            @else
-                                {!! Form::label('imdb', 'Imdb Code', []) !!}
-                                {!! Form::text('imdb', '', [
-                                    'class' => 'form-control',
-                                    'placeholder' => 'Enter values..',
-                                    'oninvalid' => 'this.setCustomValidity("Enter Imdb Here")',
-                                    'oninput' => 'this.setCustomValidity("")',
-                                    'readOnly',
-                                ]) !!}
                             @endif
                         </div>
 
@@ -226,7 +223,7 @@
                         </div>
                         <div class="form-group">
                             {!! Form::label('Hot', 'Hot', []) !!}
-                            {!! Form::select('hot', ['1' => 'Co', '0' => 'Khong'], isset($movie) ? $movie->hot : '', [
+                            {!! Form::select('hot', ['0' => 'Khong','1' => 'Co'], isset($movie) ? $movie->hot : '', [
                                 'class' => 'form-control',
                             ]) !!}
                         </div>
@@ -315,8 +312,8 @@
                             </select>
 
                         </div>
-                        <div class="form-group">
-                            {!! Form::label('Paid', 'Paid', []) !!}
+                        <div class="form-group" style="width:22%">
+                            {!! Form::label('Paid', 'Có phí', []) !!}
                             {!! Form::select('paid_movie', ['0' => 'Không', '1' => 'Có'], isset($movie) ? $movie->paid_movie : '', [
                                 'class' => 'form-control',
                             ]) !!}
@@ -422,9 +419,20 @@
                 alert('Vui lòng chọn ít nhất 1 thể loại!');
                 event.preventDefault();
                 return false;
-                
-                
+
+
             }
+        }
+    </script>
+    
+    <script>
+        document.getElementById("slug").addEventListener("input", forceLower);
+        function forceLower(evt) {
+            var words = evt.target.value.toLowerCase().split(/\s+/g);
+            var newWords = words.map(function(element) {
+                return element !== "" ? element[0].toUpperCase() + element.substr(1, element.length) : "";
+            });
+            evt.target.value = newWords.join(" ");
         }
     </script>
 @endsection

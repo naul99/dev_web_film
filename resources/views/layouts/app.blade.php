@@ -25,7 +25,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
     {{-- <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css"> --}}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
     <link rel="stylesheet" href="//cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
     <!-- Bootstrap Core CSS -->
     <link href="{{ asset('backend/css/bootstrap.css') }}" rel="stylesheet" type="text/css" />
@@ -384,9 +385,9 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                         <div class="user-name">
                                             <p>{{ Auth::user()->name }}</p>
                                             <span style="text-transform: uppercase;">
-                                               @foreach ( Auth::user()->roles as $role )
+                                                @foreach (Auth::user()->roles as $role)
                                                     Role: {{ $role->name }}
-                                               @endforeach
+                                                @endforeach
                                             </span>
                                         </div>
                                         <i class="fa fa-angle-down lnr"></i>
@@ -463,7 +464,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <script src="{{ asset('backend/js/Chart.bundle.js') }}"></script>
     <script src="{{ asset('backend/js/utils.js') }}"></script>
 
-    
+
     <script type="text/javascript">
         $('.select-movie').change(function() {
             var id = $(this).val();

@@ -26,7 +26,7 @@
                             <tr>
                                 <th scope="row">{{ $key }}</th>
                                 <td>{{ $role->name }}</td>
-                                <td>{!! $permission !!}</td>
+                                <td style="text-transform: capitalize;">{!! $permission !!}</td>
                                 <td>
                                     {!! Form::open([
                                         'method' => 'DELETE',

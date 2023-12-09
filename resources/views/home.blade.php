@@ -52,59 +52,56 @@
 
 @section('content1')
     @can('statist')
-    <div class="col-md-3 stat">
-        <div class="content-top-1">
-            <div class="col-md-6 top-content">
-                <h5>Online</h5>
-                <label><div id="userOnline"></div> 
-                    {{-- {{ $onlineusers }} --}}
-                </label>
+        <div class="col-md-3 stat">
+            <div class="content-top-1">
+                <div class="col-md-6 top-content">
+                    <h5>Online</h5>
+                    <label style="color: #1ce96a">
+                        <div id="userOnline"></div>
+                        {{-- {{ $onlineusers }} --}}
+                    </label>
+                </div>
+
+                <div class="clearfix"></div>
             </div>
-
-            <div class="clearfix"></div>
         </div>
-    </div>
 
-    <div class="col-md-3 stat">
-        <div class="content-top-1">
-            <div class="col-md-6 top-content">
-                <h5>Total Views </h5>
-                <label>
-                    {{ $pageViews->sum('total') }}
-                </label>
+        <div class="col-md-3 stat">
+            <div class="content-top-1">
+                <div class="col-md-6 top-content">
+                    <h5>Total Views </h5>
+                    <label>
+                        {{ $pageViews->sum('total') }}
+                    </label>
+                </div>
+
+                <div class="clearfix"></div>
             </div>
-
-            <div class="clearfix"></div>
         </div>
-    </div>
     @endcan
-    
 @endsection
 
 @section('content')
-
     <div class="charts">
         <div class="col-md-4 charts-grids widget">
             <div class="card-header">
                 <h3>Top Browser</h3>
             </div>
             <div id="container" style="width: 100%; height: 270px">
-                <div class="stats-body">
-                    <ul class="list-unstyled">
-                        @foreach ($top_browser as $key=> $browser)
-                        <li>{{ $browser->browser }} <span class="pull-right">Top {{ $key+1 }}-{{ $browser->total }}</span>
-                            {{-- <div class="progress progress-striped active progress-right">
-                                <div class="bar green" style="width:{{ $browser->total }}%;"></div>
-                            </div> --}}
-                            
-                        </li>
+                <table class="table">
+                    <thead>
+                        @foreach ($top_browser as $key => $browser)
+                            <tr>
+                                <th>{{ $browser->browser }}</th>
+                                <th>Top {{ $key + 1 }}-({{ $browser->total }})</th>
+                            </tr>
                         @endforeach
-                    </ul>
-                </div>
+                    </thead>
+                </table>
 
             </div>
-
         </div>
+
         {{-- <div class="col-md-4 charts-grids widget states-mdl">
             <div class="card-header">
                 <h3>Column & Line Graph</h3>
@@ -264,15 +261,14 @@
     <script>
         $('document').ready(function() {
             $.ajax({
-                    url: "{{ route('useronline') }}",
-                    type: "GET",
-                   
-                    success: function(data) {
-                         //console.log(data)
-                        $("#userOnline").html(data)
-                    }
+                url: "{{ route('useronline') }}",
+                type: "GET",
+
+                success: function(data) {
+                    //console.log(data)
+                    $("#userOnline").html(data)
                 }
-            )
+            })
             setInterval(function() {
                 getRealData()
             }, 60000); //request every x seconds
@@ -282,17 +278,16 @@
         function getRealData(event) {
             // event.preventDefault();
             $.ajax({
-                    url: "{{ route('useronline') }}",
-                    type: "GET",
-                   
-                    success: function(data) {
-                         //console.log(data)
-                        $("#userOnline").html(data)
-                    }
+                url: "{{ route('useronline') }}",
+                type: "GET",
+
+                success: function(data) {
+                    //console.log(data)
+                    $("#userOnline").html(data)
                 }
-            )};
+            })
+        };
     </script>
 @section('js')
-    
 @endsection
 @endsection
