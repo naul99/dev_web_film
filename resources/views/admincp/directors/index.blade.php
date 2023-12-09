@@ -48,6 +48,7 @@
                                             'oninvalid' => 'this.setCustomValidity("Enter Title Here")',
                                             'oninput' => 'this.setCustomValidity("")',
                                             'required',
+                                            'style'=>'width:100%',
                                         ]) !!}
                                     </div>
                                     <div class="form-group">
@@ -57,6 +58,7 @@
                                             'placeholder' => 'Enter values..',
                                             'id' => 'convert_slug',
                                             'required',
+                                            'style'=>'width:100%',
                                         ]) !!}
                                     </div>
                                     <div class="form-group">
@@ -69,12 +71,13 @@
                                             'oninvalid' => 'this.setCustomValidity("Enter Description Here")',
                                             'oninput' => 'this.setCustomValidity("")',
                                             'required',
+                                            'style'=>'width:100%',
                                         ]) !!}
                                     </div>
                                     <div class="form-group">
                                         {!! Form::label('Active', 'Active', []) !!}
                                         {!! Form::select('status', ['1' => 'Hien thi', '0' => 'Khong'], isset($directors) ? $directors->status : '', [
-                                            'class' => 'form-control',
+                                            'class' => 'form-control','style'=>'width:100%',
                                         ]) !!}
                                     </div>
                                     @if (!isset($directors))

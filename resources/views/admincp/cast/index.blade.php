@@ -39,19 +39,19 @@
                                @endif
                                <div class="form-group">
                                         {!! Form::label('title', 'Title', []) !!}
-                                        {!! Form::text('title', isset($cast)?$cast->title:'', ['class'=>'form-control','placeholder'=>'Enter values..','id'=>'slug','onkeyup'=>'ChangeToSlug()','autofocus','oninvalid'=>'this.setCustomValidity("Enter Title Here")','oninput'=>'this.setCustomValidity("")']) !!}
+                                        {!! Form::text('title', isset($cast)?$cast->title:'', ['class'=>'form-control','style'=>'width:100%','placeholder'=>'Enter values..','id'=>'slug','onkeyup'=>'ChangeToSlug()','autofocus','oninvalid'=>'this.setCustomValidity("Enter Title Here")','oninput'=>'this.setCustomValidity("")']) !!}
                                     </div>
                                     <div class="form-group">
                                         {!! Form::label('slug', 'Slug', []) !!}
-                                        {!! Form::text('slug', isset($cast)?$cast->slug:'', ['class'=>'form-control','placeholder'=>'Enter values..','id'=>'convert_slug']) !!}
+                                        {!! Form::text('slug', isset($cast)?$cast->slug:'', ['class'=>'form-control','style'=>'width:100%','placeholder'=>'Enter values..','id'=>'convert_slug']) !!}
                                     </div>
                                     <div class="form-group">
                                         {!! Form::label('description', 'Description', []) !!}
-                                        {!! Form::textarea('description', isset($cast)?$cast->description:'', ['style'=>'resize:none','class'=>'form-control','placeholder'=>'Enter values..','id'=>'description', 'oninvalid'=>'this.setCustomValidity("Enter Description Here")','oninput'=>'this.setCustomValidity("")']) !!}
+                                        {!! Form::textarea('description', isset($cast)?$cast->description:'', ['style'=>'resize:none','style'=>'width:100%','class'=>'form-control','placeholder'=>'Enter values..','id'=>'description', 'oninvalid'=>'this.setCustomValidity("Enter Description Here")','oninput'=>'this.setCustomValidity("")']) !!}
                                     </div>
                                     <div class="form-group">
                                         {!! Form::label('Active', 'Active', []) !!}
-                                        {!! Form::select('status', ['1'=>'Hien thi','0'=>'Khong'],isset($cast)?$cast->status:'', ['class'=>'form-control']) !!}
+                                        {!! Form::select('status', ['1'=>'Hien thi','0'=>'Khong'],isset($cast)?$cast->status:'', ['class'=>'form-control','style'=>'width:100%',]) !!}
                                     </div>
                                 @if (!isset($cast))
                                {!! Form::submit('Add ', ['class'=>'btn btn-success', 'data-toggles' => 'tooltip',

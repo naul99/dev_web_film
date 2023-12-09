@@ -37,30 +37,7 @@
 
 
 
-        .glitch-text,
-        button {
-            font-family: monospace;
-            font-weight: bold;
-        }
-
-        .glitch-text::before {
-            content: 'ERROR 404';
-            color: black;
-            text-shadow: 0px 0px 5px 10px black !IMPORTANT;
-            -webkit-filter: blur(7px);
-            -moz-filter: blur(7px);
-            -o-filter: blur(7x);
-            -ms-filter: blur(7px);
-            filter: blur(7px);
-            display: block;
-            position: absolute;
-            z-index: -1;
-            font-size: 132px;
-            left: 0px;
-            right: 0px;
-            margin-top: -30px;
-            opacity: .5;
-        }
+       
 
         .glitch-text {
             position: relative;
@@ -75,33 +52,9 @@
         }
 
 
-        button {
-            display: block;
-            opacity: .6;
-            box-shadow: 0px 0px 3px 6px white, 0px 0px 3px white;
-            text-shadow: 0px 0px 3px black;
-            background: white;
-            border: 0px;
-            padding: 7px;
-            margin: 0 auto;
-            outline: none;
-            cursor: pointer;
-            margin-top: 30px;
-            font-size: 16px;
-            transition: 200ms;
-        }
+       
 
-        button:hover,
-        button:focus,
-        button:active {
-            box-shadow: 0px 0px 3px 6px black;
-            text-shadow: 0px 0px 3px white;
-            background: black;
-            color: white;
-            transition: 200ms;
-            border-top-left-radius: 5px;
-            border-bottom-right-radius: 5px;
-        }
+      
 
 
         .paused {

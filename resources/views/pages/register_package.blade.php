@@ -274,10 +274,10 @@
                                     <li><b>Mô tả</b> {{ $package->description }} </li>
                                 </ul>
                                 @if (Auth::guard('customer')->check())
-                                    <button style="submit" class="pricingTable-signup">Order Now</button>
+                                    <button style="submit" class="pricingTable-signup">Đăng Ký Ngay</button>
                                 @else
                                     <a href="javascription:void(0);" class="pricingTable-signup" data-toggle="modal"
-                                        data-target="#exampleModal1">Order Now</a>
+                                        data-target="#exampleModal1">Đăng Ký Ngay</a>
                                 @endif
                             </div>
                         </div>
@@ -310,10 +310,10 @@
                                     <li><b>Mô tả</b> {{ $package->description }} </li>
                                 </ul>
                                 @if (Auth::guard('customer')->check())
-                                <button style="submit" class="pricingTable-signup">Order Now</button>
+                                <button style="submit" class="pricingTable-signup">Đăng Ký Ngay</button>
                                 @else
                                 <a href="javascription:void(0);" class="pricingTable-signup" data-toggle="modal"
-                                    data-target="#exampleModal1">Order Now</a>
+                                    data-target="#exampleModal1">Đăng Ký Ngay</a>
                             @endif
                             </div>
                         </div>
@@ -345,10 +345,10 @@
                                     <li><b>Mô tả</b> {{ $package->description }} </li>
                                 </ul>
                                 @if (Auth::guard('customer')->check())
-                                <button style="submit" class="pricingTable-signup">Order Now</button>
+                                <button style="submit" class="pricingTable-signup">Đăng Ký Ngay</button>
                                 @else
                                 <a href="javascription:void(0);" class="pricingTable-signup" data-toggle="modal"
-                                    data-target="#exampleModal1">Order Now</a>
+                                    data-target="#exampleModal1">Đăng Ký Ngay</a>
                             @endif
                             </div>
                         </div>
