@@ -42,11 +42,11 @@ class AssignController extends Controller
         $role = Role::find($data['role']);
         if (!isset($data['permissions'])) {
             toastr()->warning('Quyen khong duoc rong!');
-            return redirect()->back();
+            return redirect(route('role.index'));
         } else {
             $role->syncPermissions($data['permissions']);
             toastr()->success('Them quyen thanh cong');
-            return redirect()->back();
+            return redirect(route('role.index'));
         }
     }
 }

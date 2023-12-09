@@ -17,13 +17,15 @@ class RoleController extends Controller
     public function __construct()
     {
         $this->middleware('permission:update role');
-
     }
     public function index()
     {
-        $listRole = Role::all();
-        $listPermission = Permission::all();
-        return view('admincp.role.index', compact('listRole','listPermission'));
+        $rolesWithPermissions = Role::with('permissions')->get();
+        // for ($i = 0; $i < count($hasPermission); $i++) {
+        //      $hasPermission[$i];
+        // }
+
+        return view('admincp.role.index', compact('rolesWithPermissions'));
     }
 
     /**
@@ -65,7 +67,6 @@ class RoleController extends Controller
      */
     public function show($id)
     {
-        
     }
 
     /**
@@ -107,5 +108,4 @@ class RoleController extends Controller
         Role::find($id)->delete();
         return redirect(route('role.index'));
     }
-    
 }
