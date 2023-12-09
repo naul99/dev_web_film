@@ -91,7 +91,9 @@
                                         @endif
                                     </td>
 
-                                    <td contenteditable class="edit_imdbcode" data-movie_id="{{ $mov->id }}">
+                                    <td @if (auth()->user()->can('edit movie') ||
+                                            auth()->user()->can('create movie')) contenteditable class="edit_imdbcode" data-movie_id="{{ $mov->id }}" @endif
+                                        data-toggles="tooltip" title="Double click to open page rate">
                                         <a style="color: #000" onclick="return false" ondblclick="window.open(this.href)"
                                             href="https://www.imdb.com/title/{{ $mov->imdb }}"
                                             target="true">{{ $mov->imdb }}</a>
