@@ -18,7 +18,7 @@
                         @else
                             {!! Form::open(['route' => ['role.update', $role->id], 'method' => 'PUT']) !!}
                         @endif
-                        <div class="form-group">
+                        <div class="form-group" style="width: 55%">
                             {!! Form::label('name', 'Name Role', []) !!}
                             {!! Form::text('name',isset($role) ? $role->name : '', [
                                 'class' => 'form-control',
@@ -30,7 +30,19 @@
                                 // isset($role)?'readOnly' : '',
                             ]) !!}
                         </div>
-                    
+                        @if (!isset($role))
+                        <div class="form-group" style="width: 50%">
+                            <label><strong>  Permissions</strong></label><br />
+                            <select id="show_permission" multiple data-live-search="true"
+                                class="form-control selects selectpicker shown" name="permissions[]">
+                                <option disabled>---Permission:...---</option>
+                                @foreach ($listPermission as $permission)
+                                <option>{{ $permission->name }}</option>
+                                @endforeach
+                            </select>
+                        </div> 
+                        @endif
+                       
                       
                         @if (!isset($role))
                             {!! Form::submit('Them ', ['class' => 'btn btn-success']) !!}
@@ -56,7 +68,7 @@
                         @else
                             {{-- {!! Form::open(['route' => ['role.update', $role->id], 'method' => 'PUT']) !!} --}}
                         @endif
-                        <div class="form-group">
+                        <div class="form-group" style="width: 55%">
                             {!! Form::label('name', 'Name Permissions', []) !!}
                             {!! Form::text('name','', [
                                 'class' => 'form-control',
@@ -80,4 +92,11 @@
             </div>
         </div>
     </div>
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            $('.selects').selectpicker();
+            
+        });
+    </script>
 @endsection

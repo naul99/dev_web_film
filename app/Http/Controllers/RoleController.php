@@ -35,8 +35,8 @@ class RoleController extends Controller
      */
     public function create()
     {
-
-        return view('admincp.role.form');
+        $listPermission = Permission::all();
+        return view('admincp.role.form',compact('listPermission'));
     }
 
     /**
@@ -48,7 +48,10 @@ class RoleController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        Role::create(['name' => $data['name']]);
+        $role = Role::create(['name' => $data['name']]);
+        
+        $role->syncPermissions($data['permissions']);
+        toastr()->success('Them vai tro thanh cong');
         return redirect()->back();
     }
 
@@ -77,8 +80,9 @@ class RoleController extends Controller
      */
     public function edit($id)
     {
+        $listPermission = Permission::all();
         $role = Role::find($id);
-        return view('admincp.role.form', compact('role'));
+        return view('admincp.role.form', compact('role','listPermission'));
     }
 
     /**
@@ -94,6 +98,7 @@ class RoleController extends Controller
         $user = Role::find($id);
         $user->name = $data['name'];
         $user->save();
+        toastr()->success('Cap nhat vai tro thanh cong');
         return redirect(route('role.index'));
     }
 
@@ -106,6 +111,7 @@ class RoleController extends Controller
     public function destroy($id)
     {
         Role::find($id)->delete();
+        toastr()->success('Xoa vai tro thanh cong');
         return redirect(route('role.index'));
     }
 }

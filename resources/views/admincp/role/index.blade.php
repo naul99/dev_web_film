@@ -33,7 +33,7 @@
                                         'route' => ['role.destroy', $role->id],
                                         'onsubmit' => 'return confirm("Are you sure you want to delete this ( ' . $role->name . ' )?")',
                                     ]) !!}
-                                    {!! Form::submit('Delete', ['class' => 'btn btn-danger', 'disabled']) !!}
+                                    {!! Form::submit('Delete', ['class' => 'btn btn-danger', '']) !!}
                                     <br>
                                     <br>
                                     {!! Form::close() !!}
