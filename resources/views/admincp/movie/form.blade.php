@@ -57,7 +57,7 @@
                                 'route' => 'movie.store',
                                 'method' => 'POST',
                                 'enctype' => 'multipart/form-data',
-                                'onsubmit' => 'return false;',
+                                'onsubmit' => 'return true;',
                             ]) !!}
                         @else
                             {!! Form::open(['route' => ['movie.update', $movie->id], 'method' => 'PUT', 'enctype' => 'multipart/form-data']) !!}
@@ -68,7 +68,7 @@
                                 'class' => 'form-control txtTest',
                                 'placeholder' => 'Enter values..',
                                 'id' => 'slug',
-                                'data-id'=>'txtTest',
+                                'data-id' => 'txtTest',
                                 'onkeyup' => 'ChangeToSlug()',
                                 'autofocus',
                                 'required',
@@ -223,7 +223,7 @@
                         </div>
                         <div class="form-group">
                             {!! Form::label('Hot', 'Hot', []) !!}
-                            {!! Form::select('hot', ['0' => 'Khong','1' => 'Co'], isset($movie) ? $movie->hot : '', [
+                            {!! Form::select('hot', ['0' => 'Khong', '1' => 'Co'], isset($movie) ? $movie->hot : '', [
                                 'class' => 'form-control',
                             ]) !!}
                         </div>
@@ -409,6 +409,7 @@
     </script>
     <script>
         function displayRadioValue(event) {
+            var checkboxes = document.querySelectorAll('input[type="checkbox"]')
             var gen = document.getElementsByName('genre[]');
             var genValue = false;
             for (i = 0; i < gen.length; i++) {
@@ -419,14 +420,13 @@
                 alert('Vui lòng chọn ít nhất 1 thể loại!');
                 event.preventDefault();
                 return false;
-
-
             }
         }
     </script>
-    
+
     <script>
         document.getElementById("slug").addEventListener("input", forceLower);
+
         function forceLower(evt) {
             var words = evt.target.value.toLowerCase().split(/\s+/g);
             var newWords = words.map(function(element) {

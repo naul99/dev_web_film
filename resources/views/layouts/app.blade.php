@@ -23,10 +23,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                       function hideURLbar() { window.scrollTo(0, 1); }
     </script>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
-    {{-- <link rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css"> --}}
     <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
+        href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+    {{-- <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css"> --}}
+    @yield('css')
     <link rel="stylesheet" href="//cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
     <!-- Bootstrap Core CSS -->
     <link href="{{ asset('backend/css/bootstrap.css') }}" rel="stylesheet" type="text/css" />
@@ -40,8 +41,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <!-- //side nav css file -->
     @yield('css')
     <!-- js-->
+    
     <script src="{{ asset('backend/js/jquery-1.11.1.min.js') }}"></script>
     <script src="{{ asset('backend/js/modernizr.custom.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
     <!--webfonts-->
     <link href="//fonts.googleapis.com/css?family=PT+Sans:400,400i,700,700i&amp;subset=cyrillic,cyrillic-ext,latin-ext"
         rel="stylesheet" />
@@ -463,7 +466,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <!-- new added graphs chart js-->
     <script src="{{ asset('backend/js/Chart.bundle.js') }}"></script>
     <script src="{{ asset('backend/js/utils.js') }}"></script>
-
+    @yield('js')
 
     <script type="text/javascript">
         $('.select-movie').change(function() {
@@ -1394,7 +1397,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <script src="{{ asset('backend/js/bootstrap.js') }}"></script>
 
     <!-- //Bootstrap Core JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
+    
 
 </body>
 

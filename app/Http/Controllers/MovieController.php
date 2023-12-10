@@ -156,8 +156,8 @@ class MovieController extends Controller
             $movie->category_id = $data['category_id'];
 
             $movie->country_id = $data['country_id'];
-            $movie->ngaytao = Carbon::now('Asia/Ho_Chi_Minh');
-            $movie->ngaycapnhat = Carbon::now('Asia/Ho_Chi_Minh');
+            $movie->created_at = Carbon::now('Asia/Ho_Chi_Minh');
+            $movie->updated_at = Carbon::now('Asia/Ho_Chi_Minh');
 
             if (!isset($data['genre'])) {
                 toastr()->warning('Genre not empty!', 'Warning');
@@ -359,7 +359,7 @@ class MovieController extends Controller
     public function update(Request $request, $id)
     {
 
-        try {
+        // try {
             $movie = Movie::find($id);
             $validator = Validator::make($data = $request->all(), [
                 'title' => Rule::unique('movies')->ignore($movie->id),
@@ -388,7 +388,7 @@ class MovieController extends Controller
             $movie->category_id = $data['category_id'];
             $movie->country_id = $data['country_id'];
 
-            $movie->ngaycapnhat = Carbon::now('Asia/Ho_Chi_Minh');
+            $movie->updated_at = Carbon::now('Asia/Ho_Chi_Minh');
             $episodes_count = Movie::withCount(['episode' => function ($query) {
                 $query->select(DB::raw('count(distinct(episode))'));
             }])->find($id);
@@ -502,9 +502,10 @@ class MovieController extends Controller
 
             toastr()->success('Movie "' . $movie->title . '" updated successfully!', 'Update');
             return redirect()->back();
-        } catch (\Throwable $th) {
-            toastr()->error('Movie update error!', 'Error');
-        }
+        // } 
+        // catch (\Throwable $th) {
+        //     toastr()->error('Movie update error!', 'Error');
+        // }
     }
 
     /**

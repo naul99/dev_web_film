@@ -329,7 +329,7 @@
                         <div class="form-check mb-1 small">
                             <input name="agree" class="form-check-input" type="checkbox" value="" id="tnc" required>
                             <label class="form-check-label" for="tnc">
-                                I agree to the <a href="#">terms and conditions</a>
+                                Tôi đồng ý với <a href="#">các điều khoản và các điều kiện</a>
                             </label>
                         </div>
 
@@ -343,7 +343,7 @@
                             \Session::put('total_vnpay', $total_vnpay);
                             \Session::put('total_momo', $total_momo);
                         @endphp
-                        <button class="btn btn-primary w-100 mt-2" onclick = "fun()">Place order</button>
+                        <button class="btn btn-primary w-100 mt-2" onclick = "fun()">Thanh Toán Ngay</button>
                         {{-- <a class="btn btn-primary m-3" href="{{ route('processTransaction') }}">Pay $100</a> --}}
 
                         <form id="paymentVnpay" action="{{ route('paymentVnpay') }}" method="POST"
