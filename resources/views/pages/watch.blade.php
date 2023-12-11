@@ -29,7 +29,7 @@
         <div class="halim-panel-filter">
             <div class="panel-heading">
                 <div class="row">
-                    <div class="col-xs-6">
+                    <div class="col-xs-10">
                         <div class="yoast_breadcrumb hidden-xs">
                             <span><a href="/">HOME
                             </a> » <a href="">{{ $movie->title }}

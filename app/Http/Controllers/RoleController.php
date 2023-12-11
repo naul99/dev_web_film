@@ -47,7 +47,17 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->all();
+       // $data = $request->all();
+        $data = $request->validate(
+            [
+                'name' => 'required|unique:roles|max:255',
+                'permissions'=>'required'
+            ],
+            [
+                'name.unique' => 'Vai trò đã tồn tại.',
+                'permissions.required'=>'Quyền không được rỗng có ít nhất 1 quyền.'
+            ]
+        );
         $role = Role::create(['name' => $data['name']]);
         
         $role->syncPermissions($data['permissions']);
@@ -94,11 +104,19 @@ class RoleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = $request->all();
+        // $data = $request->all();
+        $data = $request->validate(
+            [
+                'name' => 'required|unique:roles|max:255',  
+            ],
+            [
+                'name.unique' => 'Vai trò đã tồn tại.',
+            ]
+        );
         $user = Role::find($id);
         $user->name = $data['name'];
         $user->save();
-        toastr()->success('Cap nhat vai tro thanh cong');
+        toastr()->success('Updated role form "'.$user->name.'" become "'.$data['name']. '" success.');
         return redirect(route('role.index'));
     }
 
@@ -111,7 +129,7 @@ class RoleController extends Controller
     public function destroy($id)
     {
         Role::find($id)->delete();
-        toastr()->success('Xoa vai tro thanh cong');
+        toastr()->success('Deleted role success.');
         return redirect(route('role.index'));
     }
 }

@@ -97,7 +97,6 @@
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     @yield('css')
     <link rel='dns-prefetch' href='//s.w.org' />
-
     <link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -131,17 +130,12 @@
 
         }
     </style>
-    <style type="text/css" id="wp-custom-css">
-        .textwidget p a img {
-            width: 100%;
-
-        }
-    </style>
 
 
 </head>
 
 <body id="myDiv" class="home blog halimthemes halimmovies" data-masonry="">
+
     <header id="header">
         <div class="container">
             <div class="row" id="headwrap">

@@ -5,7 +5,7 @@
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header"> Quan Ly Role, Permission</div>
+                    <div class="card-header"> Assign Permission</div>
 
                     <div class="card-body">
                         @if (session('status'))
