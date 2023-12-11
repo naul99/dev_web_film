@@ -270,8 +270,8 @@
                                 <ul class="pricing-content">
                                     <li><b>{{ $package->time }}</b> Ngày</li>
                                     <input type="hidden" name="time_package" value="{{ $package->time }}">
-                                    <input type="hidden" name="description_package" value="{{ $package->description }}">
-                                    <li><b>Mô tả</b> {{ $package->description }} </li>
+                                    <input type="hidden" name="description_package" value="{!! $package->description !!}">
+                                    <li><b>Mô tả</b> {!! $package->description !!} </li>
                                 </ul>
                                 @if (Auth::guard('customer')->check())
                                     <button style="submit" class="pricingTable-signup">Đăng Ký Ngay</button>
@@ -306,8 +306,8 @@
                                 <ul class="pricing-content">
                                     <li><b>{{ $package->time }}</b> Ngày</li>
                                     <input type="hidden" name="time_package" value="{{ $package->time }}">
-                                    <input type="hidden" name="description_package" value="{{ $package->description }}">
-                                    <li><b>Mô tả</b> {{ $package->description }} </li>
+                                    <input type="hidden" name="description_package" value="{!! $package->description !!}">
+                                    <li><b>Mô tả</b> {!! $package->description !!} </li>
                                 </ul>
                                 @if (Auth::guard('customer')->check())
                                 <button style="submit" class="pricingTable-signup">Đăng Ký Ngay</button>
@@ -341,8 +341,8 @@
                                 <ul class="pricing-content">
                                     <input type="hidden" name="time_package" value="{{ $package->time }}">
                                     <li><b>{{ $package->time }}</b> Ngày</li>
-                                    <input type="hidden" name="description_package" value="{{ $package->description }}">
-                                    <li><b>Mô tả</b> {{ $package->description }} </li>
+                                    <input type="hidden" name="description_package" value="{!! $package->description !!}">
+                                    <li><b>Mô tả</b> {!! $package->description !!} </li>
                                 </ul>
                                 @if (Auth::guard('customer')->check())
                                 <button style="submit" class="pricingTable-signup">Đăng Ký Ngay</button>

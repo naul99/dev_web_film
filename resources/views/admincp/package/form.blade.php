@@ -44,12 +44,15 @@
                             ]) !!}
                         </div>
                         <div class="form-group">
+                            <style>
+                                .cke_1 {
+                                    width: 91%;
+                                }
+                            </style>
                             {!! Form::label('description', 'Description', []) !!}
-                            {!! Form::text('description', isset($package) ? $package->description : '', [
+                            {!! Form::textarea('description', isset($package) ? $package->description : '', [
                                 'class' => 'form-control',
                                 'placeholder' => 'Enter values..',
-                                'id' => 'convert_slug',
-                                'onchange' => 'slug()',
                             ]) !!}
                         </div>
                         
@@ -102,4 +105,9 @@
             </div>
         </div>
     </div>
+    <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
+
+    <script>
+        CKEDITOR.replace('description');
+    </script>
 @endsection

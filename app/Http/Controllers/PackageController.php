@@ -129,7 +129,6 @@ class PackageController extends Controller
 
                 ]
             );
-
             $package = Movie_Package::find($id);
             $package->title = $data['title'];
             $package->description = $data['description'];

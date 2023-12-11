@@ -89,9 +89,16 @@
     .text-navy {
         color: #1ab394;
     }
+    
+    a:hover{
+        color: red;
+    }
+
 </style>
 
 <body>
+
+    <a  style="position: absolute; right: 0; top: 0;margin-right: 4%;margin-top: 2%;}" href="{{ route('register-package') }}"><i class="fa-solid fa-circle-xmark fa-2x" aria-hidden="true"></i></a>
     @if (\Session::has('error'))
         <div class="alert alert-danger">{{ \Session::get('error') }}</div>
         {{ \Session::forget('error') }}
@@ -103,7 +110,7 @@
         {{ \Session::forget('total_paypal') }}
     @endif
     <div class="container">
-        <h1 class="h3 mb-5">Payment</h1>
+        <h1 class="h3 mb-5">Thanh Toán</h1>
         <div class="row">
             <!-- Left -->
             <div class="col-lg-9">
@@ -119,8 +126,9 @@
                                     </div>
                                     <div class="feed-item-list">
                                         <div>
-                                            <h5 class="font-size-16 mb-1">Billing Info</h5>
-                                            <p class="text-muted text-truncate mb-4">Sed ut perspiciatis unde omnis iste
+                                            <h5 class="font-size-16 mb-1">Thông tin khách hàng</h5>
+                                            <p class="text-muted text-truncate mb-4">Tên và email được lấy theo tài
+                                                khoản đã đăng nhập trước đó.
                                             </p>
                                             <div class="mb-3">
                                                 <form>
@@ -128,8 +136,8 @@
                                                         <div class="row">
                                                             <div class="col-lg-4">
                                                                 <div class="mb-3">
-                                                                    <label class="form-label"
-                                                                        for="billing-name">Name</label>
+                                                                    <label class="form-label" for="billing-name">Tên
+                                                                        <span style="color: red">*</span></label>
                                                                     <input type="text" class="form-control"
                                                                         id="billing-name"
                                                                         placeholder="{{ $user->name }}" readonly>
@@ -138,41 +146,25 @@
                                                             <div class="col-lg-4">
                                                                 <div class="mb-3">
                                                                     <label class="form-label"
-                                                                        for="billing-email-address">Email
-                                                                        Address</label>
+                                                                        for="billing-email-address">Đại chỉ Email <span
+                                                                            style="color: red">*</span>
+                                                                    </label>
                                                                     <input type="email" class="form-control"
                                                                         id="billing-email-address"
                                                                         placeholder="{{ $user->email }}" readonly>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-lg-4">
+                                                            {{-- <div class="col-lg-4">
                                                                 <div class="mb-3">
                                                                     <label class="form-label"
-                                                                        for="billing-phone">Phone</label>
+                                                                        for="billing-phone">phone</label>
                                                                     <input type="text" class="form-control"
                                                                         id="billing-phone" placeholder="Enter Phone no."
                                                                         readonly>
                                                                 </div>
-                                                            </div>
+                                                            </div> --}}
                                                         </div>
-                                                        {{-- <div class="row">
-                                                            <div class="col-lg-4">
-                                                                <div class="mb-4 mb-lg-0">
-                                                                    <label class="form-label">Country</label>
-                                                                    <select class="form-control form-select"
-                                                                        title="Country">
-                                                                        <option value="0">Select Country</option>
-                                                                        <option value="AF">Afghanistan</option>
-                                                                        <option value="AL">Albania</option>
-                                                                        <option value="DZ">Algeria</option>
-                                                                        <option value="AS">American Samoa</option>
-                                                                        <option value="AD">Andorra</option>
-                                                                        <option value="AO">Angola</option>
-                                                                        <option value="AI">Anguilla</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </div> --}}
+
                                                     </div>
                                                 </form>
                                             </div>
@@ -193,7 +185,7 @@
                                                 $date = Session::get('package_time');
                                                 $price = Session::get('package_price');
                                             @endphp
-                                            <h5 class="font-size-16 mb-1">Package Info</h5>
+                                            <h5 class="font-size-16 mb-1">Thông tin gói phim</h5>
                                             {{-- <p class="text-muted text-truncate mb-4">Sed ut perspiciatis unde omnis iste
                                             </p> --}}
                                             <div class="mb-3">
@@ -214,7 +206,7 @@
                                                                         </p>
                                                                         <dl class="small m-b-none">
                                                                             <dt>Mô tả:</dt>
-                                                                            <dd>{{ $validate->description }}</dd>
+                                                                            <dd>{!! $validate->description !!}</dd>
                                                                         </dl>
 
                                                                         {{-- <div class="m-t-sm">
@@ -251,12 +243,12 @@
                                     </div>
                                     <div class="feed-item-list">
                                         <div>
-                                            <h5 class="font-size-16 mb-1">Payment Info</h5>
-                                            <p class="text-muted text-truncate mb-4">Duis arcu tortor, suscipit eget
-                                            </p>
+                                            <h5 class="font-size-16 mb-1">Thanh toán</h5>
+                                            <p class="text-muted text-truncate mb-4">Chọn 1 trong 3 loại thanh toán bên
+                                                dưới. </p>
                                         </div>
                                         <div>
-                                            <h5 class="font-size-14 mb-3">Payment method :</h5>
+                                            <h5 class="font-size-14 mb-3">Phương thức thanh toán :</h5>
                                             <div class="row">
                                                 <div class="col-lg-3 col-sm-6">
                                                     <div data-bs-toggle="collapse">
@@ -314,20 +306,21 @@
             <div class="col-lg-3">
                 <div class="card position-sticky top-0">
                     <div class="p-3 bg-light bg-opacity-10">
-                        <h6 class="card-title mb-3">Order Summary</h6>
+                        <h6 class="card-title mb-3">Tóm tắt đơn hàng</h6>
                         <div class="d-flex justify-content-between mb-1 small">
-                            <span>Subtotal</span> <span>{{ number_format($price, 0, '', ',') }}.Vnđ</span>
+                            <span>Tạm tính</span> <span>{{ number_format($price, 0, '', ',') }}.Vnđ</span>
                         </div>
                         <div class="d-flex justify-content-between mb-1 small">
                             <span>VAT</span> <span class="text-info">+10%</span>
                         </div>
                         <hr>
                         <div class="d-flex justify-content-between mb-4 small">
-                            <span>TOTAL</span> <strong
+                            <span>Tổng cần thanh toán</span> <strong
                                 class="text-dark">{{ number_format(($price * 10) / 100 + $price, 0, '', ',') }}.Vnđ</strong>
                         </div>
                         <div class="form-check mb-1 small">
-                            <input name="agree" class="form-check-input" type="checkbox" value="" id="tnc" required>
+                            <input name="agree" class="form-check-input" type="checkbox" value=""
+                                id="tnc" required>
                             <label class="form-check-label" for="tnc">
                                 Tôi đồng ý với <a href="#">các điều khoản và các điều kiện</a>
                             </label>
@@ -338,7 +331,7 @@
                             $total_paypal = round($vnd_to_usd, 2);
                             $total_vnpay = number_format(($price * 10) / 100 + $price, 0, '', '');
                             $total_momo = number_format(($price * 10) / 100 + $price, 0, '', '');
-                            
+
                             \Session::put('total_paypal', $total_paypal);
                             \Session::put('total_vnpay', $total_vnpay);
                             \Session::put('total_momo', $total_momo);
@@ -355,10 +348,11 @@
                             style="display: none;">
                             @csrf
                         </form>
-
                     </div>
                 </div>
             </div>
+
+
         </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -420,11 +414,11 @@
                             $("#paymentVnpay").submit();
                         }
                     });
-                //     Swal.fire({
-                //     title: "Notify!",
-                //     text: "He thng thanh toan tren vnpay dang bao tri. Vui long quay lại sao. Hoac chon phuong thuc khac!",
-                //     icon: "error"
-                // });
+                    //     Swal.fire({
+                    //     title: "Notify!",
+                    //     text: "He thng thanh toan tren vnpay dang bao tri. Vui long quay lại sao. Hoac chon phuong thuc khac!",
+                    //     icon: "error"
+                    // });
                 }
 
             }

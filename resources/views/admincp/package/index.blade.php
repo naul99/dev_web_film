@@ -27,7 +27,7 @@
                                 <tr id="{{ $pack->id }}">
                                     <th scope="row">{{ $key }}</th>
                                     <td>{{ $pack->title }}</td>
-                                    <td>{{ $pack->description }}</td>
+                                    <td>{!! $pack->description !!}</td>
                                     <td>{{ $pack->time }}</td>
                                     <td>{{ $pack->price }}</td>
                                     <td>{{ $pack->created_at }}</td>
