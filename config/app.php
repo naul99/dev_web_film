@@ -179,7 +179,7 @@ return [
         Spatie\Permission\PermissionServiceProvider::class,
         PragmaRX\Tracker\Vendor\Laravel\ServiceProvider::class,
         Srmklive\PayPal\Providers\PayPalServiceProvider::class,
-
+        Intervention\Image\ImageServiceProvider::class,
     ],
 
     /*
@@ -237,6 +237,7 @@ return [
         // 'Analytics' => Spatie\Analytics\AnalyticsFacade::class,
         'Tracker' => 'PragmaRX\Tracker\Vendor\Laravel\Facade',
          Srmklive\PayPal\Providers\PayPalServiceProvider::class,
+         'Image' => Intervention\Image\Facades\Image::class,
     ],
 
 ];

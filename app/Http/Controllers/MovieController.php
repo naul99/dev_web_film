@@ -27,7 +27,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use function PHPUnit\Framework\isNull;
 use Illuminate\Support\Facades\Http;
-
+use Image;
 class MovieController extends Controller
 {
     /**
@@ -409,25 +409,22 @@ class MovieController extends Controller
             $movie->save();
             $movie_image = Movie_Image::where('movie_id', $movie->id)->first();
             $get_image = $request->file('image');
+            
             $path = 'uploads/movie/';
-            // if ($get_image) {
-            //     if (file_exists($path . $movie->image)) {
-            //         unlink('uploads/movie/' . $movie->image);
-            //     }
-            //     $get_name_image = $get_image->getClientOriginalName();
-            //     $name_image = current(explode('.', $get_name_image));
-            //     $new_image = $name_image . rand(0, 9999) . '.' . $get_image->getClientOriginalExtension();
-            //     $get_image->move($path, $new_image);
-            //     $movie->image = $new_image;
-            // }
+            
             if ($get_image) {
                 if (file_exists($path . $movie_image->image)) {
                     unlink('uploads/movie/' . $movie_image->image);
                 }
                 $get_name_image = $get_image->getClientOriginalName();
                 $name_image = current(explode('.', $get_name_image));
-                $new_image = $name_image . rand(0, 9999) . '.' . $get_image->getClientOriginalExtension();
-                $get_image->move($path, $new_image);
+                $new_image = $name_image . rand(0, 9999) . '.' . $get_image->extension();
+                $img = Image::make($get_image->path());
+                $img->resize(400, 700, function ($constraint) {
+                    $constraint->aspectRatio();
+                })->save($path.''.$new_image);
+             
+                // $get_image->move($path, $new_image);
                 $movie_image->image = $new_image;
                 $movie_image->save();
             }

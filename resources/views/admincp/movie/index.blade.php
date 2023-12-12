@@ -160,18 +160,18 @@
                                             </form>
                                         @endif
                                     </td>
-                                    <td>{{ $mov->ngaytao }}</td>
+                                    <td>{{ $mov->created_at }}</td>
                                     {{-- <td>{{ $mov->ngaycapnhat }}</td> --}}
                                     <td>
                                         @if (auth()->user()->can('edit movie') ||
                                                 auth()->user()->can('create movie'))
-                                            {!! Form::selectYear('year', 1900, now()->year, isset($mov->year) ? $mov->year : '', [
+                                            {!! Form::selectYear('year', 1923, now()->year + 2, isset($mov->year) ? $mov->year : '', [
                                                 'class' => 'select-year',
                                                 'id' => $mov->id,
                                                 'placeholder' => '-Year-',
                                             ]) !!}
                                         @else
-                                            {!! Form::selectYear('year', 1900, now()->year, isset($mov->year) ? $mov->year : '', [
+                                            {!! Form::selectYear('year', 1923, now()->year + 2, isset($mov->year) ? $mov->year : '', [
                                                 'disabled',
                                                 'placeholder' => '-Year-',
                                             ]) !!}

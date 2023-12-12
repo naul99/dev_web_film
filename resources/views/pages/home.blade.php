@@ -15,9 +15,9 @@
                     <article class="thumb grid-item post-38498">
                         <div class="halim-item">
                             <a class="halim-thumb" href="{{ route('movie', $h->slug) }}" title="{{ $h->title }}">
-                                <figure>
+                                <figure style="height: 400px;">
 
-                                    <img class="lazy img-responsive"
+                                    <img class="lazy img-responsive" 
                                         src="{{ asset('uploads/movie/' . $h->movie_image->image) }}"
                                         alt="{{ $h->title }}" title="{{ $h->title }}">
 

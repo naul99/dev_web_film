@@ -96,11 +96,10 @@
                         </div>
                         <div class="form-group">
                             {!! Form::label('year', 'Year', []) !!}
-                            {!! Form::number('year', isset($movie) ? $movie->year : '', [
+                            {!! Form::text('year', isset($movie) ? $movie->year : '', [
                                 'class' => 'form-control',
-                                'min=1900',
-                                'max=' . now()->year,
-                                'placeholder' => 'Enter values..',
+                                'id' => 'datepicker2',
+                                'placeholder' => 'Choose a year..',
                                 'required',
                             ]) !!}
                         </div>
@@ -270,7 +269,7 @@
                             @endforeach
                         </div>
                         <div class="form-group">
-                            {!! Form::label('sotap', 'Sotap', []) !!}
+                            {!! Form::label('sotap', 'Episode Number', []) !!}
                             {!! Form::number('sotap', isset($movie) ? $movie->sotap : '', [
                                 'class' => 'form-control input-episode',
                                 'placeholder' => 'Enter values..',
@@ -313,7 +312,7 @@
 
                         </div>
                         <div class="form-group" style="width:22%">
-                            {!! Form::label('Paid', 'Có phí', []) !!}
+                            {!! Form::label('fee', 'Fee', []) !!}
                             {!! Form::select('paid_movie', ['0' => 'Không', '1' => 'Có'], isset($movie) ? $movie->paid_movie : '', [
                                 'class' => 'form-control',
                             ]) !!}
@@ -331,6 +330,7 @@
                                 <img width="20%"src="{{ asset('uploads/movie/' . $movie->movie_image->image) }}">
                             @endif
                         </div>
+
                         @if (!isset($movie))
                             {!! Form::submit('Create ', ['class' => 'btn btn-success', 'onclick' => 'displayRadioValue()']) !!}
                         @else
@@ -351,7 +351,33 @@
     </script>
 
     <!-- Initialize the plugin: -->
-
+    <script>
+        $(function() {
+            $('#datepicker2').datepicker({
+                yearRange: "c-100:c+2",
+                changeMonth: false,
+                changeYear: true,
+                showButtonPanel: true,
+                closeText: 'Select',
+                currentText: 'This year',
+                onClose: function(dateText, inst) {
+                    var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+                    $(this).val($.datepicker.formatDate('yy', new Date(year, 1, 1)));
+                }
+            }).focus(function() {
+                $(".ui-datepicker-month").hide();
+                $(".ui-datepicker-calendar").hide();
+                $(".ui-datepicker-current").hide();
+                $(".ui-datepicker-prev").hide();
+                $(".ui-datepicker-next").hide();
+                $("#ui-datepicker-div").position({
+                    my: "left top",
+                    at: "left bottom",
+                    of: $(this)
+                });
+            }).attr("readonly", false);
+        });
+    </script>
     <script type="text/javascript">
         $(document).ready(function() {
 
@@ -435,4 +461,5 @@
             evt.target.value = newWords.join(" ");
         }
     </script>
+    <script></script>
 @endsection
