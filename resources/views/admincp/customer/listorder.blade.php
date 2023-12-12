@@ -26,7 +26,7 @@
                     <tbody>
                         @foreach ($list_order as $order)
                         <tr>
-                          
+                            
                             <td>{{ $order->id }}</td>
                             <td>{{ $order->user->name }}</td>
                             <td>{{ $order->user->email }}</td>

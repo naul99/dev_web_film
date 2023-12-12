@@ -11,6 +11,7 @@
                             <th scope="col">#</th>
                             <th scope="col">Name</th>
                             <th scope="col">Email</th>
+                            <th scope="col">Photo</th>
                             <th scope="col">Auth Type</th>
                             <th scope="col">Status Register</th>
                             <th scope="col">Status</th>
@@ -24,6 +25,9 @@
                                 <th scope="row">{{ $key }}</th>
                                 <td>{{ $cus->name }}</td>
                                 <td>{{ $cus->email }}</td>
+                                <td>
+                                    <img style="height: 30px;width:30px;" src="{{ $cus->avatar }}">
+                                </td>
                                 <td>{{ $cus->auth_type }}</td>
                                 <td>
                                     @if ($cus->status_registration == 1)
@@ -49,11 +53,11 @@
                                         'route' => ['destroycustomer', $cus->id],
                                         'onsubmit' => 'return confirm("Are you sure you want to delete this ( ' . $cus->name . ' )?")',
                                     ]) !!}
-                                   
-                                        {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
-                                        <br>
-                                        <br>
-                                   
+
+                                    {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
+                                    <br>
+                                    <br>
+
                                     {!! Form::close() !!}
                                 </td>
 
