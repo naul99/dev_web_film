@@ -3,6 +3,7 @@
 /public/storage
 /public/json/
 /public/uploads/movie
+/public/uploads/logo
 /storage/*.key
 /vendor
 #.env

@@ -5,16 +5,17 @@
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div style="padding-bottom: 1%" class="center">
-                    <form action="">
+                    <form action="{{ route('log') }}" method="GET">
                         <div>
                             <label for="">Date start:</label>
-                            <input type="date">
+                            <input type="date" name="date_start" value="{!! isset($_GET['date_start']) ? $_GET['date_start']:'' !!}" required>
                         </div>
                         <div style="padding-top: 1%">
                             <label for="">Date end:</label>
-                            <input type="date">
-                            <input type="submit">
+                            <input type="date" name="date_end" value="{!! isset($_GET['date_end']) ? $_GET['date_end']:'' !!}" required>
+                            <input type="submit" value="Submit">
                         </div>
+                        
                     </form>
                 </div>
                 <div class="card">
