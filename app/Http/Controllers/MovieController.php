@@ -143,7 +143,7 @@ class MovieController extends Controller
             $randomletter = substr(str_shuffle("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"), 0, 6);
             $movie->slug = $data['slug'] . '-' . rand(1000, 9999) . $randomletter;
             $movie->year = $data['year'];
-            $movie->thuocphim = $data['thuocphim'];
+            $movie->type_movie= $data['thuocphim'];
             $movie->time = $data['time'];
             $movie->hot = $data['hot'];
             $movie->quality = $data['quality'];
@@ -377,7 +377,7 @@ class MovieController extends Controller
             $movie->slug = $data['slug'];
             $movie->year = $data['year'];
             $movie->time = $data['time'];
-            $movie->thuocphim = $data['thuocphim'];
+            $movie->type_movie= $data['thuocphim'];
             $movie->quality = $data['quality'];
             $movie->language = $data['language'];
             $movie->imdb = $data['imdb'];

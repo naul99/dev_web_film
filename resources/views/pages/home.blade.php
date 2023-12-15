@@ -34,7 +34,7 @@
                                 </span>
 
                                 <span class="episode"><i class="fa fa-play" aria-hidden="true"></i>
-                                    @if ($h->thuocphim == '1')
+                                    @if ($h->type_movie== '1')
                                         @if ($h->episode_count == $h->sotap)
                                             Hoàn tất |
                                         @else
@@ -192,7 +192,7 @@
                                             @endif
                                         </span>
                                         <span class="episode"><i class="fa fa-play" aria-hidden="true"></i>
-                                            @if ($mov->thuocphim == '1')
+                                            @if ($mov->type_movie== '1')
                                                 @if ($mov->episode_count == $mov->sotap)
                                                     Hoàn tất |
                                                 @else
@@ -283,7 +283,7 @@
                                         @endif
                                     </span>
                                     <span class="episode"><i class="fa fa-play" aria-hidden="true"></i>
-                                        @if ($mov->thuocphim == '1')
+                                        @if ($mov->type_movie== '1')
                                             @if ($mov->episode_count == $mov->sotap)
                                                 Hoàn tất |
                                             @else

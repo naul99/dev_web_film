@@ -147,7 +147,7 @@
 
                                     </li>
                                     <li class="list-info-group-item"><span>Thời lượng</span> :
-                                        @if ($movie->thuocphim == '0')
+                                        @if ($movie->type_movie== '0')
                                             {{ $times }}
                                         @else
                                             {{ $times }}/ Tập
@@ -157,7 +157,7 @@
                                         <li class="list-info-group-item"><span>Season</span> : {{ $movie->season }}</li>
                                     @endif
 
-                                    @if ($movie->thuocphim == '1')
+                                    @if ($movie->type_movie== '1')
                                         <li class="list-info-group-item"><span>Số tập</span> :
                                             {{ $episode_current_list_count }}/{{ $movie->sotap }}
                                             {{ $episode_current_list_count == $movie->sotap ? 'Hoàn Thành' : 'Tập' }}
@@ -224,7 +224,7 @@
                                     </li>
                                     <li class="list-info-group-item"><span>Tập phim mới</span> :
                                         @if ($episode_current_list_count > 0)
-                                            @if ($movie->thuocphim == '0')
+                                            @if ($movie->type_movie== '0')
                                                 @foreach ($episode->take(1) as $key => $ep)
                                                     @guest('customer')
                                                         <a href="{{ url('xem-phim/' . $ep->movie->slug . '/tap-' . $ep->episode . '/server-' . $ep->server_id) }}"
@@ -902,7 +902,7 @@
                                             @endif
                                         </span>
                                         <span class="episode"><i class="fa fa-play" aria-hidden="true"></i>
-                                            @if ($rel->thuocphim == '1')
+                                            @if ($rel->type_movie== '1')
                                                 @if ($rel->episode_count == $rel->sotap)
                                                     Hoàn tất |
                                                 @else

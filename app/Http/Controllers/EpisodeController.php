@@ -147,7 +147,7 @@ class EpisodeController extends Controller
         $id = $_GET['id'];
         $movie = Movie::find($id);
         $output = '<option value="" >--Chon tap--</option>';
-        if ($movie->thuocphim == '1')
+        if ($movie->type_movie == '1')
             for ($i = 1; $i <= $movie->sotap; $i++) {
                 $output .= '<option value="' . $i . '">' . $i . '</option>';
             }

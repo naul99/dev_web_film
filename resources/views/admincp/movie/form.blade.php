@@ -167,7 +167,7 @@
                             {!! Form::select(
                                 'thuocphim',
                                 ['' => '--Select Type--', '0' => 'Phim Lẻ', '1' => 'Phim Bộ'],
-                                isset($movie) ? $movie->thuocphim : '',
+                                isset($movie) ? $movie->type_movie: '',
                                 [
                                     'class' => 'form-control',
                                     'required',

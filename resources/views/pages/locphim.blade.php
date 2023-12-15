@@ -47,7 +47,7 @@
                                                 FHD
                                             @endif
                                         </span><span class="episode"><i class="fa fa-play" aria-hidden="true"></i>
-                                            @if ($mov->thuocphim == '1')
+                                            @if ($mov->type_movie== '1')
                                                 {{ $mov->episode_count }}/{{ $mov->sotap }}
                                             @endif
                                             @if ($mov->language == 1)

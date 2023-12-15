@@ -368,7 +368,7 @@
                                         </span>
                                         <span class="episode"><i class="fa fa-play" aria-hidden="true"></i>
 
-                                            @if ($rel->thuocphim == '1')
+                                            @if ($rel->type_movie== '1')
                                                 {{ $rel->episode_count }}/{{ $rel->sotap }}|
                                             @endif
                                             @if ($rel->language == 1)
