@@ -23,6 +23,7 @@ use App\Http\Controllers\ResumeController;
 use App\Http\Controllers\ServerController;
 use App\Http\Controllers\CastController;
 use App\Http\Controllers\DirectorsController;
+use App\Http\Controllers\EmbedController;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TrackingController;
@@ -160,7 +161,8 @@ Route::get('comment-status',[ManageCommentController::class,'comment_status'])->
 Route::get('reply-status',[ManageCommentController::class,'reply_status'])->name('reply-status-change');
 Route::post('/delete-comment',[CommentsController::class,'destroy'])->name('delete-comment');
 Route::post('/update-imdb',[MovieController::class,'update_imdb'])->name('update-imdb');
-
+Route::get('/api/embed_vip',[EmbedController::class,'embed_vip']);
+Route::get('/api/embed_ads',[EmbedController::class,'embed_ads']);
 Route::get('/site-map',function(){
     return Artisan::call('sitemap:create');
 });

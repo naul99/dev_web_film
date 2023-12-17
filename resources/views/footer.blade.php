@@ -33,7 +33,7 @@
             <div class="row">
                 <div class="col-xs-12 col-sm-6 col-md-4 footers-one">
                     <div class="footers-logo">
-                        <img src="{{ asset('uploads/images/full-hd.png') }}" alt="Logo" style="width:120px;">
+                        <img src="{{ asset('uploads/logo/' . $info->logo) }}" alt="Logo" style="width:120px;">
                     </div>
                     <div class="footers-info mt-3">
                         <p>{{ $info->title }}</p>
