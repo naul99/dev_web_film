@@ -380,7 +380,7 @@ class MovieController extends Controller
             $movie->type_movie= $data['thuocphim'];
             $movie->quality = $data['quality'];
             $movie->language = $data['language'];
-            $movie->imdb = $data['imdb'];
+            //$movie->imdb = $data['imdb'];
             $movie->paid_movie = $data['paid_movie'];
             $movie->hot = $data['hot'];
             $movie->status = $data['status'];
@@ -405,8 +405,35 @@ class MovieController extends Controller
                     $movie->genre_id = $gen['0'];
                 }
             }
-
-            $movie->save();
+            try {
+                $path_omdb='http://www.omdbapi.com/?t=';
+                //0 = movie
+                if($data['thuocphim'] == 0){
+                    $api_omdb = Http::get($path_omdb . $data['name_english'] . '&y=' . $data['year'] .'&type=movie&apikey=6c2f1ca1');
+                }
+                //1 = series
+                else{
+                    $api_omdb = Http::get($path_omdb . $data['name_english'] . '&y=' . $data['year'] .'&type=series&apikey=6c2f1ca1');
+                }
+                if ($api_omdb['Response'] != 'True' && $data['thuocphim'] == 1) {
+                    $api_omdb = Http::get($path_omdb . $data['name_english'] . '&type=series&apikey=6c2f1ca1');
+                }
+                elseif($api_omdb['Response'] != 'True'){
+                    $api_omdb = Http::get($path_omdb . $data['name_english'] . '&apikey=6c2f1ca1');
+                }
+                
+                // $imdb = new Movie_Rating();
+                $movie->imdb = $api_omdb['imdbID'];
+                // $imdb->movie_id = $movie->id;
+                $movie->save();
+            } catch (Exception $e) {
+                //$imdb = new Movie_Rating();
+                $movie->imdb  = "0";
+                //$imdb->movie_id = $movie->id;
+                $movie->save();
+                toastr()->warning('Vui lòng cập nhật Id Imdb thủ công cho phim.', 'Warning',['timeOut' => 10000]);
+            }
+            //$movie->save();
             $movie_image = Movie_Image::where('movie_id', $movie->id)->first();
             $get_image = $request->file('image');
             
@@ -420,7 +447,7 @@ class MovieController extends Controller
                 $name_image = current(explode('.', $get_name_image));
                 $new_image = $name_image . rand(0, 9999) . '.' . $get_image->extension();
                 $img = Image::make($get_image->path());
-                $img->resize(400, 700, function ($constraint) {
+                $img->resize(300, 400, function ($constraint) {
                     $constraint->aspectRatio();
                 })->save($path.''.$new_image);
              
