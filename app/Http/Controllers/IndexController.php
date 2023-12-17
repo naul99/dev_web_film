@@ -335,7 +335,7 @@ class IndexController extends Controller
         $link_imdb = ('https://www.imdb.com/title/' . $movie->imdb);
         // }
         //xu ly comments
-        $comments = Movie::with('movie_comments.replies', 'movie_comments.user:id,name', 'movie_comments.replies.user:id,name', 'movie_comments.replies.replies.user:id,name')->where('slug', $slug)->first();
+        $comments = Movie::with('movie_comments.replies', 'movie_comments.user:id,name,avatar', 'movie_comments.replies.user:id,name,avatar', 'movie_comments.replies.replies.user:id,name,avatar')->where('slug', $slug)->first();
 
 
         // $avatar_comment = Comment::join('customers','comments.user_id','=','customers.id')->where('movie_id', $movie->id)->orderBy('comments.id', 'DESC')->get();

@@ -84,6 +84,6 @@ class Movie extends Model
 
     public function movie_comments()
     {
-        return $this->hasMany(Comment::class)->whereNull('parent_id')->orderBy('id','DESC');
+        return $this->hasMany(Comment::class)->whereNull('parent_id')->orderBy('id','DESC')->where('status',1);
     }
 }

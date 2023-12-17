@@ -55,6 +55,8 @@ class CommentsController extends Controller
     }
     public function destroy(Request $request){
         $comment=Comment::where('id',$request->comment_id)->first();
-        $comment->delete();
+        $comment->status=0;
+        $comment->save();
+        //$comment->delete();
     }
 }

@@ -588,7 +588,12 @@
 
                                                             <img style="width: 60px;" class="img-circle img-sm"
                                                                 alt="Profile Picture"
-                                                                src="https://dataqq.net/tvhay/user/thumb-df-user.png">
+                                                                @if ($comment->user->avatar =='')
+                                                                src="https://dataqq.net/tvhay/user/thumb-df-user.png"
+                                                                @else
+                                                                src="{{ $comment->user->avatar }}" 
+                                                                @endif
+                                                                >
                                                         </a>
                                                         {{-- <div class="avatar">AA</div> --}}
                                                         <div class="media-body">
@@ -677,7 +682,12 @@
 
                                                                                 <img class="img-circle img-sm"
                                                                                     alt="Profile Picture"
-                                                                                    src="https://dataqq.net/tvhay/user/thumb-df-user.png">
+                                                                                    @if ($reply->user->avatar == '')
+                                                                                    src="https://dataqq.net/tvhay/user/thumb-df-user.png"
+                                                                                    @else
+                                                                                    src="{{ $reply->user->avatar }}" 
+                                                                                    @endif
+                                                                                    >
                                                                             </a>
                                                                             <div class="media-body">
                                                                                 <div class="mar-btm"
@@ -760,7 +770,12 @@
 
                                                                                                     <img class="img-circle img-sm"
                                                                                                         alt="Profile Picture"
-                                                                                                        src="https://dataqq.net/tvhay/user/thumb-df-user.png">
+                                                                                                        @if ($rep->user->avatar == '')
+                                                                                                        src="https://dataqq.net/tvhay/user/thumb-df-user.png"    
+                                                                                                        @else
+                                                                                                        src="{{ $rep->user->avatar }}"
+                                                                                                        @endif
+                                                                                                        >
                                                                                                 </a>
                                                                                                 <div class="media-body">
                                                                                                     <div class="mar-btm"
