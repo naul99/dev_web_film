@@ -117,12 +117,9 @@
 
                     <div class="clearfix"></div>
                     <div class="clearfix"></div>
-                    <div class="title-block">
-                        {{-- <a href="javascript:;" data-toggle="tooltip" title="Add to bookmarks">
-                            <div id="bookmark" class="bookmark-img-animation primary_ribbon" data-id="37976">
-                                <div class="halim-pulse-ring"></div>
-                            </div>
-                        </a> --}}
+                    {{-- note --}}
+                    {{-- <div class="title-block">
+                       
                         <div class="">
                             <h4 class="entry-title">Do team không có đủ kinh phí xây dựng hosting video nên các link phim sẽ
                                 bị quảng cáo, quảng cáo đó mình không thể can thiệp được.</h4>
@@ -133,7 +130,7 @@
                                 Ở bên trái gốc phía trên của phim, có nút 3 gạch hãy bấm vào và chọn tập phim.
                             </h4>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="entry-content htmlwrap clearfix collapse" id="expand-post-content">
                         <article id="post-37976" class="item-content post-37976"></article>
                     </div>

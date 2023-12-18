@@ -19,8 +19,14 @@ body {
 <div id="jwplayer"></div>
 <script>
 	// Lấy domain chính chủ mong muốn
+
+// var expectedDomain = "{!! route('homepage') !!}";
+// var indexOfDoubleSlash = expectedDomain.indexOf("//");
+
+// var domain = expectedDomain.substring(indexOfDoubleSlash + 2);
 var expectedDomain = "127.0.0.1";
 var currentDomain = window.location.hostname;
+
 // Kiểm tra xem domain có khớp không
 if (currentDomain === expectedDomain) {
 
