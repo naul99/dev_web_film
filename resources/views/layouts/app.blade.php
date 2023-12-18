@@ -585,6 +585,31 @@ License URL: http://creativecommons.org/licenses/by/3.0/
         })
     </script>
 
+<script type="text/javascript">
+    $('.status_customer').change(function() {
+        var customerstatus_val = $(this).val();
+        var customer_id = $(this).attr('id');
+         //alert(customerstatus_val);
+         //alert(customer_id);
+
+        $.ajax({
+            url: "{{ route('customersstatus') }}",
+            method: "GET",
+            data: {
+                customerstatus_val: customerstatus_val,
+                customer_id: customer_id,
+            },
+            success: function(data) {
+                // window.location.reload();
+                alert('Change customer status success!');
+            },
+            error: function() {
+                alert('Error');
+            }
+        });
+    })
+</script>
+
     <script type="text/javascript">
         $(document).ready(function() {
             $('#tablephim').DataTable();

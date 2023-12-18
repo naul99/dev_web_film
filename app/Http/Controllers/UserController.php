@@ -129,4 +129,11 @@ class UserController extends Controller
         toastr()->success('Delete successfully');
         return redirect()->back();
     }
+    public function customer_status(Request $request)
+    {
+        $data = $request->all();
+        $customer = Customer::find($data['customer_id']);
+        $customer->status = $data['customerstatus_val'];
+        $customer->save();
+    }
 }

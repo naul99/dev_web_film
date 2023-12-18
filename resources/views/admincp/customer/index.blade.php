@@ -37,7 +37,9 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <select id="{{ $cus->id }}">
+                                    <select @can('edit user')
+                                    class="status_customer"  
+                                    @endcan  id="{{ $cus->id }}">
                                         @if ($cus->status == 1)
                                             <option selected value="1">Active</option>
                                             <option value="0">Hidden</option>

@@ -145,7 +145,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('customers', [UserController::class, 'listCustomer'])->name('listcustomer');
     Route::get('customers/order', [UserController::class, 'listOrder'])->name('listorder');
     Route::delete('destroy-customers/{id}', [UserController::class, 'destroy_customer'])->name('destroycustomer');
-
+    Route::get('customers-status', [UserController::class, 'customer_status'])->name('customersstatus');
 
 });
 
