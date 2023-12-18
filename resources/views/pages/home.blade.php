@@ -73,6 +73,39 @@
 
                                             </span>
                                         @endif
+                                    @else
+                                        <span class="episode"><i class="fa fa-play" aria-hidden="true"></i>
+                                            @if ($h->type_movie == '1')
+                                                @if ($h->episode_count == $h->sotap)
+                                                    Hoàn tất |
+                                                @else
+                                                    {{ $h->episode_count }}/{{ $h->sotap }}|
+                                                @endif
+                                            @endif
+
+                                            @if ($h->language == 1)
+                                                VietSub
+                                                @if ($h->season != 0)
+                                                    -S{{ $h->season }}
+                                                @endif
+                                            @elseif ($h->language == 2)
+                                                Tiếng Gốc
+                                                @if ($h->season != 0)
+                                                    -S{{ $h->season }}
+                                                @endif
+                                            @elseif ($h->language == 3)
+                                                Lồng Tiếng
+                                                @if ($h->season != 0)
+                                                    -S{{ $h->season }}
+                                                @endif
+                                            @else
+                                                Thuyết Minh
+                                                @if ($h->season != 0)
+                                                    -S{{ $h->season }}
+                                                @endif
+                                            @endif
+
+                                        </span>
                                     @endif
                                 @else
                                     @if ($h->paid_movie == 1)
@@ -268,6 +301,39 @@
 
                                                     </span>
                                                 @endif
+                                            @else
+                                                <span class="episode"><i class="fa fa-play" aria-hidden="true"></i>
+                                                    @if ($mov->type_movie == '1')
+                                                        @if ($mov->episode_count == $mov->sotap)
+                                                            Hoàn tất |
+                                                        @else
+                                                            {{ $mov->episode_count }}/{{ $mov->sotap }}|
+                                                        @endif
+                                                    @endif
+
+                                                    @if ($mov->language == 1)
+                                                        VietSub
+                                                        @if ($mov->season != 0)
+                                                            -S{{ $mov->season }}
+                                                        @endif
+                                                    @elseif ($mov->language == 2)
+                                                        Tiếng Gốc
+                                                        @if ($mov->season != 0)
+                                                            -S{{ $mov->season }}
+                                                        @endif
+                                                    @elseif ($mov->language == 3)
+                                                        Lồng Tiếng
+                                                        @if ($mov->season != 0)
+                                                            -S{{ $mov->season }}
+                                                        @endif
+                                                    @else
+                                                        Thuyết Minh
+                                                        @if ($mov->season != 0)
+                                                            -S{{ $mov->season }}
+                                                        @endif
+                                                    @endif
+
+                                                </span>
                                             @endif
                                         @else
                                             @if ($mov->paid_movie == 1)

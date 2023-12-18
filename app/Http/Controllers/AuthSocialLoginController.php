@@ -55,6 +55,7 @@ class AuthSocialLoginController extends Controller
                 $uuid = Str::uuid()->toString();
                 $user = new Customer();
                 $user->name = $userdata->name;
+                $user->avatar = $userdata->avatar;
                 $user->email = $userdata->email;
                 $user->password = Hash::make($uuid . now());
                 $user->auth_type = 'github';
@@ -146,7 +147,7 @@ class AuthSocialLoginController extends Controller
                 $user = new Customer();
                 $user->name = $userdata->name;
                 $user->email = $userdata->email;
-                // $user->avatar = $userdata->avatar;
+                $user->avatar = $userdata->avatar;
                 $user->password = Hash::make($uuid . now());
                 $user->auth_type = 'facebook';
                 $user->save();

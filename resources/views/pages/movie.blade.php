@@ -147,7 +147,7 @@
 
                                     </li>
                                     <li class="list-info-group-item"><span>Thời lượng</span> :
-                                        @if ($movie->type_movie== '0')
+                                        @if ($movie->type_movie == '0')
                                             {{ $times }}
                                         @else
                                             {{ $times }}/ Tập
@@ -157,7 +157,7 @@
                                         <li class="list-info-group-item"><span>Season</span> : {{ $movie->season }}</li>
                                     @endif
 
-                                    @if ($movie->type_movie== '1')
+                                    @if ($movie->type_movie == '1')
                                         <li class="list-info-group-item"><span>Số tập</span> :
                                             {{ $episode_current_list_count }}/{{ $movie->sotap }}
                                             {{ $episode_current_list_count == $movie->sotap ? 'Hoàn Thành' : 'Tập' }}
@@ -224,7 +224,7 @@
                                     </li>
                                     <li class="list-info-group-item"><span>Tập phim mới</span> :
                                         @if ($episode_current_list_count > 0)
-                                            @if ($movie->type_movie== '0')
+                                            @if ($movie->type_movie == '0')
                                                 @foreach ($episode->take(1) as $key => $ep)
                                                     @guest('customer')
                                                         <a href="{{ url('xem-phim/' . $ep->movie->slug . '/tap-' . $ep->episode . '/server-' . $ep->server_id) }}"
@@ -588,12 +588,9 @@
 
                                                             <img style="width: 60px;" class="img-circle img-sm"
                                                                 alt="Profile Picture"
-                                                                @if ($comment->user->avatar =='')
-                                                                src="https://dataqq.net/tvhay/user/thumb-df-user.png"
+                                                                @if ($comment->user->avatar == '') src="https://dataqq.net/tvhay/user/thumb-df-user.png"
                                                                 @else
-                                                                src="{{ $comment->user->avatar }}" 
-                                                                @endif
-                                                                >
+                                                                src="{{ $comment->user->avatar }}" @endif>
                                                         </a>
                                                         {{-- <div class="avatar">AA</div> --}}
                                                         <div class="media-body">
@@ -682,12 +679,9 @@
 
                                                                                 <img class="img-circle img-sm"
                                                                                     alt="Profile Picture"
-                                                                                    @if ($reply->user->avatar == '')
-                                                                                    src="https://dataqq.net/tvhay/user/thumb-df-user.png"
+                                                                                    @if ($reply->user->avatar == '') src="https://dataqq.net/tvhay/user/thumb-df-user.png"
                                                                                     @else
-                                                                                    src="{{ $reply->user->avatar }}" 
-                                                                                    @endif
-                                                                                    >
+                                                                                    src="{{ $reply->user->avatar }}" @endif>
                                                                             </a>
                                                                             <div class="media-body">
                                                                                 <div class="mar-btm"
@@ -770,12 +764,9 @@
 
                                                                                                     <img class="img-circle img-sm"
                                                                                                         alt="Profile Picture"
-                                                                                                        @if ($rep->user->avatar == '')
-                                                                                                        src="https://dataqq.net/tvhay/user/thumb-df-user.png"    
+                                                                                                        @if ($rep->user->avatar == '') src="https://dataqq.net/tvhay/user/thumb-df-user.png"    
                                                                                                         @else
-                                                                                                        src="{{ $rep->user->avatar }}"
-                                                                                                        @endif
-                                                                                                        >
+                                                                                                        src="{{ $rep->user->avatar }}" @endif>
                                                                                                 </a>
                                                                                                 <div class="media-body">
                                                                                                     <div class="mar-btm"
@@ -917,7 +908,80 @@
                                             @endif
                                         </span>
                                         @if (Auth::guard('customer')->check())
-                                        @if (Auth::guard('customer')->user()->status_registration == 0)
+                                            @if (Auth::guard('customer')->user()->status_registration == 0)
+                                                @if ($rel->paid_movie == 1)
+                                                    <span class="episode"><i class="fa-solid fa-lock fa-xl"
+                                                            aria-hidden="true"></i>
+                                                    </span>
+                                                @else
+                                                    <span class="episode"><i class="fa fa-play" aria-hidden="true"></i>
+                                                        @if ($rel->type_movie == '1')
+                                                            @if ($rel->episode_count == $rel->sotap)
+                                                                Hoàn tất |
+                                                            @else
+                                                                {{ $rel->episode_count }}/{{ $rel->sotap }}|
+                                                            @endif
+                                                        @endif
+
+                                                        @if ($rel->language == 1)
+                                                            VietSub
+                                                            @if ($rel->season != 0)
+                                                                -S{{ $rel->season }}
+                                                            @endif
+                                                        @elseif ($rel->language == 2)
+                                                            Tiếng Gốc
+                                                            @if ($rel->season != 0)
+                                                                -S{{ $rel->season }}
+                                                            @endif
+                                                        @elseif ($rel->language == 3)
+                                                            Lồng Tiếng
+                                                            @if ($rel->season != 0)
+                                                                -S{{ $rel->season }}
+                                                            @endif
+                                                        @else
+                                                            Thuyết Minh
+                                                            @if ($rel->season != 0)
+                                                                -S{{ $rel->season }}
+                                                            @endif
+                                                        @endif
+
+                                                    </span>
+                                                @endif
+                                            @else
+                                                <span class="episode"><i class="fa fa-play" aria-hidden="true"></i>
+                                                    @if ($rel->type_movie == '1')
+                                                        @if ($rel->episode_count == $rel->sotap)
+                                                            Hoàn tất |
+                                                        @else
+                                                            {{ $rel->episode_count }}/{{ $rel->sotap }}|
+                                                        @endif
+                                                    @endif
+
+                                                    @if ($rel->language == 1)
+                                                        VietSub
+                                                        @if ($rel->season != 0)
+                                                            -S{{ $rel->season }}
+                                                        @endif
+                                                    @elseif ($rel->language == 2)
+                                                        Tiếng Gốc
+                                                        @if ($rel->season != 0)
+                                                            -S{{ $rel->season }}
+                                                        @endif
+                                                    @elseif ($rel->language == 3)
+                                                        Lồng Tiếng
+                                                        @if ($rel->season != 0)
+                                                            -S{{ $rel->season }}
+                                                        @endif
+                                                    @else
+                                                        Thuyết Minh
+                                                        @if ($rel->season != 0)
+                                                            -S{{ $rel->season }}
+                                                        @endif
+                                                    @endif
+
+                                                </span>
+                                            @endif
+                                        @else
                                             @if ($rel->paid_movie == 1)
                                                 <span class="episode"><i class="fa-solid fa-lock fa-xl"
                                                         aria-hidden="true"></i>
@@ -957,46 +1021,6 @@
                                                 </span>
                                             @endif
                                         @endif
-                                    @else
-                                        @if ($rel->paid_movie == 1)
-                                            <span class="episode"><i class="fa-solid fa-lock fa-xl"
-                                                    aria-hidden="true"></i>
-                                            </span>
-                                        @else
-                                            <span class="episode"><i class="fa fa-play" aria-hidden="true"></i>
-                                                @if ($rel->type_movie == '1')
-                                                    @if ($rel->episode_count == $rel->sotap)
-                                                        Hoàn tất |
-                                                    @else
-                                                        {{ $rel->episode_count }}/{{ $rel->sotap }}|
-                                                    @endif
-                                                @endif
-
-                                                @if ($rel->language == 1)
-                                                    VietSub
-                                                    @if ($rel->season != 0)
-                                                        -S{{ $rel->season }}
-                                                    @endif
-                                                @elseif ($rel->language == 2)
-                                                    Tiếng Gốc
-                                                    @if ($rel->season != 0)
-                                                        -S{{ $rel->season }}
-                                                    @endif
-                                                @elseif ($rel->language == 3)
-                                                    Lồng Tiếng
-                                                    @if ($rel->season != 0)
-                                                        -S{{ $rel->season }}
-                                                    @endif
-                                                @else
-                                                    Thuyết Minh
-                                                    @if ($rel->season != 0)
-                                                        -S{{ $rel->season }}
-                                                    @endif
-                                                @endif
-
-                                            </span>
-                                        @endif
-                                    @endif
                                         <div class="icon_overlay"></div>
                                         <div class="halim-post-title-box">
                                             <div class="halim-post-title ">

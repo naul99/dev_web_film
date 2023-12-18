@@ -32,12 +32,13 @@
                     <div class="col-xs-10">
                         <div class="yoast_breadcrumb hidden-xs">
                             <span><a href="/">HOME
-                            </a> » <a href="">{{ $movie->title }}
-                            </a> »
-                                <span class="breadcrumb_last" aria-current="page">{{ $movie->name_english }} ({{ $movie->year }})   
+                                </a> » <a href="">{{ $movie->title }}
+                                </a> »
+                                <span class="breadcrumb_last" aria-current="page">{{ $movie->name_english }}
+                                    ({{ $movie->year }})
                                     @if ($movie->season != 0)
-                                    Season {{ $movie->season }} ({{ $movie->year }})   
-                                   @endif
+                                        Season {{ $movie->season }} ({{ $movie->year }})
+                                    @endif
                                 </span>
                             </span>
                         </div>
@@ -226,11 +227,11 @@
                                 </h1>
                                 <h2 class="movie-title title-2" style="font-size: 12px;">{{ $movie->name_english }}
                                     @if ($movie->season != 0)
-                                    Season {{ $movie->season }}    
-                                   @endif
-                                   @if ($movie->year != null)
-                                   ({{ $movie->year }})
-                                   @endif
+                                        Season {{ $movie->season }}
+                                    @endif
+                                    @if ($movie->year != null)
+                                        ({{ $movie->year }})
+                                    @endif
                                 </h2>
                                 <ul class="list-info-group">
                                     <li class="list-info-group-item"><span>Thể loại</span> : <a
@@ -403,6 +404,39 @@
 
                                                     </span>
                                                 @endif
+                                            @else
+                                                <span class="episode"><i class="fa fa-play" aria-hidden="true"></i>
+                                                    @if ($rel->type_movie == '1')
+                                                        @if ($rel->episode_count == $rel->sotap)
+                                                            Hoàn tất |
+                                                        @else
+                                                            {{ $rel->episode_count }}/{{ $rel->sotap }}|
+                                                        @endif
+                                                    @endif
+
+                                                    @if ($rel->language == 1)
+                                                        VietSub
+                                                        @if ($rel->season != 0)
+                                                            -S{{ $rel->season }}
+                                                        @endif
+                                                    @elseif ($rel->language == 2)
+                                                        Tiếng Gốc
+                                                        @if ($rel->season != 0)
+                                                            -S{{ $rel->season }}
+                                                        @endif
+                                                    @elseif ($rel->language == 3)
+                                                        Lồng Tiếng
+                                                        @if ($rel->season != 0)
+                                                            -S{{ $rel->season }}
+                                                        @endif
+                                                    @else
+                                                        Thuyết Minh
+                                                        @if ($rel->season != 0)
+                                                            -S{{ $rel->season }}
+                                                        @endif
+                                                    @endif
+
+                                                </span>
                                             @endif
                                         @else
                                             @if ($rel->paid_movie == 1)
@@ -449,11 +483,12 @@
                                             <div class="halim-post-title ">
                                                 <p class="entry-title">{{ $rel->title }}</p>
                                                 <p class="original_title">{{ $rel->name_english }} @if ($rel->season != 0)
-                                                    Season {{ $rel->season }}
-                                                @endif
-                                                @if ($rel->year != null)
-                                                ({{ $rel->year }})
-                                                @endif</p>
+                                                        Season {{ $rel->season }}
+                                                    @endif
+                                                    @if ($rel->year != null)
+                                                        ({{ $rel->year }})
+                                                    @endif
+                                                </p>
                                             </div>
                                         </div>
                                     </a>
