@@ -892,4 +892,8 @@ class IndexController extends Controller
             return view('errors.404');
         }
     }
+    public function policy()
+    {
+       return view('pages.policy');
+    }
 }

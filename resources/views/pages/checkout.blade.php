@@ -89,16 +89,16 @@
     .text-navy {
         color: #1ab394;
     }
-    
-    a:hover{
+
+    a:hover {
         color: red;
     }
-
 </style>
 
 <body>
 
-    <a  style="position: absolute; right: 0; top: 0;margin-right: 4%;margin-top: 2%;}" href="{{ route('register-package') }}"><i class="fa-solid fa-circle-xmark fa-2x" aria-hidden="true"></i></a>
+    <a style="position: absolute; right: 0; top: 0;margin-right: 4%;margin-top: 2%;}"
+        href="{{ route('register-package') }}"><i class="fa-solid fa-circle-xmark fa-2x" aria-hidden="true"></i></a>
     @if (\Session::has('error'))
         <div class="alert alert-danger">{{ \Session::get('error') }}</div>
         {{ \Session::forget('error') }}
@@ -318,25 +318,31 @@
                             <span>Tổng cần thanh toán</span> <strong
                                 class="text-dark">{{ number_format(($price * 10) / 100 + $price, 0, '', ',') }}.Vnđ</strong>
                         </div>
-                        <div class="form-check mb-1 small">
-                            <input name="agree" class="form-check-input" type="checkbox" value=""
-                                id="tnc" required>
-                            <label class="form-check-label" for="tnc">
-                                Tôi đồng ý với <a href="#">các điều khoản và các điều kiện</a>
-                            </label>
-                        </div>
+                        <form action="javascription:void(0);" onsubmit="return fun(this);">
+                            <div class="form-check mb-1 small">
+                                <input name="agree" class="form-check-input" type="checkbox" oninvalid="this.setCustomValidity('Vui lòng đồng ý chính sách của chúng tôi.')" oninput="this.setCustomValidity('')" required >
+                                <label class="form-check-label" for="tnc">
+                                    Tôi đồng ý với <a href="{{ route('policy') }}" target="_blank">các điều khoản và
+                                        các
+                                        điều kiện</a>
+                                </label>
+                            </div>
 
-                        @php
-                            $vnd_to_usd = (($price * 10) / 100 + $price) / 24270;
-                            $total_paypal = round($vnd_to_usd, 2);
-                            $total_vnpay = number_format(($price * 10) / 100 + $price, 0, '', '');
-                            $total_momo = number_format(($price * 10) / 100 + $price, 0, '', '');
+                            @php
+                                $vnd_to_usd = (($price * 10) / 100 + $price) / 24270;
+                                $total_paypal = round($vnd_to_usd, 2);
+                                $total_vnpay = number_format(($price * 10) / 100 + $price, 0, '', '');
+                                $total_momo = number_format(($price * 10) / 100 + $price, 0, '', '');
 
-                            \Session::put('total_paypal', $total_paypal);
-                            \Session::put('total_vnpay', $total_vnpay);
-                            \Session::put('total_momo', $total_momo);
-                        @endphp
-                        <button class="btn btn-primary w-100 mt-2" onclick = "fun()">Thanh Toán Ngay</button>
+                                \Session::put('total_paypal', $total_paypal);
+                                \Session::put('total_vnpay', $total_vnpay);
+                                \Session::put('total_momo', $total_momo);
+                            @endphp
+
+                            <button type="submit" class="btn btn-primary w-100 mt-2">Thanh Toán
+                                Ngay</button>
+
+                        </form>
                         {{-- <a class="btn btn-primary m-3" href="{{ route('processTransaction') }}">Pay $100</a> --}}
 
                         <form id="paymentVnpay" action="{{ route('paymentVnpay') }}" method="POST"
@@ -358,10 +364,11 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+
     <script>
         function fun() {
-
             var pay = document.getElementsByName('pay');
+
             var payValue = false;
             for (i = 0; i < pay.length; i++) {
                 if (pay[i].checked && pay[i].value == 'paypal') {
@@ -380,6 +387,7 @@
                             window.location.replace("{{ route('processTransaction') }}");
                         }
                     });
+
                 }
                 if (pay[i].checked && pay[i].value == 'momo') {
                     payValue = true;
@@ -422,6 +430,8 @@
                 }
 
             }
+
+
             if (!payValue) {
                 Swal.fire({
                     title: "Yêu cầu!",

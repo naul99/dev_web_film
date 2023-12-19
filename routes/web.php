@@ -98,6 +98,8 @@ Route::get('/checkout-package', function() {
     return redirect()->route('register-package');
 });
 Route::get('/my-history-order', [IndexController::class, 'history_order'])->name('history-order');
+Route::get('/policy', [IndexController::class, 'policy'])->name('policy');
+
 //Auth::routes();
 
 // route admin
