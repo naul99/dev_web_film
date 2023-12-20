@@ -312,7 +312,7 @@
                                         }
 
                                         #profile-description .show-more-height {
-                                            height: 90px;
+                                            height: 55px;
                                             overflow: hidden;
                                         }
                                     </style>
@@ -525,34 +525,7 @@
                             })
                         });
                     </script>
-                    {{-- 
-                    <!--keypress "f12" comeback home page -->
-                    <script>
-                        document.addEventListener('keydown', function(event) {
-                            if (event.keyCode === 123 ) {
-                                 window.location.replace("{{ url('/') }}");
-                               
-                            }
-                            else {
-                                return true;
-                            }
-                           
-                        });
-                    </script>
-                      <!--keypress "ctrl +u " not allowed -->
-                    <script>
-                        document.onkeydown = function(e) {
-                            if (e.ctrlKey &&
-                                (e.keyCode === 67 ||
-                                    e.keyCode === 86 ||
-                                    e.keyCode === 85 ||
-                                    e.keyCode === 117)) {
-                                        window.location.replace("{{ url('/') }}");
-                            } else {
-                                return true;
-                            }
-                        };
-                    </script> --}}
+                   
                 </div>
             </section>
         </main>

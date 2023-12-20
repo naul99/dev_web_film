@@ -320,7 +320,9 @@
                         </div>
                         <form action="javascription:void(0);" onsubmit="return fun(this);">
                             <div class="form-check mb-1 small">
-                                <input name="agree" class="form-check-input" type="checkbox" oninvalid="this.setCustomValidity('Vui lòng đồng ý chính sách của chúng tôi.')" oninput="this.setCustomValidity('')" required >
+                                <input name="agree" class="form-check-input" type="checkbox"
+                                    oninvalid="this.setCustomValidity('Vui lòng đồng ý chính sách của chúng tôi.')"
+                                    oninput="this.setCustomValidity('')" required>
                                 <label class="form-check-label" for="tnc">
                                     Tôi đồng ý với <a href="{{ route('policy') }}" target="_blank">các điều khoản và
                                         các

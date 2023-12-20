@@ -244,7 +244,7 @@
     </div>
     <div class="demo">
         <div class="container">
-            <div class="row">
+            <div style="margin-right: 15px;" class="row">
                 
                 @foreach ($list_package as $package)
                     @if ($package->time > 31 && $package->time < 92)
@@ -260,7 +260,7 @@
                                         <input type="hidden" name="price" value="{{ $package->price }}">
                                         <span class="currency">VNĐ</span>
                                         <span class="amount">{{ number_format($package->price, 0, '', ',') }}</span>
-                                        <span class="month">/month</span>
+                                        {{-- <span class="month">/month</span> --}}
                                     @else
                                         <input type="hidden" name="price" value="{{ $package->price }}">
                                         <span class="amount">Free</span>
@@ -296,7 +296,7 @@
                                     <input type="hidden" name="price" value="{{ $package->price }}">
                                         <span class="currency">VNĐ</span>
                                         <span class="amount">{{ number_format($package->price, 0, '', ',') }}</span>
-                                        <span class="month">/month</span>
+                                        {{-- <span class="month">/month</span> --}}
                                     @else
                                     <input type="hidden" name="price" value="{{ $package->price }}">
                                         <span class="amount">Free</span>
@@ -331,7 +331,7 @@
                                         <input type="hidden" name="price" value="{{ $package->price }}">
                                         <span class="currency">VNĐ</span>
                                         <span class="amount">{{ number_format($package->price, 0, '', ',') }}</span>
-                                        <span class="month">/month</span>
+                                        {{-- <span class="month">/month</span> --}}
                                     @else
                                     <input type="hidden" name="price" value="{{ $package->price }}">
                                         <span class="amount">Free</span>
