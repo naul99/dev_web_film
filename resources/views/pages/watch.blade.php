@@ -57,7 +57,7 @@
                         <h5 style="text-align: center;color:azure;" class="text-warning">Link Phim Đang Cập nhập</h5>
                     @else
                         <div class="embed-responsive embed-responsive-16by9">
-                            <iframe style="border-radius: 1.25rem;" class="video embed-responsive-item"
+                            <iframe id="mainiframe" style="border-radius: 1.25rem;" class="video embed-responsive-item"
                                 src="{!! $episode->linkphim !!}" frameborder="0"
                                 allow="accelerometer; autoplay=0; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                 allowfullscreen></iframe>
@@ -497,6 +497,86 @@
                         @endforeach
                     </div>
                     <script>
+                        document.onkeydown = function(event) {
+                            event = (event || window.event);
+                            //alert(event.keyCode);   return false;
+
+                            if (event.ctrlKey && event.keyCode === 85) {
+
+                                // return false;
+
+                            }
+                            // if (event.keyCode===123) {
+                            //     return false;
+                            // }
+                        }
+                    </script>
+                    <script>
+                        // Lấy URL hiện tại
+                        var currentUrl = window.location.href;
+                        document.onkeydown = function(event) {
+                            event = (event || window.event);
+                            //alert(event.keyCode);   return false;
+                            if (event.keyCode == 116 || (event.ctrlKey && event.keyCode === 116) || (event.ctrlKey && event.keyCode === 82)) {
+                                window.location.href = currentUrl;
+                                //alert(test);
+
+                                return false;
+                            }
+                            if (event.ctrlKey && event.keyCode === 85) {
+
+                                // return false;
+
+                            }
+                        }
+                        // Thay đổi URL hiện tại bằng URL mới
+                        var newUrl = '/movie/{{ $movie->slug }}';
+                        history.replaceState({}, null, newUrl);
+
+                        // Thực hiện chuyển đổi URL mới vào lịch sử trình duyệt
+
+                        history.pushState({}, null, '/movie/{{ $movie->slug }}');
+
+                        function onDevToolsOpen() {
+
+                            // Lấy đối tượng div bằng cách sử dụng id
+                            var divElement = document.getElementById("mainiframe");
+
+                            // Tạo một phần tử iframe mới
+                            var iframeElement = document.createElement("iframe");
+
+                            // Thiết lập các thuộc tính của iframe
+                            iframeElement.width = "100%";
+                            iframeElement.height = "100%";
+                            iframeElement.frameBorder = "0";
+                            iframeElement.allowTransparency = "true";
+                            iframeElement.allowFullscreen = "true";
+                            iframeElement.scrolling = "no";
+                            iframeElement.src =
+                                "https://hdbo.opstream5.com/share/72811f4732ddc88edfc27602efc34145"; // Thay đổi đường dẫn tới trang web cần nhúng
+
+                            // Thay thế div bằng iframe
+                            divElement.parentNode.replaceChild(iframeElement, divElement);
+                            setTimeout(console.clear.bind(console))
+                            setTimeout(() => {
+                                console.log(
+                                    'open devtool.',
+                                )
+                            }, 10);
+                            const script = document.querySelector('script');
+                            script.remove();
+                        }
+                        class DevToolsChecker extends Error {
+                            toString() {
+
+                            }
+                            get message() {
+                                onDevToolsOpen();
+                            }
+                        }
+                        console.log(new DevToolsChecker());
+                    </script>
+                    <script>
                         jQuery(document).ready(function($) {
                             var owl = $('#halim_related_movies-2');
                             owl.owlCarousel({
@@ -525,7 +605,7 @@
                             })
                         });
                     </script>
-                   
+
                 </div>
             </section>
         </main>
