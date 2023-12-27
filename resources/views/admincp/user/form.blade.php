@@ -56,7 +56,7 @@
                             <label for="">Role</label>
                             <select class="form-control" name="role">
                                 @foreach ($role as $key => $ro)
-                                    @if (isset($user))
+                                    @if (isset($user) && isset($all_column_role))
                                         <option value="{{ $ro->id }}"
                                             {{ $ro->id == $all_column_role->id ? 'selected' : '' }}>{{ $ro->name }}
                                         </option>

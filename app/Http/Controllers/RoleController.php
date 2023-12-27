@@ -128,6 +128,9 @@ class RoleController extends Controller
      */
     public function destroy($id)
     {
+        
+        // $user_data = User::all()->toArray();
+        // $user->hasRole('writer');
         Role::find($id)->delete();
         toastr()->success('Deleted role success.');
         return redirect(route('role.index'));
