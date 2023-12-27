@@ -15,12 +15,30 @@
                     <article class="thumb grid-item post-38498">
                         <div class="halim-item">
                             <a class="halim-thumb" href="{{ route('movie', $h->slug) }}" title="{{ $h->title }}">
-                                <figure style="height: 400px;">
-
+                                <style>
+                                    /* CSS chỉ dành cho màn hình có độ rộng tối đa là 600px (dạng mobile) */
+                                    @media (max-width: 600px) {
+                                        .response_img {
+                                            height: 260px;
+                                        }
+                                    }
+                                    /* CSS chỉ dành cho màn hình có độ rộng từ 601px đến 900px (tablet) */
+                                    @media (min-width: 601px) and (max-width: 900px) {
+                                        .response_img {
+                                            height: 260px;
+                                        }
+                                    }
+                                    /* CSS chỉ dành cho màn hình có độ rộng lớn hơn 600px (không phải mobile) */
+                                    @media (min-width: 901px) {
+                                        .response_img {
+                                            height: 400px;
+                                        }
+                                    }
+                                </style>
+                                <figure class="response_img">
                                     <img class="lazy img-responsive"
                                         src="{{ asset('uploads/movie/' . $h->movie_image->image) }}"
                                         alt="{{ $h->title }}" title="{{ $h->title }}">
-
 
                                 </figure>
                                 <span class="status">

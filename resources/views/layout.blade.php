@@ -183,7 +183,14 @@
                     </div>
                 </div>
                 @guest('customer')
-                    <div class="col-md-2 hidden-xs">
+                    <style>
+                        @media (min-width: 601px) and (max-width: 900px) {
+                            .response_mobile {
+                                display: none;
+                            }
+                        }
+                    </style>
+                    <div class="col-md-2 hidden-xs response_mobile">
 
                         <div id="get-bookmark" class="box-shadow">
                             {{-- <a href="{{ route('user-login') }}"> Login</a> --}}
@@ -255,7 +262,7 @@
                     </div> --}}
                     <!-- Example split danger button -->
 
-                    <div class="col-md-2 hidden-xs">
+                    <div class="col-md-2 hidden-xs response_mobile">
 
                         <button class="btn btn-secondary dropdown-toggle" role="button" id="get-bookmark"
                             data-bs-toggle="dropdown" aria-expanded="false">
@@ -277,7 +284,7 @@
                 @endguest
 
 
-                <div class="col-md-3 hidden-xs">
+                <div class="col-md-3 hidden-xs response_mobile">
 
                     <div id="get-bookmark" class="box-shadow">
                         <a href="javascript:void(0)" onClick="return rudr_favorite(this);">

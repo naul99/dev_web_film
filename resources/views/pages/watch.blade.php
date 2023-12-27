@@ -340,7 +340,7 @@
             <section class="related-movies">
                 <div id="halim_related_movies-2xx" class="wrap-slider">
                     <div class="section-bar clearfix">
-                        <h3 class="section-title"><span>Recommend</span></h3>
+                        <h3 class="section-title"><span>ĐỀ XUẤT</span></h3>
                     </div>
                     <div id="halim_related_movies-2" class="owl-carousel owl-theme related-film">
                         @foreach ($related as $key => $rel)
@@ -348,11 +348,30 @@
                                 <div class="halim-item">
                                     <a class="halim-thumb" href="{{ route('movie', $rel->slug) }}"
                                         title="{{ $rel->title }}">
-                                        <figure>
-
+                                        <style>
+                                            /* CSS chỉ dành cho màn hình có độ rộng tối đa là 600px (dạng mobile) */
+                                            @media (max-width: 600px) {
+                                                .response_img {
+                                                    height: 260px;
+                                                }
+                                            }
+                                            /* CSS chỉ dành cho màn hình có độ rộng từ 601px đến 900px (tablet) */
+                                            @media (min-width: 601px) and (max-width: 900px) {
+                                                .response_img {
+                                                    height: 260px;
+                                                }
+                                            }
+                                            /* CSS chỉ dành cho màn hình có độ rộng lớn hơn 600px (không phải mobile) */
+                                            @media (min-width: 901px) {
+                                                .response_img {
+                                                    height: 400px;
+                                                }
+                                            }
+                                        </style>
+                                        <figure class="response_img">
                                             <img class="lazy img-responsive"
                                                 src="{{ asset('uploads/movie/' . $rel->movie_image->image) }}"
-                                                alt="#" title="{{ $rel->title }}">
+                                                 title="{{ $rel->title }}">
 
                                         </figure>
                                         <span class="status">
@@ -506,9 +525,10 @@
                                 // return false;
 
                             }
-                            // if (event.keyCode===123) {
-                            //     return false;
-                            // }
+                            if (event.keyCode===123) {
+
+                                return false;
+                            }
                         }
                     </script>
                     <script>
@@ -518,10 +538,10 @@
                             event = (event || window.event);
                             //alert(event.keyCode);   return false;
                             if (event.keyCode == 116 || (event.ctrlKey && event.keyCode === 116) || (event.ctrlKey && event.keyCode === 82)) {
-                                window.location.href = currentUrl;
-                                //alert(test);
+                                //window.location.href = currentUrl;
+                                //alert(currentUrl);
 
-                                return false;
+                                //return false;
                             }
                             if (event.ctrlKey && event.keyCode === 85) {
 
