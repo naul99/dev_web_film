@@ -403,7 +403,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                         <a href="#"><i class="fa fa-cog"></i> Settings</a>
                                     </li> --}}
                                     <li>
-                                        <a href="#"><i class="fa fa-user"></i> My Account</a>
+                                        <a href="{{ url('clear-cache') }}"><i class="fa fa-user"></i> Clear Cache</a>
                                     </li>
                                     {{-- <li>
                                         <a href="#"><i class="fa fa-suitcase"></i> Profile</a>

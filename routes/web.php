@@ -168,3 +168,10 @@ Route::get('/api/embed_ads',[EmbedController::class,'embed_ads']);
 Route::get('/site-map',function(){
     return Artisan::call('sitemap:create');
 });
+// Clear application cache:
+
+Route::get('/clear-cache', function() {
+     Artisan::call('cache:clear');
+     toastr()->success("Clear cache success.", 'Success');
+     return redirect()->back();
+});
