@@ -10,7 +10,7 @@ class ResumeController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['role:admin']);
+        //$this->middleware(['role:admin']);
     }
     public function create()
     {
@@ -47,4 +47,14 @@ class ResumeController extends Controller
         return view('admincp.resume.view',compact('data'));
 
     }
+    public function delete($id)
+    {
+        $data = Resume::find($id);
+        if (!empty($data->file)) {
+            unlink('assets/' . $data->file);
+            $data->delete();
+        }
+        return redirect()->back();
+    }
+    
 }

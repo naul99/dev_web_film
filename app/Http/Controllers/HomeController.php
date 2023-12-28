@@ -46,7 +46,7 @@ class HomeController extends Controller
 
         $range->setEnd(Carbon::now()->subDay(0));
 
-        $onlineusers = Tracker::onlineUsers()->count();
+        //$onlineusers = Tracker::onlineUsers()->count();
         $pageViews = Tracker::pageViews($range);
         //dd($pageViews);
         // foreach ($pageViews as $key => $value) {
@@ -62,7 +62,7 @@ class HomeController extends Controller
         $top_browser = Browser::join('tracker_agents','tracker_sessions.agent_id','=','tracker_agents.id')
         ->select('browser', DB::raw('count(*) as total'))->groupBy('browser')->orderBy('total', 'DESC')->take(5)->get();
         
-        return view('home', compact('total_movie_home', 'total_category_home', 'total_genre_home', 'total_country_home', 'total_user_home', 'onlineusers', 'pageViews','top_browser'));
+        return view('home', compact('total_movie_home', 'total_category_home', 'total_genre_home', 'total_country_home', 'total_user_home', 'pageViews','top_browser'));
     }
     public function online()
     {

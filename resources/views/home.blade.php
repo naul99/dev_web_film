@@ -259,34 +259,53 @@
     </script>
     <!--get user online ajax -->
     <script>
-        $('document').ready(function() {
-            $.ajax({
-                url: "{{ route('useronline') }}",
-                type: "GET",
+        // $('document').ready(function() {
+        //     $.ajax({
+        //         url: "{{ route('useronline') }}",
+        //         type: "GET",
 
-                success: function(data) {
-                    //console.log(data)
-                    $("#userOnline").html(data)
+        //         success: function(data) {
+        //             //console.log(data)
+        //             $("#userOnline").html(data)
+        //         }
+        //     })
+        //     setInterval(function() {
+        //         getRealData()
+        //     }, 60000); //request every x seconds
+
+        // });
+
+        // function getRealData(event) {
+        //     // event.preventDefault();
+        //     $.ajax({
+        //         url: "{{ route('useronline') }}",
+        //         type: "GET",
+
+        //         success: function(data) {
+        //             //console.log(data)
+        //             $("#userOnline").html(data)
+        //         }
+        //     })
+        // };
+        function updateOnlineUsers() {
+            var xhr = new XMLHttpRequest();
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    var onlineUsers = parseInt(xhr.responseText);
+                    document.getElementById('userOnline').innerText = onlineUsers;
                 }
-            })
-            setInterval(function() {
-                getRealData()
-            }, 60000); //request every x seconds
+            };
 
-        });
+            xhr.open('GET', '{{ route('useronline') }}', true);
+            xhr.send();
+        }
 
-        function getRealData(event) {
-            // event.preventDefault();
-            $.ajax({
-                url: "{{ route('useronline') }}",
-                type: "GET",
-
-                success: function(data) {
-                    //console.log(data)
-                    $("#userOnline").html(data)
-                }
-            })
-        };
+        // Cập nhật số người dùng online mỗi 1 phút
+        setInterval(updateOnlineUsers, 60000);
+        
+        // Gọi hàm lần đầu khi trang được load
+        updateOnlineUsers();
     </script>
 @section('js')
 @endsection

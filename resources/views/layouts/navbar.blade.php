@@ -350,7 +350,7 @@
                                 </ul>
                             </li>
                         @endcan
-                        @role('admin')
+                      
                             <li class="treeview {{ $segment == 'resume' ? 'active' : '' }}">
                                 <a href="#">
                                     <i class="fa fa-genderless"></i>
@@ -368,7 +368,7 @@
                                     </li>
                                 </ul>
                             </li>
-                        @endrole
+                        
                     </ul>
                 </div>
                 <!-- /.navbar-collapse -->
