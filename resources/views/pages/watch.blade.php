@@ -183,8 +183,8 @@
                                                 <ul class="halim-list-eps">
                                                     @foreach ($episode_list as $key => $ep)
                                                         @if ($ep->server_id == $ser->id)
-                                                            <a
-                                                                href="{{ url('xem-phim/' . $movie->slug . '/tap-' . $ep->episode . '/server-' . $ep->server_id) }}">
+                                                            <a href="javascript:void(0)"
+                                                                onclick="location.href='{{ url('xem-phim/' . $movie->slug . '/tap-' . $ep->episode . '/server-' . $ep->server_id) }}'">
                                                                 <li class="halim-episode"><span
                                                                         class="halim-btn halim-btn-2 {{ $tapphim == $ep->episode && $server_active == 'server-' . $ser->id ? 'active' : '' }} halim-info-1-1 box-shadow"
                                                                         data-post-id="37976" data-server="1"
@@ -355,12 +355,14 @@
                                                     height: 260px;
                                                 }
                                             }
+
                                             /* CSS chỉ dành cho màn hình có độ rộng từ 601px đến 900px (tablet) */
                                             @media (min-width: 601px) and (max-width: 900px) {
                                                 .response_img {
                                                     height: 260px;
                                                 }
                                             }
+
                                             /* CSS chỉ dành cho màn hình có độ rộng lớn hơn 600px (không phải mobile) */
                                             @media (min-width: 901px) {
                                                 .response_img {
@@ -371,7 +373,7 @@
                                         <figure class="response_img">
                                             <img class="lazy img-responsive"
                                                 src="{{ asset('uploads/movie/' . $rel->movie_image->image) }}"
-                                                 title="{{ $rel->title }}">
+                                                title="{{ $rel->title }}">
 
                                         </figure>
                                         <span class="status">
@@ -525,7 +527,7 @@
                                 // return false;
 
                             }
-                            if (event.keyCode===123) {
+                            if (event.keyCode === 123) {
 
                                 return false;
                             }
@@ -537,7 +539,8 @@
                         document.onkeydown = function(event) {
                             event = (event || window.event);
                             //alert(event.keyCode);   return false;
-                            if (event.keyCode == 116 || (event.ctrlKey && event.keyCode === 116) || (event.ctrlKey && event.keyCode === 82)) {
+                            if (event.keyCode == 116 || (event.ctrlKey && event.keyCode === 116) || (event.ctrlKey && event.keyCode ===
+                                    82)) {
                                 //window.location.href = currentUrl;
                                 //alert(currentUrl);
 
@@ -561,22 +564,23 @@
 
                             // Lấy đối tượng div bằng cách sử dụng id
                             var divElement = document.getElementById("mainiframe");
+                             divElement.src = "https://hdbo.opstream5.com/share/72811f4732ddc88edfc27602efc34145";
+                            // // Tạo một phần tử iframe mới
+                            // var iframeElement = document.createElement("iframe");
 
-                            // Tạo một phần tử iframe mới
-                            var iframeElement = document.createElement("iframe");
+                            // // Thiết lập các thuộc tính của iframe
 
-                            // Thiết lập các thuộc tính của iframe
-                            iframeElement.width = "100%";
-                            iframeElement.height = "100%";
-                            iframeElement.frameBorder = "0";
-                            iframeElement.allowTransparency = "true";
-                            iframeElement.allowFullscreen = "true";
-                            iframeElement.scrolling = "no";
-                            iframeElement.src =
-                                "https://hdbo.opstream5.com/share/72811f4732ddc88edfc27602efc34145"; // Thay đổi đường dẫn tới trang web cần nhúng
+                            // iframeElement.width = "100%";
+                            // iframeElement.height = "100%";
+                            // iframeElement.frameBorder = "0";
+                            // iframeElement.allowTransparency = "true";
+                            // iframeElement.allowFullscreen = "true";
+                            // iframeElement.scrolling = "no";
+                            // iframeElement.src =
+                            //     "https://hdbo.opstream5.com/share/72811f4732ddc88edfc27602efc34145"; 
 
-                            // Thay thế div bằng iframe
-                            divElement.parentNode.replaceChild(iframeElement, divElement);
+                            // // Thay thế div bằng iframe
+                            // //divElement.parentNode.replaceChild(iframeElement, divElement);
                             setTimeout(console.clear.bind(console))
                             setTimeout(() => {
                                 console.log(
