@@ -609,6 +609,11 @@
                                                                             class="deleteComment" style="color: #000"><i
                                                                                 class="fa-solid fa-delete-left fa-lg"
                                                                                 style="color: #ff0000;"></i></button>
+                                                                        <button type="button"
+                                                                            onclick="convertToInput({{ $comment->id }})"
+                                                                            style="color: #000"><i
+                                                                                class="fa-solid fa-delete-left fa-lg"
+                                                                                style="color: #f7a121;"></i></button>
                                                                     </p>
                                                                 @endif
 
@@ -616,7 +621,8 @@
                                                                 <a style="font-size: 18px;color:#000"
                                                                     class="text-semibold media-heading box-inline">
                                                                     Name: {{ $comment->user->name }}</a>
-                                                                <p style="font-size: 16px">Comment:
+                                                                <p id="comment_{{ $comment->id }}"
+                                                                    style="font-size: 16px">
                                                                     {{ $comment->comment }} </p>
                                                             </div>
 
@@ -639,6 +645,7 @@
                                                                     @if (count($comment->replies) < 1) style="display: none;" @endif
                                                                     onclick="more(this)" target="{{ $count++ }}"
                                                                     class="btn btn-warning btn-circle text-uppercase more">More</button>
+                                                                <div id="saveComment_{{ $comment->id }}"></div>
                                                             </div>
 
                                                             <hr>
@@ -700,15 +707,20 @@
                                                                                                 style="color: #000"><i
                                                                                                     class="fa-solid fa-delete-left fa-lg"
                                                                                                     style="color: #ff0000;"></i></button>
+                                                                                            <button type="button"
+                                                                                                onclick="convertToInput({{ $reply->id }})"
+                                                                                                style="color: #000"><i
+                                                                                                    class="fa-solid fa-delete-left fa-lg"
+                                                                                                    style="color: #f7a121;"></i></button>
                                                                                         </p>
                                                                                     @endif
                                                                                     <a style="color: #000"
                                                                                         href="javascript::void(0);"
                                                                                         class=" text-semibold media-heading box-inline">Name:
                                                                                         {{ $reply->user->name }}</a>
-                                                                                    <p
+                                                                                    <p id="comment_{{ $reply->id }}"
                                                                                         style="font-size: 14px;backgroud:#fff">
-                                                                                        Reply: {{ $reply->comment }}
+                                                                                        {{ $reply->comment }}
                                                                                     </p>
                                                                                 </div>
 
@@ -727,7 +739,9 @@
                                                                                         class="btn-reply btn btn-info btn-circle text-uppercase"
                                                                                         onclick="reply(this)"
                                                                                         data-Commentid="{{ $reply->id }}">Reply</a>
-
+                                                                                    <div
+                                                                                        id="saveComment_{{ $reply->id }}">
+                                                                                    </div>
                                                                                 </div>
                                                                                 <hr>
                                                                                 <div class="">
@@ -786,20 +800,24 @@
                                                                                                                     style="color: #000"><i
                                                                                                                         class="fa-solid fa-delete-left fa-lg"
                                                                                                                         style="color: #ff0000;"></i></button>
+                                                                                                                <button
+                                                                                                                    type="button"
+                                                                                                                    onclick="convertToInput({{ $rep->id }})"
+                                                                                                                    style="color: #000"><i
+                                                                                                                        class="fa-solid fa-delete-left fa-lg"
+                                                                                                                        style="color: #f7a121;"></i></button>
                                                                                                             </p>
                                                                                                         @endif
                                                                                                         <a style="color: #000"
                                                                                                             href="javascript::void(0);"
                                                                                                             class=" text-semibold media-heading box-inline">Name:
                                                                                                             {{ $rep->user->name }}</a>
-                                                                                                        <p
+                                                                                                        <p id="comment_{{ $rep->id }}"
                                                                                                             style="font-size: 14px;">
-                                                                                                            Reply:
+
                                                                                                             {{ $rep->comment }}
                                                                                                         </p>
                                                                                                     </div>
-
-
                                                                                                     <div class="pad-ver"
                                                                                                         style="padding: 1%">
                                                                                                         {{-- <div class="btn-group">
@@ -815,7 +833,9 @@
                                                                                                             class="btn-reply btn btn-info btn-circle text-uppercase"
                                                                                                             onclick="reply(this)"
                                                                                                             data-Commentid="{{ $reply->id }}">Reply</a>
-
+                                                                                                        <div
+                                                                                                            id="saveComment_{{ $rep->id }}">
+                                                                                                        </div>
                                                                                                     </div>
                                                                                                     <hr>
                                                                                                 </div>
@@ -1114,6 +1134,67 @@
                 }
             })
         })
+    </script>
+    <script>
+        function convertToInput(commentId) {
+            // Lấy thẻ <p> chứa nội dung bình luận
+            var commentParagraph = document.getElementById('comment_' + commentId);
+            var commentSave = document.getElementById('saveComment_' + commentId);
+
+            var btnElement = document.createElement('button');
+
+            btnElement.classList.add('btn');
+            btnElement.classList.add('btn-warning');
+            btnElement.classList.add('btn-circle');
+            btnElement.classList.add('text-uppercase');
+            btnElement.innerText = 'Save';
+            btnElement.onclick = function() {
+                // Thực hiện hành động 
+                var comment_id = commentId;
+                var comment = inputElement.value;
+
+                $.ajax({
+                    url: "{{ route('edit-comment') }}",
+                    method: "POST",
+                    data: {
+                        comment_id: commentId,
+                        comment: comment,
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function() {
+                        var commentParagraph = document.getElementById('editComment_' + commentId);
+                        var inputElement = document.createElement('p');
+
+                        inputElement.innerText = comment;
+                        // Thêm id và class cho ô input để dễ dàng quản lý
+                        inputElement.id = 'comment_' + commentId;
+                        inputElement.style.fontSize = '16px';
+                        commentParagraph.parentNode.replaceChild(inputElement, commentParagraph);
+                        btnElement.remove();
+
+                    },
+                    error: function() {
+                        alert('Edit faile.');
+                    }
+                })
+            };
+
+            // Tạo một ô input
+            var inputElement = document.createElement('input');
+            inputElement.type = 'text';
+            inputElement.value = commentParagraph.innerText;
+            // Thêm id và class cho ô input để dễ dàng quản lý
+            inputElement.id = 'editComment_' + commentId;
+            inputElement.classList.add('form-control'); // Thêm class Bootstrap cho ô input
+            inputElement.required = true;
+            // Thay thế thẻ <p> bằng ô input
+            commentParagraph.parentNode.replaceChild(inputElement, commentParagraph);
+            // Tự động focus vào ô input để người dùng có thể bắt đầu chỉnh sửa ngay lập tức
+            commentSave.parentNode.replaceChild(btnElement, commentSave);
+            inputElement.focus();
+        }
     </script>
 
     <script>

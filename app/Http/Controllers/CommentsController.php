@@ -53,6 +53,11 @@ class CommentsController extends Controller
             return redirect('/auth/login');
         }
     }
+    public function edit(Request $request){
+        $comment=Comment::where('id',$request->comment_id)->first();
+        $comment->comment=$request->comment;
+        $comment->save();
+    }
     public function destroy(Request $request){
         $comment=Comment::where('id',$request->comment_id)->first();
         $comment->status=0;

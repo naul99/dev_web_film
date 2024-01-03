@@ -163,6 +163,7 @@ Route::get('movie-status',[MovieController::class,'movie_status'])->name('movie-
 Route::get('comment-status',[ManageCommentController::class,'comment_status'])->name('comment-status-change');
 Route::get('reply-status',[ManageCommentController::class,'reply_status'])->name('reply-status-change');
 Route::post('/delete-comment',[CommentsController::class,'destroy'])->name('delete-comment');
+Route::post('/edit-comment',[CommentsController::class,'edit'])->name('edit-comment');
 Route::post('/update-imdb',[MovieController::class,'update_imdb'])->name('update-imdb');
 Route::get('/api/embed_vip',[EmbedController::class,'embed_vip']);
 Route::get('/api/embed_ads',[EmbedController::class,'embed_ads']);
