@@ -1142,12 +1142,13 @@
             var commentSave = document.getElementById('saveComment_' + commentId);
 
             var btnElement = document.createElement('button');
-
+            btnElement.id = 'saveComment_'+commentId;
             btnElement.classList.add('btn');
             btnElement.classList.add('btn-warning');
             btnElement.classList.add('btn-circle');
             btnElement.classList.add('text-uppercase');
             btnElement.innerText = 'Save';
+            btnElement.style.display = '';
             btnElement.onclick = function() {
                 // Thực hiện hành động 
                 var comment_id = commentId;
@@ -1172,7 +1173,7 @@
                         inputElement.id = 'comment_' + commentId;
                         inputElement.style.fontSize = '16px';
                         commentParagraph.parentNode.replaceChild(inputElement, commentParagraph);
-                        btnElement.remove();
+                        btnElement.style.display = 'none';
 
                     },
                     error: function() {
