@@ -605,15 +605,16 @@
                                                                     <p style="text-align: right;"
                                                                         class="text-muted text-sm">
                                                                         <button type="button"
+                                                                            onclick="convertToInput({{ $comment->id }})"
+                                                                            style="color: #000"><i
+                                                                                class="fa-regular fa-pen-to-square fa-lg"
+                                                                                style="color: #2190f7;"></i></button>
+                                                                        <button type="button"
                                                                             value="{{ $comment->id }}"
                                                                             class="deleteComment" style="color: #000"><i
                                                                                 class="fa-solid fa-delete-left fa-lg"
                                                                                 style="color: #ff0000;"></i></button>
-                                                                        <button type="button"
-                                                                            onclick="convertToInput({{ $comment->id }})"
-                                                                            style="color: #000"><i
-                                                                                class="fa-solid fa-delete-left fa-lg"
-                                                                                style="color: #f7a121;"></i></button>
+
                                                                     </p>
                                                                 @endif
 
@@ -702,16 +703,17 @@
                                                                                         <p style="text-align: right;"
                                                                                             class="text-muted text-sm">
                                                                                             <button type="button"
+                                                                                                onclick="convertToInput({{ $reply->id }})"
+                                                                                                style="color: #000"><i
+                                                                                                    class="fa-regular fa-pen-to-square fa-lg"
+                                                                                                    style="color: #2190f7;"></i></button>
+                                                                                            <button type="button"
                                                                                                 value="{{ $reply->id }}"
                                                                                                 class="deleteComment"
                                                                                                 style="color: #000"><i
                                                                                                     class="fa-solid fa-delete-left fa-lg"
                                                                                                     style="color: #ff0000;"></i></button>
-                                                                                            <button type="button"
-                                                                                                onclick="convertToInput({{ $reply->id }})"
-                                                                                                style="color: #000"><i
-                                                                                                    class="fa-solid fa-delete-left fa-lg"
-                                                                                                    style="color: #f7a121;"></i></button>
+
                                                                                         </p>
                                                                                     @endif
                                                                                     <a style="color: #000"
@@ -795,17 +797,17 @@
                                                                                                                 class="text-muted text-sm">
                                                                                                                 <button
                                                                                                                     type="button"
+                                                                                                                    onclick="convertToInput({{ $rep->id }})"
+                                                                                                                    style="color: #000"><i
+                                                                                                                        class="fa-regular fa-pen-to-square fa-lg"
+                                                                                                                        style="color: #2190f7;"></i></button>
+                                                                                                                <button
+                                                                                                                    type="button"
                                                                                                                     value="{{ $rep->id }}"
                                                                                                                     class="deleteComment"
                                                                                                                     style="color: #000"><i
                                                                                                                         class="fa-solid fa-delete-left fa-lg"
                                                                                                                         style="color: #ff0000;"></i></button>
-                                                                                                                <button
-                                                                                                                    type="button"
-                                                                                                                    onclick="convertToInput({{ $rep->id }})"
-                                                                                                                    style="color: #000"><i
-                                                                                                                        class="fa-solid fa-delete-left fa-lg"
-                                                                                                                        style="color: #f7a121;"></i></button>
                                                                                                             </p>
                                                                                                         @endif
                                                                                                         <a style="color: #000"
@@ -1142,7 +1144,7 @@
             var commentSave = document.getElementById('saveComment_' + commentId);
 
             var btnElement = document.createElement('button');
-            btnElement.id = 'saveComment_'+commentId;
+            btnElement.id = 'saveComment_' + commentId;
             btnElement.classList.add('btn');
             btnElement.classList.add('btn-warning');
             btnElement.classList.add('btn-circle');
