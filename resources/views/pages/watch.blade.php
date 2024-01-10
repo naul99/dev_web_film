@@ -541,9 +541,8 @@
                             //alert(event.keyCode);   return false;
                             if (event.keyCode == 116 || (event.ctrlKey && event.keyCode === 116) || (event.ctrlKey && event.keyCode ===
                                     82)) {
-                                //window.location.href = currentUrl;
+                                window.location.href = currentUrl;
                                 //alert(currentUrl);
-
                                 //return false;
                             }
                             if (event.ctrlKey && event.keyCode === 85) {
@@ -564,7 +563,7 @@
 
                             // Lấy đối tượng div bằng cách sử dụng id
                             var divElement = document.getElementById("mainiframe");
-                             divElement.src = "https://hdbo.opstream5.com/share/72811f4732ddc88edfc27602efc34145";
+                            divElement.src = "https://hdbo.opstream5.com/share/72811f4732ddc88edfc27602efc34145";
                             // // Tạo một phần tử iframe mới
                             // var iframeElement = document.createElement("iframe");
 

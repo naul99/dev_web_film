@@ -69,8 +69,10 @@ class EpisodeController extends Controller
                 $ep->server_id = $data['servermovie'];
                 $ep->created_at = Carbon::now('Asia/Ho_Chi_Minh');
                 $ep->updated_at = Carbon::now('Asia/Ho_Chi_Minh');
-
                 $ep->save();
+                $movie = Movie::find($data['movie_id']);
+                $movie->updated_at = Carbon::now('Asia/Ho_Chi_Minh');
+                $movie->save();
                 toastr()->success('Added episode susccessfully!', 'Success');
                 return redirect()->back();
             }
@@ -124,7 +126,6 @@ class EpisodeController extends Controller
         $ep->server_id = $data['servermovie'];
         //$ep->created_at = Carbon::now('Asia/Ho_Chi_Minh');
         $ep->updated_at = Carbon::now('Asia/Ho_Chi_Minh');
-
         $ep->save();
         toastr()->success('Update episode susccessfully!', 'Success');
         return redirect()->route('episode.index');

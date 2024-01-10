@@ -1109,7 +1109,6 @@
     {{-- <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script> --}}
     <script type='text/javascript' src='/js/jquery-ui.js'></script>
     <!-- Javascript -->
-
     <script>
         $(document).ready(function() {
             $(document).on('click', '.deleteComment', function() {
