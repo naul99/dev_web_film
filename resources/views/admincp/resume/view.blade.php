@@ -15,7 +15,7 @@
           jQuery("#output").html(
                 '<video controls style="width:100%; height:600px" src="/assets/' + file + '" frameborder="0"></video>');
         } else {
-            const file_url = "http://127.0.0.1:8000/assets/{{ $data->file }}";
+            const file_url = "/assets/{{ $data->file }}";
             const xhttp = new XMLHttpRequest();
             xhttp.onload = function() {
                 document.getElementById("output").innerHTML = this.responseText;
