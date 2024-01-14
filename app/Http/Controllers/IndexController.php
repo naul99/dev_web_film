@@ -76,7 +76,9 @@ class IndexController extends Controller
     }
     public function home()
     {
-        
+        if (Auth::guard('customer')->check()) {
+            $this->check_expiry();
+        }
         $category = Category::orderBy('id', 'ASC')->where('status', 1)->get();
         $genre = Genre::where('status', 1)->orderBy('id', 'DESC')->get();
         $country = Country::where('status', 1)->orderBy('id', 'DESC')->get();
@@ -661,7 +663,25 @@ class IndexController extends Controller
 
         return view('pages.movies_history', compact('movie', 'category', 'genre', 'country'));
     }
-   
+   private function check_expiry(){
+     // kiem tra ngay het han
+     $check_order = Order::where('customer_id', Session::get('customer_id'))->where('expiry', 0)->get();
+     foreach ($check_order as $check) {
+         // $date_now = Carbon::now('Asia/Ho_Chi_Minh')->format('d-m-Y');
+         // $datework = Carbon::createFromDate($check->date_start);
+         // $expiry_date = Carbon::createFromDate($check->date_end)->format('d-m-Y');
+         // //$expiry_date = $check->date_end;
+         // $check_date = $datework->diffInDays($expiry_date);
+         if ($check->date_end->isPast()) {
+             $check->expiry = "1";
+             $check->save();
+             // update account
+             $customer = Customer::find(Session::get('customer_id'));
+             $customer->status_registration = "0";
+             $customer->save();
+         }
+     }
+   }
     public function register_package()
     {
         // kiem tra ngay het han
