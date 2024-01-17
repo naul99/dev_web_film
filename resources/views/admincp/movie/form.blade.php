@@ -167,7 +167,7 @@
                             {!! Form::select(
                                 'thuocphim',
                                 ['' => '--Select Type--', '0' => 'Phim Lẻ', '1' => 'Phim Bộ'],
-                                isset($movie) ? $movie->type_movie: '',
+                                isset($movie) ? $movie->type_movie : '',
                                 [
                                     'class' => 'form-control',
                                     'required',
@@ -293,7 +293,6 @@
                                     {{-- <option value="{{ $cast->id }}">{{ $cast->title }}</option> --}}
                                 @endforeach
                             </select>
-
                         </div>
                         <div class="form-group">
                             <label><strong>Cast:</strong></label><br />

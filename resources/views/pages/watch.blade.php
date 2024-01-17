@@ -183,15 +183,17 @@
                                                 <ul class="halim-list-eps">
                                                     @foreach ($episode_list as $key => $ep)
                                                         @if ($ep->server_id == $ser->id)
-                                                            <a href="javascript:void(0)"
+                                                            <button 
                                                                 onclick="location.href='{{ url('xem-phim/' . $movie->slug . '/tap-' . $ep->episode . '/server-' . $ep->server_id) }}'">
                                                                 <li class="halim-episode"><span
                                                                         class="halim-btn halim-btn-2 {{ $tapphim == $ep->episode && $server_active == 'server-' . $ser->id ? 'active' : '' }} halim-info-1-1 box-shadow"
                                                                         data-post-id="37976" data-server="1"
                                                                         data-episode="1" data-position="first"
                                                                         data-embed="0" data-title="" data-h1="">EP
-                                                                        [ {{ $ep->episode }} ]</span></li>
-                                                            </a>
+                                                                        [ {{ $ep->episode }} ] @if ($movie->type_movie == 1 && $movie->sotap==$ep->episode)
+                                                                            End
+                                                                        @endif</span></li>
+                                                            </button>
                                                         @endif
                                                     @endforeach
                                                 </ul>

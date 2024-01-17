@@ -86,11 +86,11 @@
                                     @if ($episode_current_list_count > 0)
                                         <div class="loader"></div>
                                         @guest('customer')
-                                            <a href="{{ url('xem-phim/' . $movie->slug . '/tap-' . $episode_first->episode . '/server-' . $episode_first->server_id) }}"
+                                            <button onclick="location.href='{{ url('xem-phim/' . $movie->slug . '/tap-' . $episode_first->episode . '/server-' . $episode_first->server_id) }}'"
                                                 class="bwac-btn">
 
                                                 <i class="fa fa-play "></i>
-                                            </a>
+                                            </button>
                                         @else
                                             {{-- <a href="{{ url('xem-phim/' . $movie->slug . '/tap-' . $episode_first->episode) }}"
                                             class="bwac-btn"> --}}
