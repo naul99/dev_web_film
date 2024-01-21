@@ -325,8 +325,16 @@
                                 // 'accept' => '.jpg, .png, .jpeg, .gif, .psd',
                                 isset($movie) ? '' : 'required',
                             ]) !!}
+
                             @if (isset($movie))
-                                <img width="20%"src="{{ asset('uploads/movie/' . $movie->movie_image->image) }}">
+                                @php
+                                    $image_check = substr($movie->movie_image->image, 0, 5);
+                                @endphp
+                                @if ($image_check == 'https')
+                                    <img width="20%"src="{{ $movie->movie_image->image }}">
+                                @else
+                                    <img width="20%"src="{{ asset('uploads/movie/' . $movie->movie_image->image) }}">
+                                @endif
                             @endif
                         </div>
 

@@ -26,9 +26,17 @@
                                     <a class="halim-thumb" href="{{ route('movie', $mov->slug) }}">
                                         <figure>
 
-                                            <img class="lazy img-responsive"
-                                                data-original="{{ asset('uploads/movie/' . $mov->movie_image->image) }}"
-                                                title="{{ $mov->title }}">
+                                            @php
+                                                $image_check = substr($mov->movie_image->image, 0, 5);
+                                            @endphp
+                                            @if ($image_check == 'https')
+                                                <img class="lazy img-responsive" src="{{ $mov->movie_image->image }}"
+                                                    alt="{{ $mov->title }}" title="{{ $mov->title }}">
+                                            @else
+                                                <img class="lazy img-responsive"
+                                                    src="{{ asset('uploads/movie/' . $mov->movie_image->image) }}"
+                                                    alt="{{ $mov->title }}" title="{{ $mov->title }}">
+                                            @endif
 
                                         </figure>
                                         <span class="status">

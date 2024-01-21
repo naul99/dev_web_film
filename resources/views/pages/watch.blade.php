@@ -183,16 +183,17 @@
                                                 <ul class="halim-list-eps">
                                                     @foreach ($episode_list as $key => $ep)
                                                         @if ($ep->server_id == $ser->id)
-                                                            <button 
+                                                            <button
                                                                 onclick="location.href='{{ url('xem-phim/' . $movie->slug . '/tap-' . $ep->episode . '/server-' . $ep->server_id) }}'">
                                                                 <li class="halim-episode"><span
                                                                         class="halim-btn halim-btn-2 {{ $tapphim == $ep->episode && $server_active == 'server-' . $ser->id ? 'active' : '' }} halim-info-1-1 box-shadow"
                                                                         data-post-id="37976" data-server="1"
                                                                         data-episode="1" data-position="first"
                                                                         data-embed="0" data-title="" data-h1="">EP
-                                                                        [ {{ $ep->episode }} ] @if ($movie->type_movie == 1 && $movie->sotap==$ep->episode)
+                                                                        [ {{ $ep->episode }} ] @if ($movie->type_movie == 1 && $movie->sotap == $ep->episode)
                                                                             End
-                                                                        @endif</span></li>
+                                                                        @endif
+                                                                    </span></li>
                                                             </button>
                                                         @endif
                                                     @endforeach
@@ -217,9 +218,18 @@
                         </div>
                         <div class="movie_info col-xs-12">
                             <div class="halim-item col-md-2">
-                                <img class="lazy img-responsive"
-                                    src="{{ asset('uploads/movie/' . $movie->movie_image->image) }}"
-                                    title="{{ $movie->name_english }}">
+
+                                @php
+                                    $image_check = substr($movie->movie_image->image, 0, 5);
+                                @endphp
+                                @if ($image_check == 'https')
+                                    <img class="lazy img-responsive" src="{{ $movie->movie_image->image }}"
+                                        title="{{ $movie->name_english }}">
+                                @else
+                                    <img class="lazy img-responsive"
+                                        src="{{ asset('uploads/movie/' . $movie->movie_image->image) }}"
+                                        title="{{ $movie->name_english }}">
+                                @endif
 
                             </div>
                             <div class="film-poster col-md-9">
@@ -373,9 +383,18 @@
                                             }
                                         </style>
                                         <figure class="response_img">
-                                            <img class="lazy img-responsive"
-                                                src="{{ asset('uploads/movie/' . $rel->movie_image->image) }}"
-                                                title="{{ $rel->title }}">
+
+                                            @php
+                                                $image_check = substr($rel->movie_image->image, 0, 5);
+                                            @endphp
+                                            @if ($image_check == 'https')
+                                                <img class="lazy img-responsive" src="{{ $rel->movie_image->image }}"
+                                                    title="{{ $rel->title }}">
+                                            @else
+                                                <img class="lazy img-responsive"
+                                                    src="{{ asset('uploads/movie/' . $rel->movie_image->image) }}"
+                                                    title="{{ $rel->title }}">
+                                            @endif
 
                                         </figure>
                                         <span class="status">

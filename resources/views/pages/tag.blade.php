@@ -32,11 +32,19 @@
                             <div class="halim-item">
                                 <a class="halim-thumb" href="{{ route('movie', $mov->slug) }}">
                                     <figure>
-                                       
+
+                                        @php
+                                            $image_check = substr($mov->movie_image->image, 0, 5);
+                                        @endphp
+                                        @if ($image_check == 'https')
+                                            <img class="lazy img-responsive" src="{{ $mov->movie_image->image }}"
+                                                alt="{{ $mov->title }}" title="{{ $mov->title }}">
+                                        @else
                                             <img class="lazy img-responsive"
-                                            data-original="{{ asset('uploads/movie/' . $mov->movie_image->image) }}" alt="#"
-                                                title="{{ $mov->title }}">
-                                        
+                                                src="{{ asset('uploads/movie/' . $mov->movie_image->image) }}"
+                                                alt="{{ $mov->title }}" title="{{ $mov->title }}">
+                                        @endif
+
                                     </figure>
                                     <span class="status">
                                         @if ($mov->quality == 1)
@@ -48,80 +56,7 @@
                                         @endif
                                     </span>
                                     @if (Auth::guard('customer')->check())
-                                            @if (Auth::guard('customer')->user()->status_registration == 0)
-                                                @if ($mov->paid_movie == 1)
-                                                    <span class="episode"><i class="fa-solid fa-lock fa-xl"
-                                                            aria-hidden="true"></i>
-                                                    </span>
-                                                @else
-                                                    <span class="episode"><i class="fa fa-play" aria-hidden="true"></i>
-                                                        @if ($mov->type_movie == '1')
-                                                            @if ($mov->episode_count == $mov->sotap)
-                                                                Hoàn tất |
-                                                            @else
-                                                                {{ $mov->episode_count }}/{{ $mov->sotap }}|
-                                                            @endif
-                                                        @endif
-
-                                                        @if ($mov->language == 1)
-                                                            VietSub
-                                                            @if ($mov->season != 0)
-                                                                -S{{ $mov->season }}
-                                                            @endif
-                                                        @elseif ($mov->language == 2)
-                                                            Tiếng Gốc
-                                                            @if ($mov->season != 0)
-                                                                -S{{ $mov->season }}
-                                                            @endif
-                                                        @elseif ($mov->language == 3)
-                                                            Lồng Tiếng
-                                                            @if ($mov->season != 0)
-                                                                -S{{ $mov->season }}
-                                                            @endif
-                                                        @else
-                                                            Thuyết Minh
-                                                            @if ($mov->season != 0)
-                                                                -S{{ $mov->season }}
-                                                            @endif
-                                                        @endif
-
-                                                    </span>
-                                                @endif
-                                                @else
-                                            <span class="episode"><i class="fa fa-play" aria-hidden="true"></i>
-                                                @if ($mov->type_movie == '1')
-                                                    @if ($mov->episode_count == $mov->sotap)
-                                                        Hoàn tất |
-                                                    @else
-                                                        {{ $mov->episode_count }}/{{ $mov->sotap }}|
-                                                    @endif
-                                                @endif
-
-                                                @if ($mov->language == 1)
-                                                    VietSub
-                                                    @if ($mov->season != 0)
-                                                        -S{{ $mov->season }}
-                                                    @endif
-                                                @elseif ($mov->language == 2)
-                                                    Tiếng Gốc
-                                                    @if ($mov->season != 0)
-                                                        -S{{ $mov->season }}
-                                                    @endif
-                                                @elseif ($mov->language == 3)
-                                                    Lồng Tiếng
-                                                    @if ($mov->season != 0)
-                                                        -S{{ $mov->season }}
-                                                    @endif
-                                                @else
-                                                    Thuyết Minh
-                                                    @if ($mov->season != 0)
-                                                        -S{{ $mov->season }}
-                                                    @endif
-                                                @endif
-
-                                            </span>
-                                            @endif
-                                        @else
+                                        @if (Auth::guard('customer')->user()->status_registration == 0)
                                             @if ($mov->paid_movie == 1)
                                                 <span class="episode"><i class="fa-solid fa-lock fa-xl"
                                                         aria-hidden="true"></i>
@@ -160,17 +95,90 @@
 
                                                 </span>
                                             @endif
+                                        @else
+                                            <span class="episode"><i class="fa fa-play" aria-hidden="true"></i>
+                                                @if ($mov->type_movie == '1')
+                                                    @if ($mov->episode_count == $mov->sotap)
+                                                        Hoàn tất |
+                                                    @else
+                                                        {{ $mov->episode_count }}/{{ $mov->sotap }}|
+                                                    @endif
+                                                @endif
+
+                                                @if ($mov->language == 1)
+                                                    VietSub
+                                                    @if ($mov->season != 0)
+                                                        -S{{ $mov->season }}
+                                                    @endif
+                                                @elseif ($mov->language == 2)
+                                                    Tiếng Gốc
+                                                    @if ($mov->season != 0)
+                                                        -S{{ $mov->season }}
+                                                    @endif
+                                                @elseif ($mov->language == 3)
+                                                    Lồng Tiếng
+                                                    @if ($mov->season != 0)
+                                                        -S{{ $mov->season }}
+                                                    @endif
+                                                @else
+                                                    Thuyết Minh
+                                                    @if ($mov->season != 0)
+                                                        -S{{ $mov->season }}
+                                                    @endif
+                                                @endif
+
+                                            </span>
                                         @endif
+                                    @else
+                                        @if ($mov->paid_movie == 1)
+                                            <span class="episode"><i class="fa-solid fa-lock fa-xl" aria-hidden="true"></i>
+                                            </span>
+                                        @else
+                                            <span class="episode"><i class="fa fa-play" aria-hidden="true"></i>
+                                                @if ($mov->type_movie == '1')
+                                                    @if ($mov->episode_count == $mov->sotap)
+                                                        Hoàn tất |
+                                                    @else
+                                                        {{ $mov->episode_count }}/{{ $mov->sotap }}|
+                                                    @endif
+                                                @endif
+
+                                                @if ($mov->language == 1)
+                                                    VietSub
+                                                    @if ($mov->season != 0)
+                                                        -S{{ $mov->season }}
+                                                    @endif
+                                                @elseif ($mov->language == 2)
+                                                    Tiếng Gốc
+                                                    @if ($mov->season != 0)
+                                                        -S{{ $mov->season }}
+                                                    @endif
+                                                @elseif ($mov->language == 3)
+                                                    Lồng Tiếng
+                                                    @if ($mov->season != 0)
+                                                        -S{{ $mov->season }}
+                                                    @endif
+                                                @else
+                                                    Thuyết Minh
+                                                    @if ($mov->season != 0)
+                                                        -S{{ $mov->season }}
+                                                    @endif
+                                                @endif
+
+                                            </span>
+                                        @endif
+                                    @endif
                                     <div class="icon_overlay"></div>
                                     <div class="halim-post-title-box">
                                         <div class="halim-post-title ">
                                             <p class="entry-title">{{ $mov->title }}</p>
                                             <p class="original_title">{{ $mov->name_english }} @if ($mov->season != 0)
-                                                Season {{ $mov->season }}
-                                            @endif
-                                            @if ($mov->year != null)
-                                            ({{ $mov->year }})
-                                            @endif</p>
+                                                    Season {{ $mov->season }}
+                                                @endif
+                                                @if ($mov->year != null)
+                                                    ({{ $mov->year }})
+                                                @endif
+                                            </p>
                                         </div>
                                     </div>
                                 </a>

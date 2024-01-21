@@ -118,6 +118,10 @@
                                     <a href="{{ route('movie.create') }}"><i class="fa fa-angle-right"></i>
                                         Create Movie</a>
                                 </li>
+                                <li>
+                                    <a href="{{ route('get_api_ophim') }}"><i class="fa fa-angle-right"></i>
+                                        Api Movie</a>
+                                </li>
                             </ul>
                         </li>
                         <li class="treeview {{ $segment == 'episode' ? 'active' : '' }}">

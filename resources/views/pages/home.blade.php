@@ -22,12 +22,14 @@
                                             height: 260px;
                                         }
                                     }
+
                                     /* CSS chỉ dành cho màn hình có độ rộng từ 601px đến 900px (tablet) */
                                     @media (min-width: 601px) and (max-width: 900px) {
                                         .response_img {
                                             height: 260px;
                                         }
                                     }
+
                                     /* CSS chỉ dành cho màn hình có độ rộng lớn hơn 600px (không phải mobile) */
                                     @media (min-width: 901px) {
                                         .response_img {
@@ -36,9 +38,18 @@
                                     }
                                 </style>
                                 <figure class="response_img">
-                                    <img class="lazy img-responsive"
-                                        src="{{ asset('uploads/movie/' . $h->movie_image->image) }}"
-                                        alt="{{ $h->title }}" title="{{ $h->title }}">
+                                    @php
+                                        $image_check = substr($h->movie_image->image, 0, 5);
+                                    @endphp
+                                    @if ($image_check == 'https')
+                                        <img class="lazy img-responsive" src="{{ $h->movie_image->image }}"
+                                            alt="{{ $h->title }}" title="{{ $h->title }}">
+                                    @else
+                                        <img class="lazy img-responsive"
+                                            src="{{ asset('uploads/movie/' . $h->movie_image->image) }}"
+                                            alt="{{ $h->title }}" title="{{ $h->title }}">
+                                    @endif
+
 
                                 </figure>
                                 <span class="status">
@@ -266,9 +277,17 @@
                                 <div class="halim-item">
                                     <a class="halim-thumb" href="{{ route('movie', $mov->slug) }}">
                                         <figure>
-                                            <img class="lazy img-responsive"
-                                                data-original="{{ asset('uploads/movie/' . $mov->movie_image->image) }}"
-                                                alt="{{ $mov->title }}" title="{{ $mov->title }}">
+                                            @php
+                                                $image_check = substr($mov->movie_image->image, 0, 5);
+                                            @endphp
+                                            @if ($image_check == 'https')
+                                                <img class="lazy img-responsive" src="{{ $mov->movie_image->image }}"
+                                                    alt="{{ $mov->title }}" title="{{ $mov->title }}">
+                                            @else
+                                                <img class="lazy img-responsive"
+                                                    src="{{ asset('uploads/movie/' . $mov->movie_image->image) }}"
+                                                    alt="{{ $mov->title }}" title="{{ $mov->title }}">
+                                            @endif
                                         </figure>
                                         <span class="status">
                                             @if ($mov->quality == 1)
@@ -429,9 +448,17 @@
                             <div class="halim-item">
                                 <a class="halim-thumb" href="{{ route('movie', $mov->slug) }}">
                                     <figure>
-                                        <img class="lazy img-responsive"
-                                            data-original="{{ asset('uploads/movie/' . $mov->movie_image->image) }}"
-                                            alt="{{ $mov->title }}" title="{{ $mov->title }}">
+                                        @php
+                                            $image_check = substr($mov->movie_image->image, 0, 5);
+                                        @endphp
+                                        @if ($image_check == 'https')
+                                            <img class="lazy img-responsive" src="{{ $mov->movie_image->image }}"
+                                                alt="{{ $mov->title }}" title="{{ $mov->title }}">
+                                        @else
+                                            <img class="lazy img-responsive"
+                                                src="{{ asset('uploads/movie/' . $mov->movie_image->image) }}"
+                                                alt="{{ $mov->title }}" title="{{ $mov->title }}">
+                                        @endif
                                     </figure>
                                     <span class="status">
                                         @if ($mov->quality == 1)

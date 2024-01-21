@@ -30,9 +30,17 @@
                                 <a class="halim-thumb" href="{{ route('movie', $mov->slug) }}">
                                     <figure>
 
-                                        <img class="lazy img-responsive"
-                                            data-original="{{ asset('uploads/movie/' . $mov->movie_image->image) }}"
-                                            alt="#" title="{{ $mov->title }}">
+                                        @php
+                                            $image_check = substr($mov->movie_image->image, 0, 5);
+                                        @endphp
+                                        @if ($image_check == 'https')
+                                            <img class="lazy img-responsive" src="{{ $mov->movie_image->image }}"
+                                                alt="{{ $mov->title }}" title="{{ $mov->title }}">
+                                        @else
+                                            <img class="lazy img-responsive"
+                                                src="{{ asset('uploads/movie/' . $mov->movie_image->image) }}"
+                                                alt="{{ $mov->title }}" title="{{ $mov->title }}">
+                                        @endif
 
 
                                     </figure>
@@ -85,7 +93,7 @@
 
                                                 </span>
                                             @endif
-                                            @else
+                                        @else
                                             <span class="episode"><i class="fa fa-play" aria-hidden="true"></i>
                                                 @if ($mov->type_movie == '1')
                                                     @if ($mov->episode_count == $mov->sotap)

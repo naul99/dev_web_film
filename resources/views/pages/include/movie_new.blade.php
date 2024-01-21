@@ -14,8 +14,16 @@
                         <div class="item post-37176">
                             <a href="{{ route('movie', $mov->slug) }}" title="{{ $mov->title }}">
                                 <div class="item-link">
-                                    <img src="{{ asset('uploads/movie/' . $mov->image) }}" class="post-thumb"
-                                         title="{{ $mov->title }}">
+
+                                    @php
+                                        $image_check = substr($mov->image, 0, 5);
+                                    @endphp
+                                    @if ($image_check == 'https')
+                                        <img src="{{ $mov->image }}" class="post-thumb" title="{{ $mov->title }}">
+                                    @else
+                                        <img src="{{ asset('uploads/movie/' . $mov->image) }}" class="post-thumb"
+                                            title="{{ $mov->title }}">
+                                    @endif
                                     <span class="is_trailer">
                                         @if ($mov->quality == 1)
                                             Bluray
@@ -26,9 +34,9 @@
                                         @endif
                                     </span>
                                 </div>
-                                <p class="title">{{ $mov->title }} 
+                                <p class="title">{{ $mov->title }}
                                 </p>
-                
+
                             </a>
                             <div class="viewsCount" style="color: #9d9d9d;">
                                 @if ($mov->count_views > 999 && $mov->count_views < 999999)

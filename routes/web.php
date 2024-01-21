@@ -151,7 +151,9 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::delete('delete-resume/{id}', [ResumeController::class, 'delete'])->name('delete_resume');
 
 });
-
+//route api
+Route::get('get_api_ophim', [MovieController::class, 'get_api_ophim'])->name('get_api_ophim');
+Route::post('auto_create', [MovieController::class, 'auto_create'])->name('auto_create');
 //route ajax
 
 Route::get('select-role', [AssignController::class, 'select_role'])->name('select-role');

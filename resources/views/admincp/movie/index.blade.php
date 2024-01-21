@@ -72,8 +72,16 @@
                                     {{-- <td>{{ $mov->name_english }}</td> --}}
 
                                     <td>
-                                        <img width="60%"
-                                            data-original="{{ asset('uploads/movie/' . $mov->movie_image->image) }}">
+                                        @php
+                                            $image_check = substr($mov->movie_image->image, 0, 5);
+                                        @endphp
+                                        @if ($image_check == 'https')
+                                            <img width="60%" data-original="{{ $mov->movie_image->image }}">
+                                        @else
+                                            <img width="60%"
+                                                data-original="{{ asset('uploads/movie/' . $mov->movie_image->image) }}">
+                                        @endif
+
                                     </td>
                                     {{-- <td>
                     @foreach ($mov->movie_description as $des)

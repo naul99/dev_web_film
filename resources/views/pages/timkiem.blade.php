@@ -31,9 +31,17 @@
                                         title="{{ $mov->title }}">
                                         <figure>
 
-                                            <img class="lazy img-responsive"
-                                                data-original="{{ asset('uploads/movie/' . $mov->movie_image->image) }}"
-                                                alt="#" title="{{ $mov->title }}">
+                                            @php
+                                                $image_check = substr($mov->movie_image->image, 0, 5);
+                                            @endphp
+                                            @if ($image_check == 'https')
+                                                <img class="lazy img-responsive" src="{{ $mov->movie_image->image }}"
+                                                    alt="{{ $mov->title }}" title="{{ $mov->title }}">
+                                            @else
+                                                <img class="lazy img-responsive"
+                                                    src="{{ asset('uploads/movie/' . $mov->movie_image->image) }}"
+                                                    alt="{{ $mov->title }}" title="{{ $mov->title }}">
+                                            @endif
 
                                         </figure>
                                         <span class="status">
@@ -85,39 +93,39 @@
 
                                                     </span>
                                                 @endif
-                                                @else
-                                            <span class="episode"><i class="fa fa-play" aria-hidden="true"></i>
-                                                @if ($mov->type_movie == '1')
-                                                    @if ($mov->episode_count == $mov->sotap)
-                                                        Hoàn tất |
+                                            @else
+                                                <span class="episode"><i class="fa fa-play" aria-hidden="true"></i>
+                                                    @if ($mov->type_movie == '1')
+                                                        @if ($mov->episode_count == $mov->sotap)
+                                                            Hoàn tất |
+                                                        @else
+                                                            {{ $mov->episode_count }}/{{ $mov->sotap }}|
+                                                        @endif
+                                                    @endif
+
+                                                    @if ($mov->language == 1)
+                                                        VietSub
+                                                        @if ($mov->season != 0)
+                                                            -S{{ $mov->season }}
+                                                        @endif
+                                                    @elseif ($mov->language == 2)
+                                                        Tiếng Gốc
+                                                        @if ($mov->season != 0)
+                                                            -S{{ $mov->season }}
+                                                        @endif
+                                                    @elseif ($mov->language == 3)
+                                                        Lồng Tiếng
+                                                        @if ($mov->season != 0)
+                                                            -S{{ $mov->season }}
+                                                        @endif
                                                     @else
-                                                        {{ $mov->episode_count }}/{{ $mov->sotap }}|
+                                                        Thuyết Minh
+                                                        @if ($mov->season != 0)
+                                                            -S{{ $mov->season }}
+                                                        @endif
                                                     @endif
-                                                @endif
 
-                                                @if ($mov->language == 1)
-                                                    VietSub
-                                                    @if ($mov->season != 0)
-                                                        -S{{ $mov->season }}
-                                                    @endif
-                                                @elseif ($mov->language == 2)
-                                                    Tiếng Gốc
-                                                    @if ($mov->season != 0)
-                                                        -S{{ $mov->season }}
-                                                    @endif
-                                                @elseif ($mov->language == 3)
-                                                    Lồng Tiếng
-                                                    @if ($mov->season != 0)
-                                                        -S{{ $mov->season }}
-                                                    @endif
-                                                @else
-                                                    Thuyết Minh
-                                                    @if ($mov->season != 0)
-                                                        -S{{ $mov->season }}
-                                                    @endif
-                                                @endif
-
-                                            </span>
+                                                </span>
                                             @endif
                                         @else
                                             @if ($mov->paid_movie == 1)

@@ -28,6 +28,7 @@ use Illuminate\Validation\Rule;
 use function PHPUnit\Framework\isNull;
 use Illuminate\Support\Facades\Http;
 use Image;
+
 class MovieController extends Controller
 {
     /**
@@ -50,7 +51,7 @@ class MovieController extends Controller
             $genre = Genre::where('status', 1)->pluck('title', 'id');
             $list_genre = Genre::all()->where('status', 1);
             $country = Country::where('status', 1)->pluck('title', 'id');
-            $list = Movie::with('category', 'movie_genre', 'country', 'genre', 'movie_description', 'movie_trailer', 'movie_tags', 'movie_image','movie_cast')->withCount(['episode' => function ($query) {
+            $list = Movie::with('category', 'movie_genre', 'country', 'genre', 'movie_description', 'movie_trailer', 'movie_tags', 'movie_image', 'movie_cast')->withCount(['episode' => function ($query) {
                 $query->select(DB::raw('count(distinct(episode))'));
             }])->orderBy('id', 'DESC')->get();
 
@@ -106,22 +107,21 @@ class MovieController extends Controller
     public function store(Request $request)
     {
         try {
-            $datas=$request->thuocphim;
-            if($datas == 0 ){
+            $datas = $request->thuocphim;
+            if ($datas == 0) {
                 $validator = Validator::make($data = $request->all(), [
                     'title' => 'unique:movies',
                     // 'name_english' => 'unique:movies',
                     'slug' => 'unique:movies',
                 ]);
-            }
-            else{
+            } else {
                 $validator = Validator::make($data = $request->all(), [
                     'title' => 'unique:movies',
                     //'name_english' => 'unique:movies',
                     'slug' => 'unique:movies',
                 ]);
             }
-          
+
             if ($validator->fails()) {
                 toastr()->warning('Movie "' . $data['title'] . '" is existing!', 'Warning');
                 return redirect()->back();
@@ -143,7 +143,7 @@ class MovieController extends Controller
             $randomletter = substr(str_shuffle("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"), 0, 6);
             $movie->slug = $data['slug'] . '-' . rand(1000, 9999) . $randomletter;
             $movie->year = $data['year'];
-            $movie->type_movie= $data['thuocphim'];
+            $movie->type_movie = $data['thuocphim'];
             $movie->time = $data['time'];
             $movie->hot = $data['hot'];
             $movie->quality = $data['quality'];
@@ -170,22 +170,21 @@ class MovieController extends Controller
             }
 
             try {
-                $path_omdb='http://www.omdbapi.com/?t=';
+                $path_omdb = 'http://www.omdbapi.com/?t=';
                 //0 = movie
-                if($data['thuocphim'] == 0){
-                    $api_omdb = Http::get($path_omdb . $data['name_english'] . '&y=' . $data['year'] .'&type=movie&apikey=6c2f1ca1');
+                if ($data['thuocphim'] == 0) {
+                    $api_omdb = Http::get($path_omdb . $data['name_english'] . '&y=' . $data['year'] . '&type=movie&apikey=6c2f1ca1');
                 }
                 //1 = series
-                else{
-                    $api_omdb = Http::get($path_omdb . $data['name_english'] . '&y=' . $data['year'] .'&type=series&apikey=6c2f1ca1');
+                else {
+                    $api_omdb = Http::get($path_omdb . $data['name_english'] . '&y=' . $data['year'] . '&type=series&apikey=6c2f1ca1');
                 }
                 if ($api_omdb['Response'] != 'True' && $data['thuocphim'] == 1) {
                     $api_omdb = Http::get($path_omdb . $data['name_english'] . '&type=series&apikey=6c2f1ca1');
-                }
-                elseif($api_omdb['Response'] != 'True'){
+                } elseif ($api_omdb['Response'] != 'True') {
                     $api_omdb = Http::get($path_omdb . $data['name_english'] . '&apikey=6c2f1ca1');
                 }
-                
+
                 // $imdb = new Movie_Rating();
                 $movie->imdb = $api_omdb['imdbID'];
                 // $imdb->movie_id = $movie->id;
@@ -195,7 +194,7 @@ class MovieController extends Controller
                 $movie->imdb  = "0";
                 //$imdb->movie_id = $movie->id;
                 $movie->save();
-                toastr()->warning('Vui lòng cập nhật Id Imdb thủ công cho phim.', 'Warning',['timeOut' => 10000]);
+                toastr()->warning('Vui lòng cập nhật Id Imdb thủ công cho phim.', 'Warning', ['timeOut' => 10000]);
             }
 
             //dd($data['genre']);
@@ -234,7 +233,7 @@ class MovieController extends Controller
             //         elseif($api_omdb['Response'] != 'True'){
             //             $api_omdb = Http::get($path_omdb . $data['name_english'] . '&apikey=6c2f1ca1');
             //         }
-                    
+
             //         $imdb = new Movie_Rating();
             //         $imdb->imdb = $api_omdb['imdbID'];
             //         $imdb->movie_id = $movie->id;
@@ -360,172 +359,171 @@ class MovieController extends Controller
     {
 
         // try {
-            $movie = Movie::find($id);
-            $validator = Validator::make($data = $request->all(), [
-                'title' => Rule::unique('movies')->ignore($movie->id),
-                // 'name_english' => Rule::unique('movies')->ignore($movie->id),
-                'slug' => Rule::unique('movies')->ignore($movie->id),
-            ]);
-            if ($validator->fails()) {
-                toastr()->warning('Movie is "' . $data['title'] . '" existing!', 'Warning');
-                return redirect()->back();
-            }
-            //$data = $request->all();
-
-            $movie->title = $data['title'];
-            $movie->name_english = $data['name_english'];
-            $movie->slug = $data['slug'];
-            $movie->year = $data['year'];
-            $movie->time = $data['time'];
-            $movie->type_movie= $data['thuocphim'];
-            $movie->quality = $data['quality'];
-            $movie->language = $data['language'];
-            //$movie->imdb = $data['imdb'];
-            $movie->paid_movie = $data['paid_movie'];
-            $movie->hot = $data['hot'];
-            $movie->status = $data['status'];
-            $movie->sotap = $data['sotap'];
-            $movie->category_id = $data['category_id'];
-            $movie->country_id = $data['country_id'];
-
-            $movie->updated_at = Carbon::now('Asia/Ho_Chi_Minh');
-            $episodes_count = Movie::withCount(['episode' => function ($query) {
-                $query->select(DB::raw('count(distinct(episode))'));
-            }])->find($id);
-
-            if ($data['sotap'] < $episodes_count->episode_count) {
-                toastr()->warning('Tổng tập phim không được nhỏ hơn số tập phim đã có! Vui lòng xem lại!', 'Warning');
-                return redirect()->back();
-            }
-            if (!isset($data['genre'])) {
-                toastr()->warning('Genre not empty!', 'Warning!');
-                return redirect()->back();
-            } else {
-                foreach ($data['genre'] as $key => $gen) {
-                    $movie->genre_id = $gen['0'];
-                }
-            }
-            try {
-                $path_omdb='http://www.omdbapi.com/?t=';
-                //0 = movie
-                if($data['thuocphim'] == 0){
-                    $api_omdb = Http::get($path_omdb . $data['name_english'] . '&y=' . $data['year'] .'&type=movie&apikey=6c2f1ca1');
-                }
-                //1 = series
-                else{
-                    $api_omdb = Http::get($path_omdb . $data['name_english'] . '&y=' . $data['year'] .'&type=series&apikey=6c2f1ca1');
-                }
-                if ($api_omdb['Response'] != 'True' && $data['thuocphim'] == 1) {
-                    $api_omdb = Http::get($path_omdb . $data['name_english'] . '&type=series&apikey=6c2f1ca1');
-                }
-                elseif($api_omdb['Response'] != 'True'){
-                    $api_omdb = Http::get($path_omdb . $data['name_english'] . '&apikey=6c2f1ca1');
-                }
-                
-                // $imdb = new Movie_Rating();
-                $movie->imdb = $api_omdb['imdbID'];
-                // $imdb->movie_id = $movie->id;
-                $movie->save();
-            } catch (Exception $e) {
-                //$imdb = new Movie_Rating();
-                $movie->imdb  = "0";
-                //$imdb->movie_id = $movie->id;
-                $movie->save();
-                toastr()->warning('Vui lòng cập nhật Id Imdb thủ công cho phim.', 'Warning',['timeOut' => 10000]);
-            }
-            //$movie->save();
-            $movie_image = Movie_Image::where('movie_id', $movie->id)->first();
-            $get_image = $request->file('image');
-            
-            $path = 'uploads/movie/';
-            
-            if ($get_image) {
-                if (file_exists($path . $movie_image->image)) {
-                    unlink('uploads/movie/' . $movie_image->image);
-                }
-                $get_name_image = $get_image->getClientOriginalName();
-                $name_image = current(explode('.', $get_name_image));
-                $new_image = $name_image . rand(0, 9999) . '.' . $get_image->extension();
-                $img = Image::make($get_image->path());
-                $img->resize(300, 400, function ($constraint) {
-                    $constraint->aspectRatio();
-                })->save($path.''.$new_image);
-             
-                // $get_image->move($path, $new_image);
-                $movie_image->image = $new_image;
-                $movie_image->save();
-            }
-
-            //return json_encode($movie);
-
-            // $movie->save();
-
-            // $imdb = Movie_Rating::where('movie_id', $movie->id)->first();
-
-            // if (!$imdb) {
-            //     $imdb = new Movie_Rating();
-            //     $imdb->movie_id = $movie->id;
-            // }
-            // $imdb->imdb = $request->imdb;
-            // $imdb->save();
-
-            $description = Movie_Description::where('movie_id', $movie->id)->first();
-
-            if (!$description) {
-                $description = new Movie_Description();
-                $description->movie_id = $movie->id;
-            }
-            $description->description = $request->description;
-            $description->save();
-
-            $trailer = Movie_Trailer::where('movie_id', $movie->id)->first();
-
-            if (!$trailer) {
-                $trailer = new Movie_Trailer();
-                $trailer->movie_id = $movie->id;
-            }
-            $trailer->trailer = $request->trailer;
-            $trailer->save();
-
-            // $hot = Movie_Hot::where('movie_id', $movie->id)->first();
-
-            // if (!$hot) {
-            //     $hot = new Movie_Hot();
-            //     $hot->movie_id = $movie->id;
-            // }
-            // $hot->hot = $request->hot;
-            // $hot->save();
-
-            $tags = Movie_Tags::where('movie_id', $movie->id)->first();
-
-            if (!$tags) {
-                $tags = new Movie_Tags();
-                $tags->movie_id = $movie->id;
-            }
-            $tags->tags = $request->tags;
-            $tags->save();
-
-
-            $movie->movie_genre()->sync($data['genre']);
-            if (!isset($data['cast'])) {
-                toastr()->warning('Cast empty! But updated changes', 'Warning!');
-                Movie_Cast::whereIn('movie_id', [$movie->id])->delete();
-                // return redirect()->back();
-            } else {
-                $movie->movie_cast()->sync($data['cast']);
-            }
-
-            if (!isset($data['directors'])) {
-                toastr()->warning('Directors empty! But updated changes', 'Warning!');
-                Movie_Directors::whereIn('movie_id', [$movie->id])->delete();
-                // return redirect()->back();
-            } else {
-                $movie->movie_directors()->sync($data['directors']);
-            }
-            // return redirect()->back()->with('message_update', 'Update film successfully !');
-
-            toastr()->success('Movie "' . $movie->title . '" updated successfully!', 'Update');
+        $movie = Movie::find($id);
+        $validator = Validator::make($data = $request->all(), [
+            'title' => Rule::unique('movies')->ignore($movie->id),
+            // 'name_english' => Rule::unique('movies')->ignore($movie->id),
+            'slug' => Rule::unique('movies')->ignore($movie->id),
+        ]);
+        if ($validator->fails()) {
+            toastr()->warning('Movie is "' . $data['title'] . '" existing!', 'Warning');
             return redirect()->back();
+        }
+        //$data = $request->all();
+
+        $movie->title = $data['title'];
+        $movie->name_english = $data['name_english'];
+        $movie->slug = $data['slug'];
+        $movie->year = $data['year'];
+        $movie->time = $data['time'];
+        $movie->type_movie = $data['thuocphim'];
+        $movie->quality = $data['quality'];
+        $movie->language = $data['language'];
+        //$movie->imdb = $data['imdb'];
+        $movie->paid_movie = $data['paid_movie'];
+        $movie->hot = $data['hot'];
+        $movie->status = $data['status'];
+        $movie->sotap = $data['sotap'];
+        $movie->category_id = $data['category_id'];
+        $movie->country_id = $data['country_id'];
+
+        $movie->updated_at = Carbon::now('Asia/Ho_Chi_Minh');
+        $episodes_count = Movie::withCount(['episode' => function ($query) {
+            $query->select(DB::raw('count(distinct(episode))'));
+        }])->find($id);
+
+        if ($data['sotap'] < $episodes_count->episode_count) {
+            toastr()->warning('Tổng tập phim không được nhỏ hơn số tập phim đã có! Vui lòng xem lại!', 'Warning');
+            return redirect()->back();
+        }
+        if (!isset($data['genre'])) {
+            toastr()->warning('Genre not empty!', 'Warning!');
+            return redirect()->back();
+        } else {
+            foreach ($data['genre'] as $key => $gen) {
+                $movie->genre_id = $gen['0'];
+            }
+        }
+        try {
+            $path_omdb = 'http://www.omdbapi.com/?t=';
+            //0 = movie
+            if ($data['thuocphim'] == 0) {
+                $api_omdb = Http::get($path_omdb . $data['name_english'] . '&y=' . $data['year'] . '&type=movie&apikey=6c2f1ca1');
+            }
+            //1 = series
+            else {
+                $api_omdb = Http::get($path_omdb . $data['name_english'] . '&y=' . $data['year'] . '&type=series&apikey=6c2f1ca1');
+            }
+            if ($api_omdb['Response'] != 'True' && $data['thuocphim'] == 1) {
+                $api_omdb = Http::get($path_omdb . $data['name_english'] . '&type=series&apikey=6c2f1ca1');
+            } elseif ($api_omdb['Response'] != 'True') {
+                $api_omdb = Http::get($path_omdb . $data['name_english'] . '&apikey=6c2f1ca1');
+            }
+
+            // $imdb = new Movie_Rating();
+            $movie->imdb = $api_omdb['imdbID'];
+            // $imdb->movie_id = $movie->id;
+            $movie->save();
+        } catch (Exception $e) {
+            //$imdb = new Movie_Rating();
+            $movie->imdb  = "0";
+            //$imdb->movie_id = $movie->id;
+            $movie->save();
+            toastr()->warning('Vui lòng cập nhật Id Imdb thủ công cho phim.', 'Warning', ['timeOut' => 10000]);
+        }
+        //$movie->save();
+        $movie_image = Movie_Image::where('movie_id', $movie->id)->first();
+        $get_image = $request->file('image');
+
+        $path = 'uploads/movie/';
+
+        if ($get_image) {
+            if (file_exists($path . $movie_image->image)) {
+                unlink('uploads/movie/' . $movie_image->image);
+            }
+            $get_name_image = $get_image->getClientOriginalName();
+            $name_image = current(explode('.', $get_name_image));
+            $new_image = $name_image . rand(0, 9999) . '.' . $get_image->extension();
+            $img = Image::make($get_image->path());
+            $img->resize(300, 400, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save($path . '' . $new_image);
+
+            // $get_image->move($path, $new_image);
+            $movie_image->image = $new_image;
+            $movie_image->save();
+        }
+
+        //return json_encode($movie);
+
+        // $movie->save();
+
+        // $imdb = Movie_Rating::where('movie_id', $movie->id)->first();
+
+        // if (!$imdb) {
+        //     $imdb = new Movie_Rating();
+        //     $imdb->movie_id = $movie->id;
+        // }
+        // $imdb->imdb = $request->imdb;
+        // $imdb->save();
+
+        $description = Movie_Description::where('movie_id', $movie->id)->first();
+
+        if (!$description) {
+            $description = new Movie_Description();
+            $description->movie_id = $movie->id;
+        }
+        $description->description = $request->description;
+        $description->save();
+
+        $trailer = Movie_Trailer::where('movie_id', $movie->id)->first();
+
+        if (!$trailer) {
+            $trailer = new Movie_Trailer();
+            $trailer->movie_id = $movie->id;
+        }
+        $trailer->trailer = $request->trailer;
+        $trailer->save();
+
+        // $hot = Movie_Hot::where('movie_id', $movie->id)->first();
+
+        // if (!$hot) {
+        //     $hot = new Movie_Hot();
+        //     $hot->movie_id = $movie->id;
+        // }
+        // $hot->hot = $request->hot;
+        // $hot->save();
+
+        $tags = Movie_Tags::where('movie_id', $movie->id)->first();
+
+        if (!$tags) {
+            $tags = new Movie_Tags();
+            $tags->movie_id = $movie->id;
+        }
+        $tags->tags = $request->tags;
+        $tags->save();
+
+
+        $movie->movie_genre()->sync($data['genre']);
+        if (!isset($data['cast'])) {
+            toastr()->warning('Cast empty! But updated changes', 'Warning!');
+            Movie_Cast::whereIn('movie_id', [$movie->id])->delete();
+            // return redirect()->back();
+        } else {
+            $movie->movie_cast()->sync($data['cast']);
+        }
+
+        if (!isset($data['directors'])) {
+            toastr()->warning('Directors empty! But updated changes', 'Warning!');
+            Movie_Directors::whereIn('movie_id', [$movie->id])->delete();
+            // return redirect()->back();
+        } else {
+            $movie->movie_directors()->sync($data['directors']);
+        }
+        // return redirect()->back()->with('message_update', 'Update film successfully !');
+
+        toastr()->success('Movie "' . $movie->title . '" updated successfully!', 'Update');
+        return redirect()->back();
         // } 
         // catch (\Throwable $th) {
         //     toastr()->error('Movie update error!', 'Error');
@@ -545,8 +543,12 @@ class MovieController extends Controller
             $movie = Movie::find($id);
             $movie_image = Movie_Image::where('movie_id', $movie->id)->first();
             //delete image
+
             if (!empty($movie_image->image)) {
-                unlink('uploads/movie/' . $movie_image->image);
+                try {
+                    unlink('uploads/movie/' . $movie_image->image);
+                } catch (Exception $e) {
+                }
             }
             $movie_image->delete();
             //delete genre
@@ -611,5 +613,271 @@ class MovieController extends Controller
         $movie = Movie::find($data['movie_id']);
         $movie->imdb = $data['imdbcode'];
         $movie->save();
+    }
+    public function get_api_ophim()
+    {
+        if (isset($_GET['next_page'])) {
+            $path_ophim = "https://ophim1.com/danh-sach/phim-moi-cap-nhat?page=" . $_GET['next_page'];
+            $api_ophim = Http::get($path_ophim)->json();
+            // dd();
+            return view('admincp.movie.api_ophim', compact('api_ophim'));
+        }
+        if (isset($_GET['search_ophim'])) {
+            $path_ophim = "https://ophim10.cc/_next/data/s4OlXy8jONoHVWAT5vg7b/tim-kiem.json?keyword=" . $_GET['search_ophim'];
+            $api_ophims = Http::get($path_ophim)->json();
+            $api_ophim = $api_ophims['pageProps']['data'];
+            // dd($api_ophim['items']);
+            return view('admincp.movie.api_ophim', compact('api_ophim'));
+        }
+        $path_ophim = "https://ophim1.com/danh-sach/phim-moi-cap-nhat?page=1";
+        $api_ophim = Http::get($path_ophim)->json();
+        return view('admincp.movie.api_ophim', compact('api_ophim'));
+    }
+    public function auto_create(Request $request)
+    {
+
+        $data = $request->all('slug');
+        $path_ophim = "https://ophim1.com/phim/" . $data['slug'];
+        $api_ophim = Http::get($path_ophim)->json();
+       
+        if (preg_match('/(\d+)/', $api_ophim['movie']['time'], $matches)) {
+            $time = $matches[0];
+        }
+        if (preg_match('/(\d+)/', $api_ophim['movie']['episode_total'], $matchess)) {
+            $episode_total = $matchess[0];
+        }
+        //dd($time);
+        //dd($api_ophim['movie']['category']['0']);
+
+        $movie = new Movie();
+        $movie->title = $api_ophim['movie']['name'];
+        $movie->name_english = $api_ophim['movie']['origin_name'];
+
+        $randomletter = substr(str_shuffle("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"), 0, 6);
+        $movie->slug = $api_ophim['movie']['slug'] . '-' . rand(1000, 9999) . $randomletter;
+        $movie->year = $api_ophim['movie']['year'];
+        if ($api_ophim['movie']['type'] == 'single') {
+            $movie->type_movie = 0;
+        } else {
+            $movie->type_movie = 1;
+        }
+
+       
+        if (!isset($time)) {
+            $movie->time = 0;
+        } else {
+            $movie->time = $time;
+        }
+        $movie->hot = 0;
+        if ($api_ophim['movie']['quality'] == 'FHD') {
+            $movie->quality = 0;
+        } else if ($api_ophim['movie']['quality'] == 'HD') {
+            $movie->quality = 2;
+        } else {
+            $movie->quality = 1;
+        }
+
+        $movie->paid_movie = 0;
+        if ($api_ophim['movie']['lang'] == 'Vietsub') {
+            $movie->language = 1;
+        } else {
+            $movie->language = 0;
+        }
+        $movie->status = 1;
+        if (!isset($episode_total)) {
+            $movie->sotap = 1;
+        } else {
+            $movie->sotap = $episode_total;
+        }
+
+        $country = Country::where('title', 'LIKE', '%' . $api_ophim['movie']['country']['0']['name'] . '%')->where('status', 1)->first();
+        if (!isset($country)) {
+            $coun = new Country();
+            $coun->title = $api_ophim['movie']['country']['0']['name'];
+            $coun->slug = $this->changeToSlug($api_ophim['movie']['country']['0']['name']);
+            $coun->description = $api_ophim['movie']['country']['0']['name'];
+            $coun->status = 1;
+            $coun->save();
+            $movie->country_id = $coun->id;
+        } else {
+            $movie->country_id = $country->id;
+        }
+
+
+        if ($api_ophim['movie']['type'] == 'single') {
+            $category = Category::where('title', 'LIKE', '%Movies%')->where('status', 1)->first();
+            $movie->category_id = $category->id;
+        } else {
+            $category = Category::where('title', 'LIKE', '%TV Series%')->where('status', 1)->first();
+            $movie->category_id = $category->id;
+        }
+        $movie->created_at = Carbon::now('Asia/Ho_Chi_Minh');
+        $movie->updated_at = Carbon::now('Asia/Ho_Chi_Minh');
+
+        $genre = Genre::where('title', 'LIKE', '%' . $api_ophim['movie']['category']['0']['name'] . '%')->where('status', 1)->first();
+        if (!isset($genre)) {
+            $gen = new Genre();
+            $gen->title = $api_ophim['movie']['category']['0']['name'];
+            $gen->slug = $this->changeToSlug($api_ophim['movie']['category']['0']['name']);
+            $gen->description = $api_ophim['movie']['category']['0']['name'];
+            $gen->status = 1;
+            $gen->save();
+            $movie->genre_id = $gen->id;
+        } else {
+            $movie->genre_id = $genre->id;
+        }
+
+
+        try {
+            $path_omdb = 'http://www.omdbapi.com/?t=';
+            //0 = movie
+            if ($api_ophim['movie']['type'] == 'single') {
+                $api_omdb = Http::get($path_omdb . $api_ophim['movie']['origin_name'] . '&y=' . $api_ophim['movie']['year'] . '&type=movie&apikey=6c2f1ca1');
+            }
+            //1 = series
+            else {
+                $api_omdb = Http::get($path_omdb . $api_ophim['movie']['origin_name'] . '&y=' . $api_ophim['movie']['year'] . '&type=series&apikey=6c2f1ca1');
+            }
+            if ($api_omdb['Response'] != 'True' && $api_ophim['movie']['type'] == 'series') {
+                $api_omdb = Http::get($path_omdb . $api_ophim['movie']['origin_name'] . '&type=series&apikey=6c2f1ca1');
+            } elseif ($api_omdb['Response'] != 'True') {
+                $api_omdb = Http::get($path_omdb . $api_ophim['movie']['origin_name'] . '&apikey=6c2f1ca1');
+            }
+
+            $movie->imdb = $api_omdb['imdbID'];
+            $movie->save();
+        } catch (Exception $e) {
+
+            $movie->imdb  = "0";
+
+            $movie->save();
+            toastr()->warning('Vui lòng cập nhật Id Imdb thủ công cho phim.', 'Warning', ['timeOut' => 10000]);
+        }
+
+
+        foreach ($api_ophim['movie']['category'] as $genr) {
+            $list_genre = Genre::whereIn('title', $genr)->where('status', 1)->pluck('id');
+            $check_genre = Genre::where('title', 'LIKE', '%' . $genr['name'] . '%')->first();
+            if (!isset($check_genre)) {
+                $gen = new Genre();
+                $gen->title = $genr['name'];
+                $gen->slug = $this->changeToSlug($genr['name']);
+                $gen->description = $genr['name'];
+                $gen->status = 1;
+                $gen->save();
+                $movie->movie_genre()->attach($gen->id);
+            } else {
+                $movie->movie_genre()->attach($list_genre);
+            }
+        }
+
+        $movie_image = new Movie_Image();
+        $movie_image->image = $api_ophim['movie']['thumb_url'];
+        $movie_image->movie_id = $movie->id;
+        $movie_image->save();
+
+        if (!is_null($movie)) {
+            $description = new Movie_Description();
+            $description->description = $api_ophim['movie']['content'];
+            $description->movie_id = $movie->id;
+            $description->save();
+        }
+        if (!is_null($movie)) {
+            $trailer = new Movie_Trailer();
+            if ($api_ophim['movie']['trailer_url'] != '') {
+                // URL đầu vào
+                $url = $api_ophim['movie']['trailer_url'];
+                // Phân tích URL để lấy tham số truy vấn
+                $queryString = parse_url($url, PHP_URL_QUERY);
+                // Phân tích tham số truy vấn để lấy giá trị sau ?v=
+                parse_str($queryString, $queryParams);
+                $valueAfterV = $queryParams['v'];
+                $trailer->trailer = $valueAfterV;
+            } else {
+                $trailer->trailer = 0;
+            }
+            $trailer->movie_id = $movie->id;
+            $trailer->save();
+        }
+
+        if (!is_null($movie)) {
+            $count_view = new Movie_Views();
+            $count_view->count_views = '0';
+            $count_view->movie_id = $movie->id;
+            $count_view->date_views = Carbon::now('Asia/Ho_Chi_Minh')->format('Y:m:d');
+            $count_view->save();
+        }
+
+        if (!is_null($movie)) {
+            $tags = new Movie_Tags();
+            $tags->tags = $api_ophim['movie']['name'] . ',' . $api_ophim['movie']['origin_name'];
+            $tags->movie_id = $movie->id;
+            $tags->save();
+        }
+        if ($api_ophim['movie']['actor']['0']=='') {
+            toastr()->warning('Actor of movie "' . $movie->title . '" empty!', 'Warning');
+        } else {
+            //$list_cast = Cast::whereIn('title', $api_ophim['movie']['actor'])->where('status', 1)->pluck('id');
+            foreach ($api_ophim['movie']['actor'] as $cas) {
+
+                $check_cast = Cast::where('title', 'LIKE', '%' . $cas . '%')->first();
+                if (!isset($check_cast)) {
+                    $cast = new Cast();
+                    $cast->title = $cas;
+                    $cast->slug = $this->changeToSlug($cas);
+                    $cast->description = $cas;
+                    $cast->status = 1;
+                    $cast->save();
+                    $movie->movie_cast()->attach($cast->id);
+                } else {
+                    $movie->movie_cast()->attach($check_cast->id);
+                }
+            }
+        }
+
+        if ($api_ophim['movie']['director']['0']=='') {
+            toastr()->warning('Directors of movie "' . $movie->title . '" empty!', 'Warning');
+        } else {
+            //$list_directors = Directors::whereIn('name', $api_ophim['movie']['director'])->where('status', 1)->pluck('id');
+            foreach ($api_ophim['movie']['director'] as $director) {
+
+                $check_director = Directors::where('name', 'LIKE', '%' . $director . '%')->first();
+                if (!isset($check_director)) {
+                    $directors = new Directors();
+                    $directors->name = $director;
+                    $directors->slug = $this->changeToSlug($director);
+                    $directors->description = $director;
+                    $directors->status = 1;
+                    $directors->save();
+                    $movie->movie_directors()->attach($directors->id);
+                } else {
+                    $movie->movie_directors()->attach($check_director->id);
+                }
+            }
+        }
+
+        toastr()->success('Movie "' . $movie->title . '" created successfully!', 'Create');
+        return redirect()->route('movie.index');
+    }
+    private function changeToSlug($str)
+    {
+        // Chuyển đổi chuỗi thành chữ thường
+        // Chuyển đổi chuỗi thành chữ thường
+        $str = strtolower($str);
+        // Thay thế các ký tự không mong muốn bằng khoảng trắng
+        $str = preg_replace('/[é|è|ẻ|ẽ|ẹ|ê|ế|ề|ể|ễ|ệ]/', 'e', $str);
+        $str = preg_replace('/[á|à|ả|ạ|ã|ă|ắ|ằ|ẳ|ẵ|ặ|â|ấ|ầ|ẩ|ẫ|ậ]/', 'a', $str);
+        $str = preg_replace('/[i|í|ì|ỉ|ĩ|ị]/', 'i', $str);
+        $str = preg_replace('/[ó|ò|ỏ|õ|ọ|ô|ố|ồ|ổ|ỗ|ộ|ơ|ớ|ờ|ở|ỡ|ợ]/', 'o', $str);
+        $str = preg_replace('/[ú|ù|ủ|ũ|ụ|ư|ứ|ừ|ử|ữ|ự]/', 'u', $str);
+        $str = preg_replace('/[ý|ỳ|ỷ|ỹ|ỵ]/', 'y', $str);
+        $str = preg_replace('/[đ]/', 'd', $str);
+        $str = preg_replace('/[^a-z0-9\s-]/', '', $str);
+        // Loại bỏ khoảng trắng ở đầu và cuối chuỗi
+        $str = trim($str);
+        // Thay thế khoảng trắng bằng dấu gạch ngang
+        $str = preg_replace('/\s+/', '-', $str);
+        // Đổi ký tự có dấu thành không dấu
+        return $str;
     }
 }

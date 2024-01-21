@@ -53,8 +53,18 @@
                         <div class="movie_info col-xs-12">
                             <div class="movie-poster col-md-3">
 
-                                <img class="movie-thumb" src="{{ asset('uploads/movie/' . $movie->movie_image->image) }}"
-                                    title="{{ $movie->name_english }}">
+
+                                @php
+                                    $image_check = substr($movie->movie_image->image, 0, 5);
+                                @endphp
+                                @if ($image_check == 'https')
+                                    <img class="movie-thumb" src="{{ $movie->movie_image->image }}"
+                                        title="{{ $movie->name_english }}">
+                                @else
+                                    <img class="movie-thumb"
+                                        src="{{ asset('uploads/movie/' . $movie->movie_image->image) }}"
+                                        title="{{ $movie->name_english }}">
+                                @endif
                                 <div class="movie-thumb">
 
                                     @foreach ($movie->episode->take(1) as $ep)
@@ -86,7 +96,8 @@
                                     @if ($episode_current_list_count > 0)
                                         <div class="loader"></div>
                                         @guest('customer')
-                                            <button onclick="location.href='{{ url('xem-phim/' . $movie->slug . '/tap-' . $episode_first->episode . '/server-' . $episode_first->server_id) }}'"
+                                            <button
+                                                onclick="location.href='{{ url('xem-phim/' . $movie->slug . '/tap-' . $episode_first->episode . '/server-' . $episode_first->server_id) }}'"
                                                 class="bwac-btn">
 
                                                 <i class="fa fa-play "></i>
@@ -913,9 +924,19 @@
                                         title="{{ $rel->title }}">
                                         <figure>
 
-                                            <img style="height: 300px;" class="lazy img-responsive"
-                                                src="{{ asset('uploads/movie/' . $rel->movie_image->image) }}"
-                                                alt="{{ $rel->title }}" title="{{ $rel->title }}">
+
+                                            @php
+                                                $image_check = substr($rel->movie_image->image, 0, 5);
+                                            @endphp
+                                            @if ($image_check == 'https')
+                                                <img style="height: 300px;" class="lazy img-responsive"
+                                                    src="{{ $rel->movie_image->image }}" alt="{{ $rel->title }}"
+                                                    title="{{ $rel->title }}">
+                                            @else
+                                                <img style="height: 300px;" class="lazy img-responsive"
+                                                    src="{{ asset('uploads/movie/' . $rel->movie_image->image) }}"
+                                                    alt="{{ $rel->title }}" title="{{ $rel->title }}">
+                                            @endif
 
 
                                         </figure>
