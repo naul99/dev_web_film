@@ -622,26 +622,6 @@ class IndexController extends Controller
             return view('pages.locphim', compact('category', 'genre', 'country', 'movie'));
         }
     }
-    // public function history_movie(Request $request)
-    // {
-    //     $data = $request->all();
-    //     // $movie=Movie_History::
-    //     $history = Movie_History::where('movie_id', $data['id'])->where('user_id', $data['user_id'])->get();
-
-    //     if (count($history) > 0) {
-
-    //         // DB::table('movie_history')->where('user_id', $user_id)->where('movie_id', $movie_id)->update(['updated_at' => now()]);
-    //         //DB::table('movie_history')->insert(['movie_id' => $data['id'], 'created_at' => now(), 'updated_at' => now()]);
-    //     } else {
-    //         DB::table('movie_history')->insert(['movie_id' => $data['id'], 'user_id' => $data['user_id'], 'created_at' => now(), 'updated_at' => now()]);
-    //     }
-
-    //     //$movie = Movie::find($data['id_phim']);
-    //     //$movie->season = $data['season'];
-    //     //$movie->save();
-
-
-    // }
     public function history()
     {
         $category = Category::orderBy('id', 'ASC')->where('status', 1)->get();
