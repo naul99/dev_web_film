@@ -18,6 +18,7 @@ use App\Models\Cast;
 use App\Models\Directors;
 use App\Models\Movie_Cast;
 use App\Models\Movie_Directors;
+use App\Models\Server;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\File;
@@ -619,14 +620,12 @@ class MovieController extends Controller
         if (isset($_GET['next_page'])) {
             $path_ophim = "https://ophim1.com/danh-sach/phim-moi-cap-nhat?page=" . $_GET['next_page'];
             $api_ophim = Http::get($path_ophim)->json();
-            // dd();
             return view('admincp.movie.api_ophim', compact('api_ophim'));
         }
         if (isset($_GET['search_ophim'])) {
             $path_ophim = "https://ophim10.cc/_next/data/s4OlXy8jONoHVWAT5vg7b/tim-kiem.json?keyword=" . $_GET['search_ophim'];
             $api_ophims = Http::get($path_ophim)->json();
             $api_ophim = $api_ophims['pageProps']['data'];
-            // dd($api_ophim['items']);
             return view('admincp.movie.api_ophim', compact('api_ophim'));
         }
         $path_ophim = "https://ophim1.com/danh-sach/phim-moi-cap-nhat?page=1";
@@ -648,7 +647,8 @@ class MovieController extends Controller
         }
         $path_ophim = "https://ophim1.com/phim/" . $data['slug'];
         $api_ophim = Http::get($path_ophim)->json();
-
+        //dd(count($api_ophim['episodes']['0']['server_data']));
+        
         if (preg_match('/(\d+)/', $api_ophim['movie']['time'], $matches)) {
             $time = $matches[0];
         }
@@ -694,7 +694,7 @@ class MovieController extends Controller
         }
         $movie->status = 1;
         if (!isset($episode_total)) {
-            $movie->sotap = 1;
+            $movie->sotap = count($api_ophim['episodes']['0']['server_data']);
         } else {
             $movie->sotap = $episode_total;
         }
@@ -864,7 +864,27 @@ class MovieController extends Controller
                 }
             }
         }
-
+        foreach($api_ophim['episodes']['0']['server_data'] as $episode){
+            $ep = new Episode();
+            $ep->movie_id = $movie->id;
+            $ep->linkphim = "/api/embed_vip?link=".$episode['link_m3u8'];
+            $ep->episode = $episode['name'];
+            $check_server = Server::where('title', 'LIKE', '%' . $api_ophim['episodes']['0']['server_name'] . '%')->first();
+            if (!isset($check_server)) {
+                $server = new Server();
+                $server->title = $api_ophim['episodes']['0']['server_name'];
+                $server->description = $api_ophim['episodes']['0']['server_name'];
+                $server->status = 1;
+                $server->save();
+                $ep->server_id = $server->id;
+            } else {
+                $ep->server_id = $check_server->id;
+            }
+            $ep->created_at = Carbon::now('Asia/Ho_Chi_Minh');
+            $ep->updated_at = Carbon::now('Asia/Ho_Chi_Minh');
+            $ep->save();
+        }
+       
         toastr()->success('Movie "' . $movie->title . '" created successfully!', 'Create');
         return redirect()->route('movie.index');
     }

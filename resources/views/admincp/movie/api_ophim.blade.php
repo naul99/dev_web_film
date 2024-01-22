@@ -50,12 +50,16 @@
                                     <td>{{ $mov['slug'] }}</td>
                                     <td>{{ $mov['year'] }}</td>
                                     <td>
+
                                         <form action="{{ route('auto_create') }}" method="post">
                                             @csrf
                                             <input name='slug' value="{{ $mov['slug'] }}" hidden>
                                             <input name='title' value="{{ $mov['name'] }}" hidden>
                                             <input type="submit" value="Create">
                                         </form>
+
+
+
                                     </td>
                                 </tr>
                             @endforeach
