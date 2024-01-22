@@ -182,21 +182,20 @@
                         </div>
                     </div>
                 </div>
-                @guest('customer')
+                {{-- @guest('customer')
                     <style>
                         @media (min-width: 601px) and (max-width: 900px) {
                             .response_mobile {
                                 display: none;
                             }
                         }
-                    </style>
-                    <div class="col-md-2 hidden-xs response_mobile">
+                    </style> --}}
+                    {{-- <div class="col-md-2 hidden-xs response_mobile">
 
                         <div id="get-bookmark" class="box-shadow">
-                            {{-- <a href="{{ route('user-login') }}"> Login</a> --}}
-
+                           
                             <!-- Button trigger modal -->
-                            <a data-toggle="modal" data-target="#exampleModal">
+                            <a  data-toggle="modal" data-target="#exampleModal">
                                 Login
                             </a>
                             <!-- Modal -->
@@ -207,12 +206,7 @@
                                             <h3 style="color: #d7dfe4;" class="modal-title text-center">
                                                 LOGIN:
                                             </h3>
-                                            {{-- <button type="button" class="close" data-dismiss="modal"
-                                                aria-label="Close">
-                                                <span style="color: #ffff;" aria-hidden="true">
-                                                    X
-                                                </span>
-                                            </button> --}}
+                                           
                                         </div>
                                         <div style="background-color: #1b2b3c;" class="modal-body">
                                             <div>
@@ -244,24 +238,8 @@
                             </div>
 
                         </div>
-                    </div>
-                @else
-                    {{-- <div class="col-md-1 hidden-xs">
-                        <div id="get-bookmark" class="box-shadow">
-
-                            <a href="#"> {{ Auth::guard('customer')->user()->name }}</a>
-
-                        </div>
-                    </div>
-
-                    <div class="col-md-1 hidden-xs">
-                        <div id="get-bookmark" class="box-shadow">
-                            <a href="{{ route('sociallogout') }}"> Logout</a>
-                        </div>
-
                     </div> --}}
-                    <!-- Example split danger button -->
-
+                {{-- @else
                     <div class="col-md-2 hidden-xs response_mobile">
 
                         <button class="btn btn-secondary dropdown-toggle" role="button" id="get-bookmark"
@@ -281,7 +259,7 @@
 
                         </ul>
                     </div>
-                @endguest
+                @endguest --}}
 
 
                 <div class="col-md-3 hidden-xs response_mobile">

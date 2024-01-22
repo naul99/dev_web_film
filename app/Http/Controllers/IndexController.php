@@ -419,7 +419,7 @@ class IndexController extends Controller
     public function title($slug, $tap)
     {
         $movie = Movie::where('slug', $slug)->where('status', 1)->first();
-        dd($movie);
+        //dd($movie);
         $tapphim = $tap;
         return view('layout', compact('movie', 'tapphim'));
     }
@@ -429,88 +429,89 @@ class IndexController extends Controller
         $genre = Genre::where('status', 1)->orderBy('id', 'DESC')->get();
         $country = Country::where('status', 1)->orderBy('id', 'DESC')->get();
         $movie = Movie::with('category', 'genre', 'country', 'episode')->where('slug', $slug)->where('status', 1)->first();
-        if ($movie->paid_movie != 0) {
-            // kiem tra ngay het han
-            $check_order = Order::where('customer_id', Session::get('customer_id'))->where('expiry', 0)->get();
-            foreach ($check_order as $check) {
-                // $date_now = Carbon::now('Asia/Ho_Chi_Minh')->format('d-m-Y');
-                // //$datework = Carbon::createFromDate($date_now);
-                // $expiry_date = Carbon::createFromDate($check->date_end)->format('d-m-Y');;
+        // if ($movie->paid_movie != 0) {
+        //     // kiem tra ngay het han
+        //     $check_order = Order::where('customer_id', Session::get('customer_id'))->where('expiry', 0)->get();
+        //     foreach ($check_order as $check) {
+        //         // $date_now = Carbon::now('Asia/Ho_Chi_Minh')->format('d-m-Y');
+        //         // //$datework = Carbon::createFromDate($date_now);
+        //         // $expiry_date = Carbon::createFromDate($check->date_end)->format('d-m-Y');;
 
-                if ($check->date_end->isPast()) {
-                    $check->expiry = "1";
-                    $check->save();
-                    // update account
-                    $customer = Customer::find(Session::get('customer_id'));
-                    $customer->status_registration = "0";
-                    $customer->save();
-                }
-            }
-            $user = Customer::find(Session::get('customer_id'));
-            if (isset($user) && $user->status_registration == 1) {
-                if (Auth::guard('customer')->check()) {
+        //         if ($check->date_end->isPast()) {
+        //             $check->expiry = "1";
+        //             $check->save();
+        //             // update account
+        //             $customer = Customer::find(Session::get('customer_id'));
+        //             $customer->status_registration = "0";
+        //             $customer->save();
+        //         }
+        //     }
+        //     $user = Customer::find(Session::get('customer_id'));
+        //     if (isset($user) && $user->status_registration == 1) {
+        //         if (Auth::guard('customer')->check()) {
 
-                    $movies_id = Movie::where('slug', $slug)->first();
+        //             $movies_id = Movie::where('slug', $slug)->first();
 
-                    //$customer_id = Auth::guard('customer')->user()->id;
-                    $history = Movie_History::where('movie_id', $movies_id->id)->where('user_id', Session::get('customer_id'))->get();
-                    //dd(count($history));
-                    if (count($history) < 1) {
-                        DB::table('movie_history')->insert(['movie_id' => $movies_id->id, 'user_id' => Session::get('customer_id'), 'created_at' => now(), 'updated_at' => now()]);
-                    }
-                }
-                //dd($tapphim);
+        //             //$customer_id = Auth::guard('customer')->user()->id;
+        //             $history = Movie_History::where('movie_id', $movies_id->id)->where('user_id', Session::get('customer_id'))->get();
+        //             //dd(count($history));
+        //             if (count($history) < 1) {
+        //                 DB::table('movie_history')->insert(['movie_id' => $movies_id->id, 'user_id' => Session::get('customer_id'), 'created_at' => now(), 'updated_at' => now()]);
+        //             }
+        //         }
+        //         //dd($tapphim);
 
-                if (!isset($movie)) {
-                    return redirect()->back();
-                }
-                $related = Movie::with('category', 'genre', 'country')->where('status', 1)->where('category_id', $movie->category->id)->orderby(DB::raw('RAND()'))->whereNotIn('slug', [$slug])->withCount(['episode' => function ($query) {
-                    $query->select(DB::raw('count(distinct(episode))'));
-                }])->get();
+        //         if (!isset($movie)) {
+        //             return redirect()->back();
+        //         }
+        //         $related = Movie::with('category', 'genre', 'country')->where('status', 1)->where('category_id', $movie->category->id)->orderby(DB::raw('RAND()'))->whereNotIn('slug', [$slug])->withCount(['episode' => function ($query) {
+        //             $query->select(DB::raw('count(distinct(episode))'));
+        //         }])->get();
 
-                $ser = substr($server_active, 7, 10);
+        //         $ser = substr($server_active, 7, 10);
 
-                try {
-                    if (isset($tap)) {
-                        $tapphim = $tap;
-                        $tapphim = substr($tap, 4, 10);
-                        $episode = Episode::where('movie_id', $movie->id)->where('episode', $tapphim)->where('server_id', $ser)->first();
-                        if (!isset($episode)) {
-                            return redirect()->back();
-                        }
-                    } else {
-                        $tapphim = 1;
-                        $episode = Episode::where('movie_id', $movie->id)->where('episode', $tapphim)->where('server_id', $ser)->first();
-                    }
+        //         try {
+        //             if (isset($tap)) {
+        //                 $tapphim = $tap;
+        //                 $tapphim = substr($tap, 4, 10);
+        //                 $episode = Episode::where('movie_id', $movie->id)->where('episode', $tapphim)->where('server_id', $ser)->first();
+        //                 if (!isset($episode)) {
+        //                     return redirect()->back();
+        //                 }
+        //             } else {
+        //                 $tapphim = 1;
+        //                 $episode = Episode::where('movie_id', $movie->id)->where('episode', $tapphim)->where('server_id', $ser)->first();
+        //             }
 
-                    $server = Server::orderby('id', 'DESC')->get();
-                    $views = Movie::select('title', DB::raw('SUM(count_views) as count_views'))->groupBy('title')->join('movie_views', 'movies.id', '=', 'movie_views.movie_id')
-                        ->where('movies.id', $movie->id)->orderBy('count_views', 'DESC')->first();
+        //             $server = Server::orderby('id', 'DESC')->get();
+        //             $views = Movie::select('title', DB::raw('SUM(count_views) as count_views'))->groupBy('title')->join('movie_views', 'movies.id', '=', 'movie_views.movie_id')
+        //                 ->where('movies.id', $movie->id)->orderBy('count_views', 'DESC')->first();
 
-                    $episode_movie = Episode::where('movie_id', $movie->id)->get()->unique('server_id');
-                    $query = "CAST(episode AS SIGNED INTEGER) ASC";
-                    $episode_list = Episode::where('movie_id', $movie->id)->orderByRaw($query)->get();
-                    return view('pages.watch', compact('category', 'genre', 'country', 'movie', 'related', 'episode', 'tapphim', 'views', 'server', 'episode_movie', 'episode_list', 'server_active'));
-                } catch (ModelNotFoundException $th) {
-                    return redirect()->back();
-                }
-            } else {
-                return view('errors.400', compact('category', 'genre', 'country'));
-            }
-        } else {
-            if (Auth::guard('customer')->check()) {
+        //             $episode_movie = Episode::where('movie_id', $movie->id)->get()->unique('server_id');
+        //             $query = "CAST(episode AS SIGNED INTEGER) ASC";
+        //             $episode_list = Episode::where('movie_id', $movie->id)->orderByRaw($query)->get();
+        //             return view('pages.watch', compact('category', 'genre', 'country', 'movie', 'related', 'episode', 'tapphim', 'views', 'server', 'episode_movie', 'episode_list', 'server_active'));
+        //         } catch (ModelNotFoundException $th) {
+        //             return redirect()->back();
+        //         }
+        //     } else {
+        //         return view('errors.400', compact('category', 'genre', 'country'));
+        //     }
+        // } 
+        // else {
+            // if (Auth::guard('customer')->check()) {
 
-                $movies_id = Movie::where('slug', $slug)->first();
+            //     $movies_id = Movie::where('slug', $slug)->first();
 
-                $customer_id = Auth::guard('customer')->user()->id;
-                $history = Movie_History::where('movie_id', $movies_id->id)->where('user_id', $customer_id)->get();
-                //dd(count($history));
-                if (count($history) < 1) {
-                    DB::table('movie_history')->insert(['movie_id' => $movies_id->id, 'user_id' => $customer_id, 'created_at' => now(), 'updated_at' => now()]);
-                    // DB::table('movie_history')->where('user_id', $user_id)->where('movie_id', $movie_id)->update(['updated_at' => now()]);
-                    //DB::table('movie_history')->insert(['movie_id' => $data['id'], 'created_at' => now(), 'updated_at' => now()]);
-                }
-            }
+            //     $customer_id = Auth::guard('customer')->user()->id;
+            //     $history = Movie_History::where('movie_id', $movies_id->id)->where('user_id', $customer_id)->get();
+            //     //dd(count($history));
+            //     if (count($history) < 1) {
+            //         DB::table('movie_history')->insert(['movie_id' => $movies_id->id, 'user_id' => $customer_id, 'created_at' => now(), 'updated_at' => now()]);
+            //         // DB::table('movie_history')->where('user_id', $user_id)->where('movie_id', $movie_id)->update(['updated_at' => now()]);
+            //         //DB::table('movie_history')->insert(['movie_id' => $data['id'], 'created_at' => now(), 'updated_at' => now()]);
+            //     }
+            // }
             //dd($tapphim);
 
             if (!isset($movie)) {
@@ -546,7 +547,7 @@ class IndexController extends Controller
             } catch (ModelNotFoundException $th) {
                 return redirect()->back();
             }
-        }
+        //}
 
         //return response()->json($movie);
     }
@@ -667,11 +668,6 @@ class IndexController extends Controller
      // kiem tra ngay het han
      $check_order = Order::where('customer_id', Session::get('customer_id'))->where('expiry', 0)->get();
      foreach ($check_order as $check) {
-         // $date_now = Carbon::now('Asia/Ho_Chi_Minh')->format('d-m-Y');
-         // $datework = Carbon::createFromDate($check->date_start);
-         // $expiry_date = Carbon::createFromDate($check->date_end)->format('d-m-Y');
-         // //$expiry_date = $check->date_end;
-         // $check_date = $datework->diffInDays($expiry_date);
          if ($check->date_end->isPast()) {
              $check->expiry = "1";
              $check->save();

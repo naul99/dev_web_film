@@ -9,23 +9,17 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                {{-- <button type="button" class="navbar-toggle collapsed pull-right expand-search-form"
-                    data-toggle="collapse" data-target="#search-form" aria-expanded="false">
-                    <span class="fa fa-search" aria-hidden="true"></span>
-                </button> --}}
+              
                 <button type="button" class="navbar-toggle collapsed pull-right get-bookmark-on-mobile">
                     Bookmarks <i class="fa fa-bookmark" aria-hidden="true"></i>
                     <span class="count">0</span>
                 </button>
-                {{-- <button type="button" class="navbar-toggle collapsed pull-right get-locphim-on-mobile">
-                    <a href="#"  style="color: #ffed4d;">Filter <i
-                            class="fa fa-filter"></i></a>
-                </button> --}}
+               
                    
-                @guest('customer')
+                {{-- @guest('customer')
 
                 <button type="button" class="navbar-toggle collapsed pull-right get-locphim-on-mobile">
-                    {{-- <a href="{{ route('user-login') }}" style="color: #ced4da;">Login </a> --}}
+                    
                     <a data-toggle="modal" data-target="#exampleModal1" style="color: #ced4da;">Login </a>
                 </button>
                 <!-- Modal -->
@@ -36,12 +30,7 @@
                                 <h3 style="color: #ffff;" class="modal-title text-center">
                                     LOGIN:
                                 </h3>
-                                {{-- <button type="button" class="close" data-dismiss="modal"
-                                    aria-label="Close">
-                                    <span style="color: #ffff;" aria-hidden="true">
-                                        X
-                                    </span>
-                                </button> --}}
+                               
                             </div>
                             <div style="background-color: #1b2b3c;" class="modal-body">
                                 <div>
@@ -71,13 +60,7 @@
 
                 @else
 
-                {{-- <button type="button" class="navbar-toggle collapsed pull-right get-locphim-on-mobile">
-                    <a style="color: #ced4da;">{{  Auth::guard('customer')->user()->name }} </a>
-                </button>
-
-                <button type="button" class="navbar-toggle collapsed pull-right get-locphim-on-mobile">
-                    <a href="{{ route('sociallogout') }}" style="color: #ced4da;">Logout </a>
-                </button> --}}
+              
                 <button class="navbar-toggle collapsed pull-right get-locphim-on-mobile" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     {{ Auth::guard('customer')->user()->name }}
                 </button>
@@ -89,7 +72,7 @@
                      <li><a class="dropdown-item" href="{{ route('sociallogout') }}">Logout</a></li>
                  
                 </ul>
-                @endguest
+                @endguest --}}
                 
             </div>
             <div class="collapse navbar-collapse" id="halim">

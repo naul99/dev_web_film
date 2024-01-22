@@ -636,10 +636,19 @@ class MovieController extends Controller
     public function auto_create(Request $request)
     {
 
-        $data = $request->all('slug');
+        $data = $request->all();
+        $validator = Validator::make($data, [
+            'title' => 'unique:movies',
+            // 'name_english' => 'unique:movies',
+            'slug' => 'unique:movies',
+        ]);
+        if ($validator->fails()) {
+            toastr()->warning('Movie "' . $data['title'] . '" is existing!', 'Warning');
+            return redirect()->back();
+        }
         $path_ophim = "https://ophim1.com/phim/" . $data['slug'];
         $api_ophim = Http::get($path_ophim)->json();
-       
+
         if (preg_match('/(\d+)/', $api_ophim['movie']['time'], $matches)) {
             $time = $matches[0];
         }
@@ -662,7 +671,7 @@ class MovieController extends Controller
             $movie->type_movie = 1;
         }
 
-       
+
         if (!isset($time)) {
             $movie->time = 0;
         } else {
@@ -814,7 +823,7 @@ class MovieController extends Controller
             $tags->movie_id = $movie->id;
             $tags->save();
         }
-        if ($api_ophim['movie']['actor']['0']=='') {
+        if ($api_ophim['movie']['actor']['0'] == '') {
             toastr()->warning('Actor of movie "' . $movie->title . '" empty!', 'Warning');
         } else {
             //$list_cast = Cast::whereIn('title', $api_ophim['movie']['actor'])->where('status', 1)->pluck('id');
@@ -835,7 +844,7 @@ class MovieController extends Controller
             }
         }
 
-        if ($api_ophim['movie']['director']['0']=='') {
+        if ($api_ophim['movie']['director']['0'] == '') {
             toastr()->warning('Directors of movie "' . $movie->title . '" empty!', 'Warning');
         } else {
             //$list_directors = Directors::whereIn('name', $api_ophim['movie']['director'])->where('status', 1)->pluck('id');

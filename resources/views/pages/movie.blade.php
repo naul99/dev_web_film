@@ -69,16 +69,12 @@
 
                                     @foreach ($movie->episode->take(1) as $ep)
                                         @if (isset($ep->linkdownload))
-                                            @if (Auth::guard('customer')->check())
+                                           
                                                 <a href={!! $ep->linkdownload !!} target="_blank"> <button
                                                         style="width: 100%;" class="btn btn-danger"><i
                                                             class="bi bi-download"></i> Download
                                                         Now</button></a>
-                                            @else
-                                                <button style="width: 100%;" id="opener-3" class="btn btn-danger"><i
-                                                        class="bi bi-download"></i> Download
-                                                    Now</button>
-                                            @endif
+                                           
                                         @elseif (isset($ep->linkdownload) == '')
                                             <a href="javascription:voi(0);" hidden> <button class="btn btn-danger"><i
                                                         class="bi bi-download"></i> Updating link download
