@@ -83,11 +83,11 @@
                                     @endforeach
 
                                 </div>
-                                <p style="text-align: center">
+                                {{-- <p style="text-align: center">
                                     @if (count($watched) > 0)
                                         (Watched)
                                     @endif
-                                </p>
+                                </p> --}}
                                 <div class="bwa-content">
                                     @if ($episode_current_list_count > 0)
                                         <div class="loader"></div>
@@ -358,10 +358,10 @@
                         </div>
                     </div>
 
-                    <div class="section-bar clearfix">
+                    {{-- <div class="section-bar clearfix">
                         <h2 class="section-title"><span
                                 style="color:#ffed4d">Comments({{ count($comments->movie_comments) }}) </span></h2>
-                    </div>
+                    </div> --}}
                     <div class="entry-content clearfix">
                         <div class="video-item halim-entry-box">
                             <article id="post-38424" class="item-content">
@@ -416,7 +416,7 @@
 
                                 <!-- Backend comment -->
                                 <!-- template comment -->
-
+{{-- 
                                 <style>
                                     .img-sm {
                                         width: 46px;
@@ -583,29 +583,20 @@
                                                     <div class="media-block">
 
                                                         <a class="media-left" href="javascript::void(0);">
-                                                            {{-- <div class="avatar" alt="Profile Picture">
-                                                                @php
-                                                                    $str = $comment->name;
-                                                                    //echo $str;
-                                                                    echo substr($str, 0, 1);
-                                                                @endphp
-
-
-                                                            </div> --}}
-
+                                                           
                                                             <img style="width: 60px;" class="img-circle img-sm"
                                                                 alt="Profile Picture"
                                                                 @if ($comment->user->avatar == '') src="https://dataqq.net/tvhay/user/thumb-df-user.png"
                                                                 @else
                                                                 src="{{ $comment->user->avatar }}" @endif>
                                                         </a>
-                                                        {{-- <div class="avatar">AA</div> --}}
+                                                        
                                                         <div class="media-body">
                                                             <div class="mar-btm"
                                                                 style="padding: 1%;padding-bottom:1%;border-radius: 6px; background-color:#cacaca">
                                                                 <p style="text-align: right;color:#000"
                                                                     class="text-muted text-sm">
-                                                                    {{-- {{ date('Y-m-d H:i', strtotime($comment->updated_at)) }} --}}
+                                                                  
                                                                     {{ \Carbon\Carbon::parse($comment->updated_at)->subHours(7)->shortRelativeDiffForHumans() }}
                                                                 </p>
                                                                 @if (Auth::guard('customer')->check() && Auth::guard('customer')->user()->id == $comment->user_id)
@@ -635,15 +626,7 @@
                                                             </div>
 
                                                             <div class="pad-ver" style="padding-top:1%;">
-                                                                {{-- <div class="btn-group">
-                                                                    <a class="btn btn-sm btn-default btn-hover-success"
-                                                                        href="javascript::void(0);"><i
-                                                                            class="fa fa-thumbs-up"></i></a>
-                                                                    <a class="btn btn-sm btn-default btn-hover-danger"
-                                                                        href="javascript::void(0);"><i
-                                                                            class="fa fa-thumbs-down"></i></a>
-
-                                                                </div> --}}
+                                                              
                                                                 <a href="javascript::void(0);"
                                                                     class="btn-reply btn btn-info btn-circle text-uppercase"
                                                                     onclick="reply(this)"
@@ -682,16 +665,7 @@
                                                                             </style>
                                                                             <a class="media-left"
                                                                                 href="javascript::void(0);">
-                                                                                {{-- <div class="avatars"
-                                                                                        alt="Profile Picture">
-                                                                                        @php
-                                                                                            $str = $rep->name;
-                                                                                            //echo $str;
-                                                                                            echo substr($str, 0, 1);
-                                                                                        @endphp
-
-                                                                                    </div> --}}
-
+                                                                              
                                                                                 <img class="img-circle img-sm"
                                                                                     alt="Profile Picture"
                                                                                     @if ($reply->user->avatar == '') src="https://dataqq.net/tvhay/user/thumb-df-user.png"
@@ -703,7 +677,7 @@
                                                                                     style="padding: 1%;padding-bottom:1%;border-radius: 6px; background-color:#cacaca">
                                                                                     <p style="color:#000;text-align: right;"
                                                                                         class="text-muted text-sm ">
-                                                                                        {{-- {{ date('Y-m-d H:i', strtotime($rep->updated_at)) }} --}}
+                                                                                      
                                                                                         {{ \Carbon\Carbon::parse($reply->updated_at)->subHours(7)->diffForHumans() }}
                                                                                     </p>
                                                                                     @if (Auth::guard('customer')->check() && Auth::guard('customer')->user()->id == $comment->user_id)
@@ -735,15 +709,7 @@
 
 
                                                                                 <div class="pad-ver" style="padding: 1%">
-                                                                                    {{-- <div class="btn-group">
-                                                                                            <a class="btn btn-sm btn-default btn-hover-success active"
-                                                                                                href="javascript::void(0);"><i
-                                                                                                    class="fa fa-thumbs-up"></i>
-                                                                                            </a>
-                                                                                            <a class="btn btn-sm btn-default btn-hover-danger"
-                                                                                                href="javascript::void(0);"><i
-                                                                                                    class="fa fa-thumbs-down"></i></a>
-                                                                                        </div> --}}
+                                                                                   
                                                                                     <a href="javascript::void(0);"
                                                                                         class="btn-reply btn btn-info btn-circle text-uppercase"
                                                                                         onclick="reply(this)"
@@ -775,15 +741,7 @@
                                                                                                 </style>
                                                                                                 <a class="media-left"
                                                                                                     href="javascript::void(0);">
-                                                                                                    {{-- <div class="avatars"
-                                                                                                            alt="Profile Picture">
-                                                                                                            @php
-                                                                                                                $str = $rep->name;
-                                                                                                                //echo $str;
-                                                                                                                echo substr($str, 0, 1);
-                                                                                                            @endphp
-                    
-                                                                                                        </div> --}}
+                                                                                                   
 
                                                                                                     <img class="img-circle img-sm"
                                                                                                         alt="Profile Picture"
@@ -796,7 +754,7 @@
                                                                                                         style="padding: 1%;padding-bottom:1%;border-radius: 6px; background-color:#cacaca">
                                                                                                         <p style="color:#000;text-align: right;"
                                                                                                             class="text-muted text-sm ">
-                                                                                                            {{-- {{ date('Y-m-d H:i', strtotime($rep->updated_at)) }} --}}
+                                                                                                       
                                                                                                             {{ \Carbon\Carbon::parse($rep->updated_at)->subHours(7)->diffForHumans() }}
                                                                                                         </p>
                                                                                                         @if (Auth::guard('customer')->check() && Auth::guard('customer')->user()->id == $rep->user_id)
@@ -829,15 +787,7 @@
                                                                                                     </div>
                                                                                                     <div class="pad-ver"
                                                                                                         style="padding: 1%">
-                                                                                                        {{-- <div class="btn-group">
-                                                                                                                <a class="btn btn-sm btn-default btn-hover-success active"
-                                                                                                                    href="javascript::void(0);"><i
-                                                                                                                        class="fa fa-thumbs-up"></i>
-                                                                                                                </a>
-                                                                                                                <a class="btn btn-sm btn-default btn-hover-danger"
-                                                                                                                    href="javascript::void(0);"><i
-                                                                                                                        class="fa fa-thumbs-down"></i></a>
-                                                                                                            </div> --}}
+                                                                                                       
                                                                                                         <a href="javascript::void(0);"
                                                                                                             class="btn-reply btn btn-info btn-circle text-uppercase"
                                                                                                             onclick="reply(this)"
@@ -884,11 +834,11 @@
                                                         </button>
                                                     </div>
                                                 </form>
-                                            </div>
+                                            </div> --}}
                                             <!--===================================================-->
                                             <!-- End Newsfeed Content -->
 
-                                            <div class="text-center">
+                                            {{-- <div class="text-center">
                                                 <span
                                                     style="display: none;
                                                 cursor: pointer;"
@@ -899,7 +849,7 @@
 
                                     </div>
                                 </div>
-                            </article>
+                            </article> --}}
 
                         </div>
                     </div>
@@ -1113,9 +1063,9 @@
         </main>
         {{-- @include('pages.topview') --}}
     </div>
-    <div id="dialog-3" title="Notify">
+    {{-- <div id="dialog-3" title="Notify">
         Please login to download movie {{ $movie->name_english }}
-    </div>
+    </div> --}}
 
     {{-- <script>
         function showNotify() {

@@ -76,9 +76,6 @@ class IndexController extends Controller
     }
     public function home()
     {
-        if (Auth::guard('customer')->check()) {
-            $this->check_expiry();
-        }
         $category = Category::orderBy('id', 'ASC')->where('status', 1)->get();
         $genre = Genre::where('status', 1)->orderBy('id', 'DESC')->get();
         $country = Country::where('status', 1)->orderBy('id', 'DESC')->get();
@@ -337,15 +334,15 @@ class IndexController extends Controller
         $link_imdb = ('https://www.imdb.com/title/' . $movie->imdb);
         // }
         //xu ly comments
-        $comments = Movie::with('movie_comments.replies', 'movie_comments.user:id,name,avatar', 'movie_comments.replies.user:id,name,avatar', 'movie_comments.replies.replies.user:id,name,avatar')->where('slug', $slug)->first();
+       // $comments = Movie::with('movie_comments.replies', 'movie_comments.user:id,name,avatar', 'movie_comments.replies.user:id,name,avatar', 'movie_comments.replies.replies.user:id,name,avatar')->where('slug', $slug)->first();
 
 
         // $avatar_comment = Comment::join('customers','comments.user_id','=','customers.id')->where('movie_id', $movie->id)->orderBy('comments.id', 'DESC')->get();
 
         // $avatar_reply = Reply::join('customers','replies.user_id','=','customers.id')->where('movie_id', $movie->id)->get();
 
-        $count = 0;
-        $counts = 0;
+        // $count = 0;
+        // $counts = 0;
 
         //dd($data['comment_id']);
         //xuly comment
@@ -355,13 +352,13 @@ class IndexController extends Controller
 
         //dd($movie_tags);
         //dd($replys);
-        $user = Customer::where('status', 1)->get();
-        if (Auth::guard('customer')->check($user)) {
-            $user_id = Auth::guard('customer')->user()->id;
-        } else {
-            $user_id = '0';
-        }
-        $watched = Movie_History::where('user_id', $user_id)->where('movie_id', $movie->id)->get();
+        // $user = Customer::where('status', 1)->get();
+        // if (Auth::guard('customer')->check($user)) {
+        //     $user_id = Auth::guard('customer')->user()->id;
+        // } else {
+        //     $user_id = '0';
+        // }
+        //$watched = Movie_History::where('user_id', $user_id)->where('movie_id', $movie->id)->get();
         //dd($watched);
         $rating = Rating::where('movie_id', $movie->id)->avg('rating');
         $rating = round($rating, 1);
@@ -387,7 +384,7 @@ class IndexController extends Controller
 
 
 
-        return view('pages.movie', compact('category', 'genre', 'country', 'movie', 'related', 'episode', 'episode_first', 'episode_current_list_count', 'times', 'values', 'link_imdb', 'count', 'counts', 'watched', 'count_total', 'rating', 'comments'));
+        return view('pages.movie', compact('category', 'genre', 'country', 'movie', 'related', 'episode', 'episode_first', 'episode_current_list_count', 'times', 'values', 'link_imdb', 'count_total', 'rating'));
     }
     public function add_rating(Request $request)
     {
